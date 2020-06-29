@@ -1,0 +1,226 @@
+
+{% extends 'candlepattern/basic.html' %}
+
+{% block title %} CandleStick Patterns {% endblock %}
+{% block body %}
+{% load static %}
+<div class="alert alert-primary" role="alert" align="center">
+    Sign in to get real time <b>Alerts</b> for <b>FREE!</b>
+</div>
+<div class="mt-3" align="center">
+    <h2>CandleStick Pattern Screener</h2>
+</div>
+<div class="mt-3 text-success mb-3" >
+    <h3>Bullish CandleStick Patterns</h3>
+</div>
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-sm-3">
+        <div class="card" style="width: 18rem;">
+              <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Hammer.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Hammer</h5>
+                <p class="card-text">Hammer is one day price pattern which shows buyers are heavy on sellers on that day</p>
+                <a href="http://127.0.0.1:8000/candlepattern/hammer" class="btn btn-primary">Click Here</a>
+            </div>
+        </div>
+    </div>
+
+  <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Dragonfly_Doji.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Dragonfly Doji</h5>
+             <p class="card-text">Dragonfly Doji is one day price pattern which shows buyers are heavy on sellers on that day</p>
+            <a href="http://127.0.0.1:8000/candlepattern/dragonfly_doji" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/White_Marubozu.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">White Marubozu</h5>
+             <p class="card-text">White Marubozu is one day price pattern which shows pure Bullish Trend!!</p>
+            <a href="http://127.0.0.1:8000/candlepattern/white_marubozu" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bullish_Engulfing.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bullish Engulfing</h5>
+             <p class="card-text">It is two days price pattern which shows Bullish Trend by enclosing previous candle</p>
+            <a href="http://127.0.0.1:8000/candlepattern/bullish_engulfing" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+  <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bullish_Harami.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bullish Harami</h5>
+             <p class="card-text">It is two days price pattern which shows Bullish Trend by closing above midpoint of previous candle</p>
+            <a href="http://127.0.0.1:8000/candlepattern/bullish_harami" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Rising_Sun.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Rising Sun</h5>
+             <p class="card-text">It is two days price pattern which shows Bullish Trend by closing above midpoint of previous candle</p>
+            <a href="http://127.0.0.1:8000/candlepattern/rising_sun" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Morning_Star.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Morning Star</h5>
+             <p class="card-text">It is three days price pattern which shows Bullish Trend by reversing the downtrend</p>
+            <a href="http://127.0.0.1:8000/candlepattern/morning_star" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Three_White_Soliders.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Three White Soliders</h5>
+             <p class="card-text">Three White Soliders are three days price pattern which shows pure Bullish Trend !!</p>
+            <a href="http://127.0.0.1:8000/candlepattern/three_white_soliders" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+</div>
+</div>
+
+<!-- Bearish -->
+
+<div class="mt-5 text-danger mb-3" >
+    <h3>Bearish CandleStick Patterns</h3>
+</div>
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-sm-3">
+        <div class="card" style="width: 18rem;">
+              <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Inverted_Hammer.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Inverted Hammer</h5>
+                <p class="card-text">It is one day price pattern which shows sellers are heavy on buyers on that day</p>
+                <a href="http://127.0.0.1:8000/candlepattern/inverted_hammer" class="btn btn-primary">Click Here</a>
+            </div>
+        </div>
+    </div>
+
+  <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Gravestone_Doji.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Gravestone Doji</h5>
+             <p class="card-text">Gravestone Doji is one day price pattern which shows sellers are heavy on buyers on that day</p>
+            <a href="http://127.0.0.1:8000/candlepattern/gravestone_doji" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Black_Marubozu.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Black Marubozu</h5>
+             <p class="card-text">Black Marubozu is one day price pattern which shows pure Bearish Trend!!</p>
+            <a href="http://127.0.0.1:8000/candlepattern/black_marubozu" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bearish_Engulfing.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bearish Engulfing</h5>
+             <p class="card-text">It is two days price pattern which shows Bearish Trend by enclosing previous candle</p>
+            <a href="http://127.0.0.1:8000/candlepattern/bearish_engulfing" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+  <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bearish_Harami.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bearish Harami</h5>
+             <p class="card-text">It is two days price pattern which shows Bearish Trend by closing below midpoint of previous candle</p>
+            <a href="http://127.0.0.1:8000/candlepattern/bearish_harami" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Dark_Cloud.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Dark Cloud</h5>
+             <p class="card-text">It is two days price pattern which shows Bearish Trend by closing below midpoint of previous candle</p>
+            <a href="http://127.0.0.1:8000/candlepattern/dark_cloud" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Evening_Star.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Evening Star</h5>
+             <p class="card-text">It is three days price pattern which shows Bearish Trend by reversing the uptrend</p>
+            <a href="http://127.0.0.1:8000/candlepattern/evening_star" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+    <div class="col-sm-3 mt-3">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Three_Black_Crows.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Three Black Crows</h5>
+             <p class="card-text">Three Black Crows are three days price pattern which shows pure Bearish Trend !!</p>
+            <a href="http://127.0.0.1:8000/candlepattern/three_black_crows" class="btn btn-primary">Click Here</a>
+        </div>
+      </div>
+  </div>
+
+</div>
+</div>
+
+<div class="mt-5 text-secondary mb-3" >
+    <h3>Neutral CandleStick Patterns</h3>
+</div>
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-sm-3">
+        <div class="card" style="width: 18rem;">
+              <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Doji.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Doji</h5>
+                <p class="card-text">It is one day price pattern which shows Confusion or a trend reversal !!</p>
+                <a href="http://127.0.0.1:8000/candlepattern/doji" class="btn btn-primary">Click Here</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+{% endblock %}
