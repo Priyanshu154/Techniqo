@@ -9,7 +9,11 @@
 }
 {% endblock %}
 {% block body %}
-
+<script>
+    sub = function(){
+        document.getElementById("form1").submit();
+    }
+</script>
 <div class="alert alert-primary" role="alert" align="center">
   Candlestick patterns gets updated everyday at <b>6 PM</b>
 </div>
@@ -17,27 +21,24 @@
 <div class="container-fluid mt-4">
 <h2>CandleStick type :- {{ candle }} </h2>
 <p>{{ paras }}</p>
-<div class="btn-group dropup">
-  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Select  Index
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/nifty_50">NSE (Nifty 50)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/nifty_100">NSE (Nifty 100)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/nifty_200">NSE (Nifty 200)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/nifty_next_50">NSE (Nifty next 50)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/nifty_500">NSE (Nifty 500)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/midcap_50">NSE (Nifty Midcap 50)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/midcap_150">NSE (Nifty Midcap 150)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/midcap_100">NSE (Nifty Midcap 100)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/smallcap_50">NSE (Nifty Smallcap 50)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/smallcap_250">NSE (Nifty Smallcap 250)</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/bse_100">BSE 100</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/bse_200">BSE 200</a>
-    <a class="dropdown-item" href="http://127.0.0.1:8000/candlepattern/hammer/bse_500">BSE 500</a>
+<form action = "/candlepattern/candle" method = "get" id = "form1">
+    <input type = "hidden" name = "candle" value = "{{ candle }}">
+    <select id="nifty" name="nifty" onchange = "sub()">
+        <option value="nifty_500" {% if nifty == 'nifty_500' %} selected {% endif %}>NSE (Nifty 500)</option>
+        <option value="nifty_50" {% if nifty == 'nifty_50' %} selected  {% endif %}> NSE (Nifty 50)</option>
+        <option value="nifty_100" {% if nifty == 'nifty_100' %} selected  {% endif %}> NSE (Nifty 100)</option>
+        <option value="nifty_200" {% if nifty == 'nifty_200' %} selected  {% endif %}> NSE (Nifty 200)</option>
+        <option value="nifty_next_50" {% if nifty == 'nifty_next_50' %} selected  {% endif %}> NSE (Nifty next 50)</option>
+        <option value="midcap_50" {% if nifty == 'midcap_50' %} selected  {% endif %}> NSE (Nifty Midcap 50)</option>
+        <option value="midcap_100" {% if nifty == 'midcap_100' %} selected  {% endif %}> NSE (Nifty Midcap 100)</option>
+        <option value="midcap_150" {% if nifty == 'midcap_150' %} selected  {% endif %}> NSE (Nifty Midcap 150)</option>
+        <option value="smallcap_50" {% if nifty == 'smallcap_50' %} selected  {% endif %}> NSE (Nifty Smallcap 50)</option>
+        <option value="smallcap_250" {% if nifty == 'smallcap_250' %} selected  {% endif %}> NSE (Nifty Smallcap 250)</option>
 
-  </div>
-</div>
+
+
+    </select>
+</form>
  <div align="center">  <h5>{{signals}}</h5>  </div>
 <table class="table mt-4">
   <thead class="thead-dark">

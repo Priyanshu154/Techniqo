@@ -2,7 +2,7 @@ import openpyxl as xl
 from openpyxl.utils import column_index_from_string
 
 wb = xl.load_workbook('new.xlsx')
-wb2 = xl.load_workbook('smallcap_250.xlsx')
+wb2 = xl.load_workbook('nifty_500.xlsx')
 
 sheet1 = wb['new']
 sheet2 = wb2['Sheet1']
@@ -34,4 +34,4 @@ for j in range(2,sheet2.max_row+1):
             sheet2.cell(j,7).value = (sheet1.cell(i,6).value - sheet1.cell(i,8).value)/sheet1.cell(i,8).value*100
 
 wb.save('new.xlsx')
-wb2.save('smallcap_250.xlsx')
+wb2.save('nifty_500.xlsx')
