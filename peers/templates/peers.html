@@ -1,0 +1,489 @@
+{% extends 'basic.html' %}
+
+{% block title %} Peer Comparison {% endblock %}
+{% block style %}
+body{
+background-color: #f2ffff;
+}
+.my-custom-scrollbar {
+position: relative;
+height: 400px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+.topp{
+position: sticky;
+top: 0;
+}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+    <h1 align="center">Peers Comparision</h1>
+    <p>Peer comparison is one of the most widely used and accepted methods of equity analysis used by professional analysts and by individual investors. It has proved to be efficient and effective, quickly showing which stocks may be overvalued, and which might make good additions to a portfolio. While there are other methods of determining when a stock is worth buying, such as discounted cash flow or technical analysis, peer comparison analysis remains a key tool for uncovering undervalued stocks. Read on to learn more about how to use peer comparison as well as how this method stacks up against other types of analysis.</p>
+      <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Banking Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in banks_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>IT Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in it_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>FMCG Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in fmcg_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Pharmaceutical Sector </h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in pharma_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Oil & Gas Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in oil_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Auto Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in auto_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Financial Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in finance_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Metal Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in metals_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Agricultural Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in agri_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Retail Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in retail_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+
+     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header"><h4>Insurance Sector</h4></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stocks</th>
+                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
+                  <th scope="col" class="topp">EPS</th>
+                  <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">P/B</th>
+                  <th scope="col" class="topp">P/S</th>
+                  <th scope="col" class="topp">ROE%</th>
+                  <th scope="col" class="topp">1Y Return (%)</th>
+                  <th scope="col" class="topp">EV/EBITDA</th>
+
+
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in insurance_zips  %}
+            <tr>
+                  <th scope="row">{{stock_name}}</th>
+                  <td align="center">{{ mkt }}</td>
+                  <td>{{ eps }}</td>
+                  <td>{{ pe }}</td>
+                  <td>{{ pb }}</td>
+                  <td>{{ ps }}</td>
+                  <td>{{ roe }}</td>
+                  <td align="center">{{ yr }}</td>
+                  <td align="center">{{ ev }}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+
+            </table>
+        </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}
