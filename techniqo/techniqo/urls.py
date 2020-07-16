@@ -23,5 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
-    path('candlepattern/',include('candlepattern.urls'))
+    path('candlepattern/',include('candlepattern.urls')),
+    path('intrinsic/',include('intrinsic.urls')),
+    path('news/', include('news.urls')),
+    path('peers/', include('peers.urls')),
 ] + static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)

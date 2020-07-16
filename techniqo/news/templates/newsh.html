@@ -1,0 +1,163 @@
+{% extends 'home.html' %}
+
+{% block title %} News {% endblock %}
+{% block style %}
+#myTab{
+  background-color: #f5ffff; /*mere dimaag me koi sahi color nahi aa raha tum acha sa dhundhke rakh dio
+}
+{% endblock %}
+{% block body %}
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link {% if topic == 'industry' %} active {% endif %}" href="http://127.0.0.1:8000/news/industry"> Industry <span class="sr-only">(current)</span></a>
+    </li>
+
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'auto' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Auto</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="http://127.0.0.1:8000/news/auto/auto_news">Auto-news</a>
+        <a class="dropdown-item" href="http://127.0.0.1:8000/news/auto/cars">Cars & UVs</a>
+        <a class="dropdown-item" href="http://127.0.0.1:8000/news/auto/two_n_three_wheel">Two wheelers and Three wheelers</a>
+        <a class="dropdown-item" href="http://127.0.0.1:8000/news/auto/lcv_n_hcv">LCV & HCV</a>
+        <a class="dropdown-item" href="http://127.0.0.1:8000/news/auto/auto_components">Auto Components</a>
+        <a class="dropdown-item" href="http://127.0.0.1:8000/news/auto/tyres">Tyres</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'banking' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Banking</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/banking/banking">Banking</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/banking/finance">Finance</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/banking/insure">Insure</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'cons' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Cons. Products</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/durables">Durables</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/electronics">ELectronics</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/fmcg">FMCG</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/food">Food</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/garments_textiles">Garments/Textiles</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/liquor">Liquor</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/paints">Paints</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/tobacco">Tobacco</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/cons/fashion_cosmetics_jewellery">Fashion/Cosmetics/Jewellery</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'energy' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Energy</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/energy/power">Power</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/energy/oil_n_gas">Oil and Gas</a>
+       </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'indgood' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Industrial Goods/Services</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/cons">Construction</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/eng">Engineering</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/cement">Cement</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/chem_fertilisers">Chem/Fertilisers</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/metals_n_mining">Metals and Mining</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/pack">Packaging</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/pwgpm">Paper/Wood/Glass/Plastic/Marbles</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/petrochem">Petrochem</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/indgood/steel">Steel</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'health' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Healthcare/Biotech</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/health/healthcare">Healthcare</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/health/bio">Biotech</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/health/pharm">Pharmaceuticals</a>
+      </div>
+    </li>
+
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'services' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Services</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/services/advertising">Advertising</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/services/consultancy_audit">Consultancy/Audit</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/services/education">Education</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/services/hotels_restaurants">Hotels/Restaurant</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/services/property_cons">Property/Construction</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/services/retail">Retail</a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/services/travel">Travel</a>
+      </div>
+    </li>
+
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'more' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">More</a>
+      <div class="dropdown-menu">
+          <h6 class="dropdown-header" style = "color:black;"><Strong>Media and Entertainment</Strong></h6>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/entertainment"><div style = "margin-left:10%;">Entertainment</div></a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/media"><div style = "margin-left:10%;">Media</div></a>
+
+          <h6 class="dropdown-header" style = "color:black;"><Strong>Transportation</Strong></h6>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/railways"> <div style = "margin-left:10%;">Railways</div></a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/airlines_aviation"><div style = "margin-left:10%;">Airlines/Aviation</div></a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/shipping_transport"><div style = "margin-left:10%;">Shipping/Transport</div></a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/roadways"><div style = "margin-left:10%;">Roadways</div></a>
+
+          <h6 class="dropdown-header" style = "color:black;"><Strong>Telecom</Strong></h6>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/tel_news"><div style = "margin-left:10%;">Telecom News</div></a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/tel_policy"><div style = "margin-left:10%;">Telecom Policy</div></a>
+
+          <h6 class="dropdown-header" style = "color:black;"><Strong>CSR</Strong></h6>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/csr_initiatives"> <div style = "margin-left:10%;">Initiatives</div></a>
+          <a class="dropdown-item" href="http://127.0.0.1:8000/news/more/csr_policy"><div style = "margin-left:10%;">Policy</div></a>
+
+
+          <h6 class="dropdown-header" style = "color:black;"><a style="color:black;" href="http://127.0.0.1:8000/news/more/tech"><Strong>Technology</Strong></a></h6>
+          <h6 class="dropdown-header" style = "color:black;"><a style="color:black;" href="http://127.0.0.1:8000/news/more/misc"><Strong>Miscellaneous</Strong></a></h6>
+          <h6 class="dropdown-header" style = "color:black;"><a style="color:black;" href="http://127.0.0.1:8000/news/more/env"><Strong>Environment</Strong></a></h6>
+
+
+      </div>
+    </li>
+</ul>
+{% if type == 1 %}
+<ul class="list-unstyled">
+  {% for news,href,time in news %}
+  <a class="btn btn-outline-primary btn-lg btn-block text-left" href="{{href}}" role="button" target = "blank">
+
+  <li class="media mb-3">
+    <div class="media-body">
+      <h3 class="mt-0 mb-1" style="color:#2f3030;">{{news}}</h3>
+    </div>
+  </li>
+  </a>
+  {% endfor %}
+</ul>
+{% else %}
+<ul class="list-unstyled">
+  {% for news,href,time,para,img in news %}
+  <a class="btn btn-outline-primary btn-lg btn-block text-left" href="{{href}}" role="button" target = "blank">
+
+  <li class="media mb-3">
+    <img src="{{img}}" class="mr-3" alt="...">
+    <div class="media-body">
+      <h3 class="mt-0 mb-1" style="color:#2f3030;">{{news}}</h3>
+      <small style = "color:#3e4242">
+        {{time}}<br>
+        {{para}}
+      </small>
+    </div>
+  </li>
+  </a>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
 import os
