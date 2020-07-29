@@ -1,0 +1,126 @@
+{% extends 'home.html' %}
+{% block title %} {{trigger}} {% endblock %}
+{% block style %}
+.dropdown-menu
+{
+   height: 175px;
+   overflow: auto;
+}
+table {
+background-color: white;
+}
+.my-custom-scrollbar {
+position: relative;
+height: 400px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+.topp{
+position: sticky;
+top: 0;
+}
+{% endblock %}
+{% block body %}
+<script>
+    sub = function(){
+        document.getElementById("form1").submit();
+    }
+</script>
+
+
+<div class="container mt-4">
+<h2>Technical Indicator Triggers :- {{ trigger }} </h2>
+<form action = "/technicals/triggers/" method = "get" id = "form1">
+    <input type = "hidden" name = "tech" value = "{{ techh }}">
+    <select id="nifty" name="nifty" onchange = "sub()">
+        <option value="nifty_500" {% if nifty == 'nifty_500' %} selected {% endif %}>NSE (Nifty 500)</option>
+        <option value="nifty_50" {% if nifty == 'nifty_50' %} selected  {% endif %}> NSE (Nifty 50)</option>
+        <option value="nifty_100" {% if nifty == 'nifty_100' %} selected  {% endif %}> NSE (Nifty 100)</option>
+        <option value="nifty_200" {% if nifty == 'nifty_200' %} selected  {% endif %}> NSE (Nifty 200)</option>
+        <option value="nifty_next_50" {% if nifty == 'nifty_next_50' %} selected  {% endif %}> NSE (Nifty next 50)</option>
+        <option value="midcap_50" {% if nifty == 'midcap_50' %} selected  {% endif %}> NSE (Nifty Midcap 50)</option>
+        <option value="midcap_100" {% if nifty == 'midcap_100' %} selected  {% endif %}> NSE (Nifty Midcap 100)</option>
+        <option value="midcap_150" {% if nifty == 'midcap_150' %} selected  {% endif %}> NSE (Nifty Midcap 150)</option>
+        <option value="smallcap_50" {% if nifty == 'smallcap_50' %} selected  {% endif %}> NSE (Nifty Smallcap 50)</option>
+        <option value="smallcap_100" {% if nifty == 'smallcap_100' %} selected  {% endif %}> NSE (Nifty Smallcap 100)</option>
+        <option value="smallcap_250" {% if nifty == 'smallcap_250' %} selected  {% endif %}> NSE (Nifty Smallcap 250)</option>
+
+
+
+    </select>
+</form>
+ <div align="center">  <h5>{{signals}}</h5>  </div>
+<div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+<table  align="center" class="table table-bordered ">
+  <thead class="thead-dark">
+     {% if head4 == null and head3 == null  %}
+        <tr>
+          <th scope="col" class="topp">Stocks-name</th>
+          <th scope="col" class="topp">Ticker</th>
+          <th scope="col" class="topp">{{ head }}</th>
+          <th scope="col" class="topp">{{ head2 }}</th>
+        </tr>
+     {% elif  head4  == null and  head3  != null %}
+        <tr>
+          <th scope="col" class="topp">Stocks-name</th>
+          <th scope="col" class="topp">Ticker</th>
+          <th scope="col" class="topp">{{ head }}</th>
+          <th scope="col" class="topp">{{ head2 }}</th>
+          <th scope="col" class="topp">{{ head3 }}</th>
+        </tr>
+     {% else %}
+        <tr>
+          <th scope="col" class="topp">Stocks-name</th>
+          <th scope="col" class="topp">Ticker</th>
+          <th scope="col" class="topp">{{ head }}</th>
+          <th scope="col" class="topp">{{ head2 }}</th>
+          <th scope="col" class="topp">{{ head3 }}</th>
+          <th scope="col" class="topp">{{ head4 }}</th>
+        </tr>
+     {% endif %}
+  </thead>
+  {% if number == 0 %}
+     <h4>No stock found!!</h4>
+  {% elif number == 1 %}
+  <tbody>
+  {% for stock_name, tick, val,close in zips  %}
+<tr>
+      <th scope="row">{{stock_name}}</th>
+      <td>{{ tick }}</td>
+      <td>{{ val }}</td>
+      <td>{{ close }}</td>
+</tr>
+  {% endfor %}
+  </tbody>
+  {% elif number == 2 %}
+  <tbody>
+  {% for stock_name, tick, val,close,temp in zips  %}
+<tr>
+      <th scope="row">{{stock_name}}</th>
+      <td>{{ tick }}</td>
+      <td>{{ val }}</td>
+      <td>{{ close }}</td>
+      <td>{{ temp }}</td>
+</tr>
+  {% endfor %}
+  </tbody>
+  {% else %}
+  <tbody>
+  {% for stock_name, tick, val,close,temp,temp2 in zips  %}
+<tr>
+      <th scope="row">{{stock_name}}</th>
+      <td>{{ tick }}</td>
+      <td>{{ val }}</td>
+      <td>{{ close }}</td>
+      <td>{{ temp }}</td>
+      <td>{{ temp2 }}</td>
+</tr>
+  {% endfor %}
+  </tbody>
+  {% endif %}
+</table></div></div>
+
+
+{% endblock %}
