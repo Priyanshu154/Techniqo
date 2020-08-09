@@ -1,0 +1,448 @@
+{% extends 'home.html' %}
+
+{% block title %} {{ stockn }} {{ nse_ticker }} {% endblock %}
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+{% block style %}
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid black;
+}
+
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<script>
+
+$(document).ready(function(){
+    $(".two").hide();
+    $(".lone").on("click",function(){
+        $(".one").show();
+        $(".two").hide();
+    });
+    $(".ltwo").on("click",function(){
+        $(".two").show();
+        $(".one").hide();
+    });
+});
+
+$(document).ready(function(){
+    $(".four").hide();
+    $(".lthree").on("click",function(){
+        $(".three").show();
+        $(".four").hide();
+    });
+    $(".lfour").on("click",function(){
+        $(".four").show();
+        $(".three").hide();
+    });
+})
+
+shareshold = function(){
+        document.getElementById("sharehold").submit();
+    }
+</script>
+
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-lg-4">
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>{{ stockn }}</h1>
+                        NSE: {{ nse_ticker }} | BSE: {{ bse_ticker }}
+                        <h2 class="text-{{ colors.0 }}">{{ price }}</h2>
+                        <h5 class="text-{{ colors.0 }}">{{ change }}</h5><br>
+                        <h5>52 Week High : <span class="text-success">{{ hl.0 }}</span></h5>
+                        <h5>52 Week Low : <span class="text-danger">{{ hl.1 }}</span></h5>
+                     </div>
+                </div>
+            </div>
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                <div class="card">
+                    <div class="card-body">
+                       <h2 class="text-{{ note.1 }}" align="center">Public Sentiment: {{ note.0 }}</h2>
+                        <hr/>
+                        <h5>Analysis score: {{ anas }}%</h5>
+                        <div class="progress">
+                          <div class="progress-bar bg-info" role="progressbar" style="width: {{ anas }}%" aria-valuenow="{{ anas }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div><br>
+                        <h5>Public Sentiment: {{ ps }}%</h5>
+                        <div class="progress">
+                          <div class="progress-bar bg-{{ note.1 }}" role="progressbar" style="width: {{ ps }}%" aria-valuenow="{{ ps }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="shadow p-3 mb-5 bg-white rounded">
+                <div class="card">
+                    <div class="card-body">
+                        {% if totall > 160 %}
+                        <h2 class="text-success" align="center">Stock Review: Strongly Bullish</h2>
+                        {% elif totall > 120 %}
+                        <h2 class="text-success" align="center">Stock Review: Bullish</h2>
+                        {% elif totall > 100 %}
+                        <h2 class="text-dark" align="center">Stock Review: Neutral</h2>
+                        {% elif totall > 50 %}
+                        <h2 class="text-danger" align="center">Stock Review: Bearish</h2>
+                        {% else %}
+                        <h2 class="text-danger" align="center">Stock Review: Strongly Bearish</h2>
+                        {% endif %}
+                     </div>
+                </div>
+            </div>
+          <div class="row">
+            <div class="col-lg-6">
+                <div class="shadow bg-white rounded">
+                    <div class="card">
+                        <div class="card-body">
+                            {% if tech_count > 70 %}
+                            <h3 align="center" class="text-success">Technical Analysis <br>( {{ tech_count }}/100 )</h3>
+                            {% elif tech_count >= 50 %}
+                            <h3 align="center" class="text-info">Technical Analysis <br>( {{ tech_count }}/100 )</h3>
+                            {% else %}
+                            <h3 align="center" class="text-danger">Technical Analysis <br>( {{ tech_count }}/100 )</h3>
+                            {% endif %}
+                            <hr/>
+                                 {% if flag == 1 %}
+                                   <div class="one">
+                                    <table class="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col" class="topp">Indicator</th>
+                                          <th scope="col" class="topp">Value</th>
+                                          <th scope="col" class="topp">Indication</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>RSI(14)</td>
+                                            <td><b>{{ values.0 }} </b></td>
+                                            <td><b class="text-{{ scolors.0 }}">{{ senti.0 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>MACD(12,26,9)</td>
+                                            <td><b>{{ values.1 }} + {{ onlyma }}</b></td>
+                                            <td><b class="text-{{ scolors.1 }}">{{ senti.1 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Stochastic(14,3)</td>
+                                            <td><b>{{ values.10 }} + {{ onlyst }}</b></td>
+                                            <td><b class="text-{{ scolors.10 }}">{{ senti.10 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>ROC(20)</td>
+                                            <td><b>{{ values.11 }} </b></td>
+                                            <td><b class="text-{{ scolors.11 }}">{{ senti.11 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>MFI(14)</td>
+                                            <td><b>{{ values.12 }} </b></td>
+                                            <td><b class="text-{{ scolors.12 }}">{{ senti.12 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Williamson%R(14)</td>
+                                            <td><b>{{ values.13 }} </b></td>
+                                            <td><b class="text-{{ scolors.13 }}">{{ senti.13 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Ichimoku Cloud</td>
+                                            <td><b>{{ values.14 }} </b></td>
+                                            <td><b class="text-{{ scolors.14 }}">{{ senti.14 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(9)</td>
+                                            <td><b>{{ values.2 }} </b></td>
+                                            <td><b class="text-{{ scolors.2 }}">{{ senti.2 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(20)</td>
+                                            <td><b>{{ values.3 }} </b></td>
+                                            <td><b class="text-{{ scolors.3 }}">{{ senti.3 }}</b></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                   </div>
+                                      {% else %}
+                                   <div class="one">
+                                    <table class="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col" class="topp">Indicator</th>
+                                          <th scope="col" class="topp">Value</th>
+                                          <th scope="col" class="topp">Indication</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>RSI(14)</td>
+                                            <td><b>{{ values.0 }} </b></td>
+                                            <td><b class="text-{{ scolors.0 }}">{{ senti.0 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>MACD(12,26,9)</td>
+                                            <td><b>{{ values.1 }}</b></td>
+                                            <td><b class="text-{{ scolors.1 }}">{{ senti.1 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Stochastic(14,3)</td>
+                                            <td><b>{{ values.10 }}</b></td>
+                                            <td><b class="text-{{ scolors.10 }}">{{ senti.10 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>ROC(20)</td>
+                                            <td><b>{{ values.11 }} </b></td>
+                                            <td><b class="text-{{ scolors.11 }}">{{ senti.11 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>MFI(14)</td>
+                                            <td><b>{{ values.12 }} </b></td>
+                                            <td><b class="text-{{ scolors.12 }}">{{ senti.12 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Williamson%R(14)</td>
+                                            <td><b>{{ values.13 }} </b></td>
+                                            <td><b class="text-{{ scolors.13 }}">{{ senti.13 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(10)</td>
+                                            <td><b>{{ values.2 }} </b></td>
+                                            <td><b class="text-{{ scolors.2 }}">{{ senti.2 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(20)</td>
+                                            <td><b>{{ values.3 }} </b></td>
+                                            <td><b class="text-{{ scolors.3 }}">{{ senti.3 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(50)</td>
+                                            <td><b>{{ values.4 }}</b></td>
+                                            <td><b class="text-{{ scolors.4 }}">{{ senti.4 }}</b></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                   </div>
+                                       {% endif %}
+                                 {% if flag == 1 %}
+                                   <div class="two">
+                                     <table class="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col" class="topp">Indicator</th>
+                                          <th scope="col" class="topp">Value</th>
+                                          <th scope="col" class="topp">Indication</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+
+                                        <tr>
+                                          <td>SMA(50)</td>
+                                            <td><b>{{ values.4 }}</b></td>
+                                            <td><b class="text-{{ scolors.4 }}">{{ senti.4 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(200)</td>
+                                            <td><b>{{ values.5 }}</b></td>
+                                            <td><b class="text-{{ scolors.5 }}">{{ senti.5 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(9) {{ bet.0 }} SMA(20)</td>
+                                            <td><b>{{ values.2 }} , {{ values.3 }} </b></td>
+                                            <td><b class="text-{{ scolors.6 }}">{{ senti.6 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                        <td>SMA(20) {{ bet.1 }} SMA(50)</td>
+                                            <td><b>{{ values.3 }} , {{ values.4 }} </b></td>
+                                            <td><b class="text-{{ scolors.7 }}">{{ senti.7 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                        <td>SMA(50) {{ bet.2 }} SMA(200)</td>
+                                            <td><b>{{ values.4 }} , {{ values.5 }} </b></td>
+                                            <td><b class="text-{{ scolors.8 }}">{{ senti.8 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Pivot Point</td>
+                                            <td><b>{{ values.9 }} </b></td>
+                                            <td><b class="text-{{ scolors.9 }}">{{ senti.9 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Bollinger Band</td>
+                                            <td><b>MB: {{ values.3 }}</b></td>
+                                            <td><b class="text-{{ scolors.3 }}">{{ senti.3 }}</b></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                   </div>
+                                   {% else %}
+                                    <div class="two">
+                                     <table class="table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col" class="topp">Indicator</th>
+                                          <th scope="col" class="topp">Value</th>
+                                          <th scope="col" class="topp">Indication</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+
+                                        <tr>
+                                          <td>SMA(200)</td>
+                                            <td><b>{{ values.5 }}</b></td>
+                                            <td><b class="text-{{ scolors.5 }}">{{ senti.5 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>SMA(10) {{ bet.0 }} SMA(20)</td>
+                                            <td><b>{{ values.2 }} , {{ values.3 }} </b></td>
+                                            <td><b class="text-{{ scolors.6 }}">{{ senti.6 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                        <td>SMA(20) {{ bet.1 }} SMA(50)</td>
+                                            <td><b>{{ values.3 }} , {{ values.4 }} </b></td>
+                                            <td><b class="text-{{ scolors.7 }}">{{ senti.7 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                        <td>SMA(50) {{ bet.2 }} SMA(200)</td>
+                                            <td><b>{{ values.4 }} , {{ values.5 }} </b></td>
+                                            <td><b class="text-{{ scolors.8 }}">{{ senti.8 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Pivot Point</td>
+                                            <td><b>{{ values.9 }} </b></td>
+                                            <td><b class="text-{{ scolors.9 }}">{{ senti.9 }}</b></td>
+                                        </tr>
+                                        <tr>
+                                          <td>Bollinger Band</td>
+                                            <td><b>MB: {{ values.3 }}</b></td>
+                                            <td><b class="text-{{ scolors.3 }}">{{ senti.3 }}</b></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                   </div>
+                                       {% endif %}
+                                <div align="center">
+                                  <button type="button" class="lone btn btn-dark">Prev</button>
+                                  <button type="button" class="ltwo btn btn-dark">Next</button>
+                                </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="shadow bg-white rounded">
+                    <div class="card">
+                        <div class="card-body">
+                            {% if over_count > 70 %}
+                            <h3 align="center" class="text-success">Stock Overview<br>({{ over_count }}/100) </h3>
+                            {% elif over_count >= 50 %}
+                            <h3 align="center" class="text-info">Stock Overview<br>({{ over_count }}/100)</h3>
+                            {% else %}
+                            <h3 align="center" class="text-danger">Stock Overview<br>({{ over_count }}/100)</h3>
+                            {% endif %}
+                            <hr/>
+                            <div class="three">
+                                <table class="table table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col" class="topp">Key Points</th>
+                                      <th scope="col" class="topp">Indication</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                     {% for overview , secolor , sentio in zipo3 %}
+
+                                        <tr>
+                                            <td><b>{{ overview }} </b></td>
+                                            <td><b class="text-{{ secolor }}">{{ sentio }}</b></td>
+                                        </tr>
+                                     {% endfor %}
+                                  </tbody>
+                                </table>
+                            </div>
+                            <div class="four">
+                                <table class="table table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col" class="topp">Key Points</th>
+                                      <th scope="col" class="topp">Indication</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                     {% for overview , secolor , sentio in zipo4 %}
+                                        <tr>
+                                            <td><b>{{ overview }} </b></td>
+                                            <td><b class="text-{{ secolor }}">{{ sentio }}</b></td>
+                                        </tr>
+                                     {% endfor %}
+                                  </tbody>
+                                </table>
+                            </div>
+                            <div align="center">
+                                  <button type="button" class="lthree btn btn-dark">Prev</button>
+                                  <button type="button" class="lfour btn btn-dark">Next</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+        <div class="shadow p-3 mb-5 bg-white rounded mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 align="center">Quick Links</h1>
+                    <hr/>
+                    <div class="row">
+                    <form action="/stock/ql/" method = "get" id = "sharehold">
+                          <input type = "hidden" name = "stock_namee" value = "{{ stock_namee }}">
+
+                        <div class="btn-group btn-group-toggle ml-5 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},shareholding" onclick ="shareshold()" >Shareholdings
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},valuation" onclick ="shareshold()" >Valuation Ratios
+                         </label>
+                        </div>
+                         <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},income" onclick ="shareshold()" >Income Statement
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},balance" onclick ="shareshold()" >Balance Sheet
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},peers" onclick ="shareshold()" >Peers
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},news" onclick ="shareshold()" >News
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},chart" onclick ="shareshold()" >Chart
+                         </label>
+                        </div>
+
+                    </form>
+                    </div>
+                 </div>
+            </div>
+        </div>
+</div>
+
+{% endblock %}

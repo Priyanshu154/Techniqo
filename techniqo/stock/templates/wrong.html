@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+
+{% block title %} {{ stockn }} {{ nse_ticker }} {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+{% block style %}
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid black;
+}
+
+{% endblock %}
+
+{% block body %}
+{% load static %}
+
+<h1>Oops Wrong Input Please enter valid stock name using autocomplete !!!</h1>
+
+{% endblock %}

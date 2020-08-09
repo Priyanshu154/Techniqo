@@ -1,0 +1,78 @@
+{% extends 'home.html' %}
+
+
+
+{% block title %} {{ typp }} {% endblock %}
+{% block style %}
+
+{% endblock %}
+{% block body %}
+<script>
+shareshold = function(){
+        document.getElementById("sharehold").submit();
+    }
+</script>
+<h1 align="center" class="mt-5">No Data Found for this stock!!!</h1>
+<div class="container">
+<div class="shadow p-3 mb-5 bg-white rounded mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h1 align="center">Quick Links</h1>
+                    <hr/>
+                    <div class="row">
+                    <form action="/stock/ql/" method = "get" id = "sharehold">
+                          <input type = "hidden" name = "stock_namee" value = "{{ stock_namee }}">
+
+                        <div class="btn-group btn-group-toggle ml-5 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},shareholding" onclick ="shareshold()" >Shareholdings
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},valuation" onclick ="shareshold()" >Valuation Ratios
+                         </label>
+                        </div>
+                         <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},income" onclick ="shareshold()" >Income Statement
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},balance" onclick ="shareshold()" >Balance Sheet
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},cash" onclick ="shareshold()" >Cash Flow
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},peers" onclick ="shareshold()" >Peers
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},corp" onclick ="shareshold()" >Corporate Actions
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-5 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},news" onclick ="shareshold()" >News
+                         </label>
+                        </div>
+                        <div class="btn-group btn-group-toggle ml-3 mt-1" data-toggle="buttons">
+                          <label class="btn btn-info">
+                            <input type = "radio" name = "tickerdata" value = "{{ stockn }},{{ nse_ticker }},{{ bse_ticker }},chart" onclick ="shareshold()" >Chart
+                         </label>
+                        </div>
+
+                    </form>
+                    </div>
+                 </div>
+            </div>
+        </div>
+</div>
+{% endblock %}
