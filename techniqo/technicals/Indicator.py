@@ -691,7 +691,40 @@ for i in range(0,len(nifty_500)):
 
 
         # Ichimoku Cloud Ends Here
+        # ROC starts here
+        def ROC(close, t):
+            roc = []
+            for i in range(t - 1):
+                roc.append(-1)
+            for i in range(t - 1, len(close)):
+                sum = 100 * (close[i] - close[i - t]) / close[i - t]
+                roc.append(sum)
+            return roc
+        # ROC Ends here
 
+        # Williams Starts Here
+        def WILLIAM_R(source, t):
+
+            W_R = []
+
+            for i in range(0, t - 1):
+                W_R.append(-1)
+
+            # hh is highest high
+            # ll is lowest low
+            hh = Rsi_high(high, t)
+            ll = Rsi_low(low, t)
+
+            for i in range(t - 1, len(source)):
+                x = source[i] - hh[i]
+                y = hh[i] - ll[i]
+                z = x / y
+                z = z * (100)
+                W_R.append(z)
+
+            return W_R
+        # William %R Ends Here
+        # Williams ends Here
 
         macd, sg, mh = MACD(12, 26, 9)
         rsi = RSI(close, 14)
@@ -768,4 +801,3 @@ for i in range(0,len(nifty_500)):
     except:
         print(-1)
         pass
-

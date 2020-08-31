@@ -1,0 +1,141 @@
+{% extends 'home.html' %}
+
+{% block title %} Market {% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block style %}
+#side_box{
+  width: 220px;
+  padding: 10px;
+  border: 2px solid black;
+  margin: 15px;
+  height: 700px;
+  border-radius: 10px;
+}
+
+
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<script>
+    sub = function(){
+        document.getElementById("form1").submit();
+    }
+    subb = function(){
+        document.getElementById("form2").submit();
+    }
+</script>
+<h1 align="center">Live Market Details</h1>
+<div class="container">
+    <div class="row">
+
+<div class="col-lg-3 mt-1">
+    <div id="side_box" >
+    <form action = "/market/" method = "get" id = "form2">
+    <input type = "hidden" name = "mark" value = "{{ indexx }}">
+    <select id="nifty" name="index" onchange = "subb()" class="mt-3 ">
+        <option value="nifty_100" {% if index == 'nifty_100' %} selected {% endif %}>NSE (Nifty 100)</option>
+        <option value="nifty_50" {% if index == 'nifty_50' %} selected  {% endif %}> NSE (Nifty 50)</option>
+        <option value="nifty_500" {% if index == 'nifty_500' %} selected  {% endif %}> NSE (Nifty 500)</option>
+        <option value="nifty_200" {% if index == 'nifty_200' %} selected  {% endif %}> NSE (Nifty 200)</option>
+        <option value="nifty_next_50" {% if index == 'nifty_next_50' %} selected  {% endif %}> NSE (Nifty next 50)</option>
+        <option value="midcap_50" {% if index == 'midcap_50' %} selected  {% endif %}> NSE (Nifty Midcap 50)</option>
+        <option value="midcap_100" {% if index == 'midcap_100' %} selected  {% endif %}> NSE (Nifty Midcap 100)</option>
+        <option value="smallcap" {% if index == 'smallcap' %} selected  {% endif %}> Smallcap</option>
+        <option value="midcap" {% if index == 'midcap' %} selected  {% endif %}> Midcap</option>
+        <option value="largecap" {% if index == 'largecap' %} selected  {% endif %}> Largecap</option>
+        <option value="smallcap_100" {% if index == 'smallcap_100' %} selected  {% endif %}> NSE (Nifty Smallcap 100)</option>
+        <option value="bse_100" {% if index == 'bse_100' %} selected {% endif %}>BSE 100</option>
+        <option value="bse_200" {% if index == 'bse_200' %} selected {% endif %}>BSE 200</option>
+        <option value="bse_500" {% if index == 'bse_500' %} selected {% endif %}>BSE 500</option>
+
+
+    </select>
+</form>
+    <form action = "/market/" method ="get" id = "form1">
+        <div class="custom-control custom-switch mt-3 mb-3">
+         <input type="checkbox" class="custom-control-input" id="customSwitch1"  name = "mark" value = "gainers" onclick ="sub()">
+            <label class="custom-control-label" for="customSwitch1"><b>Top Gainers</b></label>
+        </div>
+            <div class="custom-control custom-switch mb-3">
+         <input type="checkbox" class="custom-control-input" id="customSwitch2"  name = "mark" value = "losers" onclick ="sub()">
+            <label class="custom-control-label" for="customSwitch2"><b>Top Losers</b></label>
+        </div>
+             <div class="custom-control custom-switch mb-3">
+         <input type="checkbox" class="custom-control-input" id="customSwitch4"  name = "mark" value = "52h" onclick ="sub()">
+            <label class="custom-control-label" for="customSwitch4"><b>Near 52 Week High</b></label>
+        </div>
+             <div class="custom-control custom-switch mb-3">
+         <input type="checkbox" class="custom-control-input" id="customSwitch5"  name = "mark" value = "52l" onclick ="sub()">
+            <label class="custom-control-label" for="customSwitch5"><b>Near 52 Week Low</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="checkbox" class="custom-control-input" id="customSwitch6"  name = "mark" value = "delivery" onclick ="sub()">
+            <label class="custom-control-label" for="customSwitch6"><b>High Delivery Stocks</b></label>
+        </div>
+    </form>
+</div>
+</div>
+<div class="col-lg-9">
+    <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+        <div class="card-header text-{{ color }}"><h2>{{ topic }}</h2></div>
+        <div class="card-body text-secondary">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
+            <table class="table table-hover">
+                {% if typee == 'gain' %}
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stock Name</th>
+                  <th scope="col" class="topp">Last Price</th>
+                  <th scope="col" class="topp">{{ head3 }}</th>
+                  <th scope="col" class="topp">{{ head4 }}</th>
+
+                </tr>
+              </thead>
+
+              <tbody>
+
+                  {% for  stock , ltp , gain , vol in gainers %}
+                <tr>
+                      <th scope="row">{{ stock }}</th>
+                      <td >{{ ltp }}</td>
+                    <td class="text-{{ color }}"><b>{{ gain }}</b></td>
+                      <td>{{ vol }}</td>
+
+                </tr>
+                  {% endfor %}
+
+              </tbody>
+               {% else %}
+                    <thead class="thead-dark">
+                <tr>
+                  <th scope="col" class="topp">Stock Name</th>
+                  <th scope="col" class="topp">Last Price</th>
+                  <th scope="col" class="topp">Change %</th>
+                  <th scope="col" class="topp">Value (in Cr.)</th>
+
+                </tr>
+              </thead>
+
+              <tbody>
+
+                  {% for  stock , ltp , gain , vol, colors in gainers %}
+                <tr>
+                      <th scope="row">{{ stock }}</th>
+                      <td >{{ ltp }}</td>
+                    <td class="text-{{ colors }}"><b>{{ gain }}</b></td>
+                      <td>{{ vol }}</td>
+
+                </tr>
+                  {% endfor %}
+
+              </tbody>
+              {% endif %}
+            </table>
+        </div>
+        </div>
+      </div>
+</div>
+    </div>
+</div>
+{% endblock %}

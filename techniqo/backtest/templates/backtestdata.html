@@ -1,0 +1,630 @@
+{% extends 'home.html' %}
+
+{% block title %} Backtesting {% endblock %}
+{% block style %}
+{% load static %}
+
+body{
+background-image: url("{% static 'backimg.png' %}");
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-position: 800px 100px;
+background-size: 35%;
+}
+
+.autocomplete-suggestions { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-no-suggestion { padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+#back_name{ font-size: 28px; padding: 10px; border: 1px solid #CCC; display: block; margin: 10px 0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #000; }
+.autocomplete-group { padding: 2px 5px; font-weight: bold; font-size: 16px; color: #000; display: block; border-bottom: 1px solid #000; }
+
+{% endblock %}
+{% block body %}
+
+<div class="container">
+
+    <h1>Welcome to free backtesting </h1>
+
+
+    <div id="bm">
+      <input type="hidden" name="backe" value="" class="backe">
+    </div>
+    <form class="formback" name="prk" action="backdata/" method="post">{% csrf_token %}
+
+   <div class="sn">
+        <label for="back_name"><h4>Enter Stock's Name:</h4></label>
+        <input type="text" name="back_name" id="back_name">
+        <button type="button" class="btn btn-dark" id="ssn">Submit Stock Name</button>
+   <script>
+        var backarr = ["3M India Ltd.|3MINDIA","ABB India Ltd.|ABB","ACC Ltd.|ACC","AIA Engineering Ltd.|AIAENG","APL Apollo Tubes Ltd.|APLAPOLLO","AU Small Finance Bank Ltd.|AUBANK","Aarti Industries Ltd.|AARTIIND","Aavas Financiers Ltd.|AAVAS","Abbott India Ltd.|ABBOTINDIA","Adani Gas Ltd.|ADANIGAS","Adani Green Energy Ltd.|ADANIGREEN","Adani Ports and Special Economic Zone Ltd.|ADANIPORTS","Adani Power Ltd.|ADANIPOWER","Adani Transmission Ltd.|ADANITRANS","Aditya Birla Capital Ltd.|ABCAPITAL","Aditya Birla Fashion and Retail Ltd.|ABFRL","Advanced Enzyme Tech Ltd.|ADVENZYMES","Aegis Logistics Ltd.|AEGISCHEM","Affle (India) Ltd.|AFFLE","Ajanta Pharmaceuticals Ltd.|AJANTPHARM","Akzo Nobel India Ltd.|AKZOINDIA","Alembic Pharmaceuticals Ltd.|APLLTD","Alkem Laboratories Ltd.|ALKEM","Alkyl Amines Chemicals Ltd.|ALKYLAMINE","Allcargo Logistics Ltd.|ALLCARGO","Amara Raja Batteries Ltd.|AMARAJABAT","Amber Enterprises India Ltd.|AMBER","Ambuja Cements Ltd.|AMBUJACEM","Apollo Hospitals Enterprise Ltd.|APOLLOHOSP","Apollo Tyres Ltd.|APOLLOTYRE","Arvind Fashions Ltd.|ARVINDFASN","Asahi India Glass Ltd.|ASAHIINDIA","Ashok Leyland Ltd.|ASHOKLEY","Ashoka Buildcon Ltd.|ASHOKA","Asian Paints Ltd.|ASIANPAINT","Aster DM Healthcare Ltd.|ASTERDM","AstraZenca Pharma India Ltd.|ASTRAZEN","Astral Poly Technik Ltd.|ASTRAL","Atul Ltd.|ATUL","Aurobindo Pharma Ltd.|AUROPHARMA","Avanti Feeds Ltd.|AVANTIFEED","Avenue Supermarts Ltd.|DMART","Axis Bank Ltd.|AXISBANK","BASF India Ltd.|BASF","BEML Ltd.|BEML","BSE Ltd.|BSE","Bajaj Auto Ltd.|BAJAJ-AUTO","Bajaj Consumer Care Ltd.|BAJAJCON","Bajaj Electricals Ltd|BAJAJELEC","Bajaj Finance Ltd.|BAJFINANCE","Bajaj Finserv Ltd.|BAJAJFINSV","Bajaj Holdings & Investment Ltd.|BAJAJHLDNG","Balkrishna Industries Ltd.|BALKRISIND","Balmer Lawrie & Co. Ltd.|BALMLAWRIE","Balrampur Chini Mills Ltd.|BALRAMCHIN","Bandhan Bank Ltd.|BANDHANBNK","Bank of Baroda|BANKBARODA","Bank of India|BANKINDIA","Bank of Maharashtra.|MAHABANK","Bata India Ltd.|BATAINDIA","Bayer Cropscience Ltd.|BAYERCROP","Berger Paints India Ltd.|BERGEPAINT","Bharat Dynamics Ltd.|BDL","Bharat Electronics Ltd.|BEL","Bharat Forge Ltd.|BHARATFORG","Bharat Heavy Electricals Ltd.|BHEL","Bharat Petroleum Corporation Ltd.|BPCL","Bharat Rasayan Ltd.|BHARATRAS","Bharti Airtel Ltd.|BHARTIARTL","Bharti Infratel Ltd.|INFRATEL","Biocon Ltd.|BIOCON","Birla Corporation Ltd.|BIRLACORPN","Birlasoft Ltd.|BSOFT","Bliss GVS Pharma Ltd.|BLISSGVS","Blue Dart Express Ltd.|BLUEDART","Blue Star Ltd.|BLUESTARCO","Bombay Burmah Trading Corporation Ltd.|BBTC","Bombay Dyeing & Manufacturing Co. Ltd.|BOMDYEING","Bosch Ltd.|BOSCHLTD","Brigade Enterprises Ltd.|BRIGADE","Britannia Industries Ltd.|BRITANNIA","CARE Ratings Ltd.|CARERATING","CCL Products (I) Ltd.|CCL","CESC Ltd.|CESC","CRISIL Ltd.|CRISIL","CSB Bank Ltd.|CSBBANK","Cadila Healthcare Ltd.|CADILAHC","Can Fin Homes Ltd.|CANFINHOME","Canara Bank|CANBK","Caplin Point Laboratories Ltd.|CAPLIPOINT","Capri Global Capital Ltd.|CGCL","Carborundum Universal Ltd.|CARBORUNIV","Castrol India Ltd.|CASTROLIND","Ceat Ltd.|CEATLTD","Central Bank of India|CENTRALBK","Central Depository Services (India) Ltd.|CDSL","Century Plyboards (India) Ltd.|CENTURYPLY","Century Textile & Industries Ltd.|CENTURYTEX","Cera Sanitaryware Ltd|CERA","Chambal Fertilizers & Chemicals Ltd.|CHAMBLFERT","Chennai Petroleum Corporation Ltd.|CHENNPETRO","Cholamandalam Financial Holdings Ltd.|CHOLAHLDNG","Cholamandalam Investment and Finance Company Ltd.|CHOLAFIN","Cipla Ltd.|CIPLA","City Union Bank Ltd.|CUB","Coal India Ltd.|COALINDIA","Cochin Shipyard Ltd.|COCHINSHIP","Coforge Ltd.|COFORGE","Colgate Palmolive (India) Ltd.|COLPAL","Container Corporation of India Ltd.|CONCOR","Coromandel International Ltd.|COROMANDEL","CreditAccess Grameen Ltd.|CREDITACC","Crompton Greaves Consumer Electricals Ltd.|CROMPTON","Cummins India Ltd.|CUMMINSIND","Cyient Ltd.|CYIENT","D.B.Corp Ltd.|DBCORP","DCB Bank Ltd.|DCBBANK","DCM Shriram Ltd.|DCMSHRIRAM","DLF Ltd.|DLF","Dabur India Ltd.|DABUR","Dalmia Bharat Ltd.|DALBHARAT","Deepak Nitrite Ltd.|DEEPAKNTR","Delta Corp Ltd.|DELTACORP","Dhanuka Agritech Ltd.|DHANUKA","Dilip Buildcon Ltd.|DBL","Dish TV India Ltd.|DISHTV","Dishman Carbogen Amcis Ltd.|DCAL","Divi's Laboratories Ltd.|DIVISLAB","Dixon Technologies (India) Ltd.|DIXON","Dr. Lal Path Labs Ltd.|LALPATHLAB","Dr. Reddy's Laboratories Ltd.|DRREDDY","E.I.D. Parry (India) Ltd.|EIDPARRY","EIH Ltd.|EIHOTEL","ESAB India Ltd.|ESABINDIA","Edelweiss Financial Services Ltd.|EDELWEISS","Eicher Motors Ltd.|EICHERMOT","Elgi Equipments Ltd.|ELGIEQUIP","Emami Ltd.|EMAMILTD","Endurance Technologies Ltd.|ENDURANCE","Engineers India Ltd.|ENGINERSIN","Equitas Holdings Ltd.|EQUITAS","Eris Lifesciences Ltd.|ERIS","Escorts Ltd.|ESCORTS","Essel Propack Ltd.|ESSELPACK","Exide Industries Ltd.|EXIDEIND","FDC Ltd.|FDC","Federal Bank Ltd.|FEDERALBNK","Fine Organic Industries Ltd.|FINEORG","Finolex Cables Ltd.|FINCABLES","Finolex Industries Ltd.|FINPIPE","Firstsource Solutions Ltd.|FSL","Fortis Healthcare Ltd.|FORTIS","Future Consumer Ltd.|FCONSUMER","Future Retail Ltd.|FRETAIL","GAIL (India) Ltd.|GAIL","GE Power India Ltd.|GEPIL","GE T&D India Ltd.|GET&D","GHCL Ltd.|GHCL","GMM Pfaudler Ltd.|GMMPFAUDLR","GMR Infrastructure Ltd.|GMRINFRA","Galaxy Surfactants Ltd.|GALAXYSURF","Garden Reach Shipbuilders & Engineers Ltd.|GRSE","Garware Technical Fibres Ltd.|GARFIBRES","General Insurance Corporation of India|GICRE","Gillette India Ltd.|GILLETTE","Glaxosmithkline Pharmaceuticals Ltd.|GLAXO","Glenmark Pharmaceuticals Ltd.|GLENMARK","Godfrey Phillips India Ltd.|GODFRYPHLP","Godrej Agrovet Ltd.|GODREJAGRO","Godrej Consumer Products Ltd.|GODREJCP","Godrej Industries Ltd.|GODREJIND","Godrej Properties Ltd.|GODREJPROP","Granules India Ltd.|GRANULES","Graphite India Ltd.|GRAPHITE","Grasim Industries Ltd.|GRASIM","Great Eastern Shipping Co. Ltd.|GESHIP","Greaves Cotton Ltd.|GREAVESCOT","Grindwell Norton Ltd.|GRINDWELL","Gujarat Alkalies & Chemicals Ltd.|GUJALKALI","Gujarat Fluorochemicals Ltd.|FLUOROCHEM","Gujarat Gas Ltd.|GUJGASLTD","Gujarat Mineral Development Corporation Ltd.|GMDCLTD","Gujarat Narmada Valley Fertilizers and Chemicals Ltd.|GNFC","Gujarat Pipavav Port Ltd.|GPPL","Gujarat State Fertilizers & Chemicals Ltd.|GSFC","Gujarat State Petronet Ltd.|GSPL","Gulf Oil Lubricants India Ltd.|GULFOILLUB","H.E.G. Ltd.|HEG","HCL Technologies Ltd.|HCLTECH","HDFC Asset Management Company Ltd.|HDFCAMC","HDFC Bank Ltd.|HDFCBANK","HDFC Life Insurance Company Ltd.|HDFCLIFE","HFCL Ltd.|HFCL","Hathway Cable & Datacom Ltd.|HATHWAY","Hatsun Agro Product Ltd.|HATSUN","Havells India Ltd.|HAVELLS","HeidelbergCement India Ltd.|HEIDELBERG","Heritage Foods Ltd.|HERITGFOOD","Hero MotoCorp Ltd.|HEROMOTOCO","Hexaware Technologies Ltd.|HEXAWARE","Himadri Speciality Chemical Ltd.|HSCL","Himatsingka Seide Ltd.|HIMATSEIDE","Hindalco Industries Ltd.|HINDALCO","Hindustan Aeronautics Ltd.|HAL","Hindustan Copper Ltd.|HINDCOPPER","Hindustan Petroleum Corporation Ltd.|HINDPETRO","Hindustan Unilever Ltd.|HINDUNILVR","Hindustan Zinc Ltd.|HINDZINC","Honeywell Automation India Ltd.|HONAUT","Housing & Urban Development Corporation Ltd.|HUDCO","Housing Development Finance Corporation Ltd.|HDFC","ICICI Bank Ltd.|ICICIBANK","ICICI Lombard General Insurance Company Ltd.|ICICIGI","ICICI Prudential Life Insurance Company Ltd.|ICICIPRULI","ICICI Securities Ltd.|ISEC","ICRA Ltd.|ICRA","IDBI Bank Ltd.|IDBI","IDFC First Bank Ltd.|IDFCFIRSTB","IDFC Ltd.|IDFC","IFB Industries Ltd.|IFBIND","IFCI Ltd.|IFCI","IIFL Finance Ltd.|IIFL","IIFL Wealth Management Ltd.|IIFLWAM","IRB Infrastructure Developers Ltd.|IRB","IRCON International Ltd.|IRCON","ITC Ltd.|ITC","ITI Ltd.|ITI","India Cements Ltd.|INDIACEM","India Tourism Development Corporation Ltd.|ITDC","Indiabulls Housing Finance Ltd.|IBULHSGFIN","Indiabulls Real Estate Ltd.|IBREALEST","Indiabulls Ventures Ltd.|IBVENTURES","Indiamart Intermesh Ltd.|INDIAMART","Indian Bank|INDIANB","Indian Energy Exchange Ltd.|IEX","Indian Hotels Co. Ltd.|INDHOTEL","Indian Oil Corporation Ltd.|IOC","Indian Overseas Bank |IOB","Indian Railway Catering And Tourism Corporation Ltd.|IRCTC","IndoStar Capital Finance Ltd.|INDOSTAR","Indoco Remedies Ltd.|INDOCO","Indraprastha Gas Ltd.|IGL","IndusInd Bank Ltd.|INDUSINDBK","Infibeam Avenues Ltd.|INFIBEAM","Info Edge (India) Ltd.|NAUKRI","Infosys Ltd.|INFY","Ingersoll Rand (India) Ltd.|INGERRAND","Inox Leisure Ltd.|INOXLEISUR","Intellect Design Arena Ltd.|INTELLECT","InterGlobe Aviation Ltd.|INDIGO","Ipca Laboratories Ltd.|IPCALAB","J.B. Chemicals & Pharmaceuticals Ltd.|JBCHEPHARM","J.K. Cement Ltd.|JKCEMENT","JK Lakshmi Cement Ltd.|JKLAKSHMI","JK Paper Ltd.|JKPAPER","JK Tyre & Industries Ltd.|JKTYRE","JM Financial Ltd.|JMFINANCIL","JSW Energy Ltd.|JSWENERGY","JSW Steel Ltd.|JSWSTEEL","Jagran Prakashan Ltd.|JAGRAN","Jai Corp Ltd.|JAICORPLTD","Jammu & Kashmir Bank Ltd.|J&KBANK","Jamna Auto Industries Ltd.|JAMNAAUTO","Jindal Saw Ltd.|JINDALSAW","Jindal Stainless (Hisar) Ltd.|JSLHISAR","Jindal Stainless Ltd.|JSL","Jindal Steel & Power Ltd.|JINDALSTEL","Johnson Controls - Hitachi Air Conditioning India Ltd.|JCHAC","Jubilant Foodworks Ltd.|JUBLFOOD","Jubilant Life Sciences Ltd.|JUBILANT","Justdial Ltd.|JUSTDIAL","Jyothy Labs Ltd.|JYOTHYLAB","K.P.R. Mill Ltd.|KPRMILL","KEI Industries Ltd.|KEI","KNR Constructions Ltd.|KNRCON","KPIT Technologies Ltd.|KPITTECH","KRBL Ltd.|KRBL","KSB Ltd.|KSB","Kajaria Ceramics Ltd.|KAJARIACER","Kalpataru Power Transmission Ltd.|KALPATPOWR","Kansai Nerolac Paints Ltd.|KANSAINER","Karnataka Bank Ltd.|KTKBANK","Karur Vysya Bank Ltd.|KARURVYSYA","Kaveri Seed Company Ltd.|KSCL","Kec International Ltd.|KEC","Kolte-Patil Developers Ltd.|KOLTEPATIL","Kotak Mahindra Bank Ltd.|KOTAKBANK","L&T Finance Holdings Ltd.|L&TFH","L&T Technology Services Ltd.|LTTS","LIC Housing Finance Ltd.|LICHSGFIN","La Opala RG Ltd.|LAOPALA","Lakshmi Machine Works Ltd.|LAXMIMACH","Larsen & Toubro Infotech Ltd.|LTI","Larsen & Toubro Ltd.|LT","Laurus Labs Ltd.|LAURUSLABS","Lemon Tree Hotels Ltd.|LEMONTREE","Linde India Ltd.|LINDEINDIA","Lupin Ltd.|LUPIN","Lux Industries Ltd.|LUXIND","MAS Financial Services Ltd.|MASFIN","MMTC Ltd.|MMTC","MOIL Ltd.|MOIL","MRF Ltd.|MRF","Mahanagar Gas Ltd.|MGL","Maharashtra Scooters Ltd.|MAHSCOOTER","Maharashtra Seamless Ltd.|MAHSEAMLES","Mahindra & Mahindra Financial Services Ltd.|M&MFIN","Mahindra & Mahindra Ltd.|M&M","Mahindra CIE Automotive Ltd.|MAHINDCIE","Mahindra Holidays & Resorts India Ltd.|MHRIL","Mahindra Logistics Ltd.|MAHLOG","Manappuram Finance Ltd.|MANAPPURAM","Mangalore Refinery & Petrochemicals Ltd.|MRPL","Marico Ltd.|MARICO","Maruti Suzuki India Ltd.|MARUTI","Max Financial Services Ltd.|MFSL","Metropolis Healthcare Ltd.|METROPOLIS","MindTree Ltd.|MINDTREE","Minda Corporation Ltd.|MINDACORP","Minda Industries Ltd.|MINDAIND","Mishra Dhatu Nigam Ltd.|MIDHANI","Motherson Sumi Systems Ltd.|MOTHERSUMI","Motilal Oswal Financial Services Ltd.|MOTILALOFS","MphasiS Ltd.|MPHASIS","Multi Commodity Exchange of India Ltd.|MCX","Muthoot Finance Ltd.|MUTHOOTFIN","NATCO Pharma Ltd.|NATCOPHARM","NBCC (India) Ltd.|NBCC","NCC Ltd.|NCC","NESCO Ltd.|NESCO","NHPC Ltd.|NHPC","NLC India Ltd.|NLCINDIA","NMDC Ltd.|NMDC","NTPC Ltd.|NTPC","Narayana Hrudayalaya Ltd.|NH","National Aluminium Co. Ltd.|NATIONALUM","National Fertilizers Ltd.|NFL","Nava Bharat Ventures Ltd.|NBVENTURES","Navin Fluorine International Ltd.|NAVINFLUOR","Nestle India Ltd.|NESTLEIND","Nilkamal Ltd.|NILKAMAL","Nippon Life India Asset Management Ltd.|NAM-INDIA","Oberoi Realty Ltd.|OBEROIRLTY","Oil & Natural Gas Corporation Ltd.|ONGC","Oil India Ltd.|OIL","Omaxe Ltd.|OMAXE","Oracle Financial Services Software Ltd.|OFSS","Orient Cement Ltd.|ORIENTCEM","Orient Electric Ltd.|ORIENTELEC","Orient Refractories Ltd.|ORIENTREF","PI Industries Ltd.|PIIND","PNB Housing Finance Ltd.|PNBHOUSING","PNC Infratech Ltd.|PNCINFRA","PTC India Ltd.|PTC","PVR Ltd.|PVR","Page Industries Ltd.|PAGEIND","Persistent Systems Ltd.|PERSISTENT","Petronet LNG Ltd.|PETRONET","Pfizer Ltd.|PFIZER","Phillips Carbon Black Ltd.|PHILIPCARB","Phoenix Mills Ltd.|PHOENIXLTD","Pidilite Industries Ltd.|PIDILITIND","Piramal Enterprises Ltd.|PEL","Poly Medicure Ltd.|POLYMED","Polycab India Ltd.|POLYCAB","Power Finance Corporation Ltd.|PFC","Power Grid Corporation of India Ltd.|POWERGRID","Praj Industries Ltd.|PRAJIND","Prestige Estates Projects Ltd.|PRESTIGE","Prism Johnson Ltd.|PRSMJOHNSN","Procter & Gamble Health Ltd.|PGHL","Procter & Gamble Hygiene & Health Care Ltd.|PGHH","Punjab National Bank|PNB","Quess Corp Ltd.|QUESS","RBL Bank Ltd.|RBLBANK","REC Ltd.|RECLTD","RITES Ltd.|RITES","Radico Khaitan Ltd|RADICO","Rail Vikas Nigam Ltd.|RVNL","Rain Industries Ltd|RAIN","Rajesh Exports Ltd.|RAJESHEXPO","Rallis India Ltd.|RALLIS","Rashtriya Chemicals & Fertilizers Ltd.|RCF","Ratnamani Metals & Tubes Ltd.|RATNAMANI","Raymond Ltd.|RAYMOND","Redington (India) Ltd.|REDINGTON","Relaxo Footwears Ltd.|RELAXO","Reliance Industries Ltd.|RELIANCE","Repco Home Finance Ltd.|REPCOHOME","SBI Cards and Payment Services Ltd.|SBICARD","SBI Life Insurance Company Ltd.|SBILIFE","SJVN Ltd.|SJVN","SKF India Ltd.|SKFINDIA","SRF Ltd.|SRF","Sadbhav Engineering Ltd.|SADBHAV","Sanofi India Ltd.|SANOFI","Schaeffler India Ltd.|SCHAEFFLER","Schneider Electric Infrastructure Ltd.|SCHNEIDER","Security and Intelligence Services (India) Ltd.|SIS","Sequent Scientific Ltd.|SEQUENT","Sheela Foam Ltd.|SFL","Shipping Corporation of India Ltd.|SCI","Shoppers Stop Ltd.|SHOPERSTOP","Shree Cement Ltd.|SHREECEM","Shree Renuka Sugars Ltd.|RENUKA","Shriram City Union Finance Ltd.|SHRIRAMCIT","Shriram Transport Finance Co. Ltd.|SRTRANSFIN","Siemens Ltd.|SIEMENS","Sobha Ltd.|SOBHA","Solar Industries India Ltd.|SOLARINDS","Sonata Software Ltd.|SONATSOFTW","South Indian Bank Ltd.|SOUTHBANK","Spandana Sphoorty Financial Ltd.|SPANDANA","Spicejet Ltd.|SPICEJET","Star Cement Ltd.|STARCEMENT","State Bank of India|SBIN","Steel Authority of India Ltd.|SAIL","Sterling And Wilson Solar Ltd.|SWSOLAR","Sterlite Technologies Ltd.|STRTECH","Strides Pharma Science Ltd.|STAR","Sudarshan Chemical Industries Ltd.|SUDARSCHEM","Sumitomo Chemical India Ltd.|SUMICHEM","Sun Pharma Advanced Research Company Ltd.|SPARC","Sun Pharmaceutical Industries Ltd.|SUNPHARMA","Sun TV Network Ltd.|SUNTV","Sundaram Finance Ltd.|SUNDARMFIN","Sundram Fasteners Ltd.|SUNDRMFAST","Sunteck Realty Ltd.|SUNTECK","Suprajit Engineering Ltd.|SUPRAJIT","Supreme Industries Ltd.|SUPREMEIND","Suzlon Energy Ltd.|SUZLON","Swan Energy Ltd.|SWANENERGY","Symphony Ltd.|SYMPHONY","Syngene International Ltd.|SYNGENE","TCI Express Ltd.|TCIEXP","TCNS Clothing Co. Ltd.|TCNSBRANDS","TTK Prestige Ltd.|TTKPRESTIG","TV Today Network Ltd.|TVTODAY","TV18 Broadcast Ltd.|TV18BRDCST","TVS Motor Company Ltd.|TVSMOTOR","Take Solutions Ltd.|TAKE","Tasty Bite Eatables Ltd.|TASTYBITE","Tata Communications Ltd.|TATACOMM","Tata Consultancy Services Ltd.|TCS","Tata Consumer Products Ltd.|TATACONSUM","Tata Elxsi Ltd.|TATAELXSI","Tata Investment Corporation Ltd.|TATAINVEST","Tata Motors Ltd DVR|TATAMTRDVR","Tata Motors Ltd.|TATAMOTORS","Tata Power Co. Ltd.|TATAPOWER","Tata Steel BSL Ltd.|TATASTLBSL","Tata Steel Ltd.|TATASTEEL","Teamlease Services Ltd.|TEAMLEASE","Tech Mahindra Ltd.|TECHM","The New India Assurance Company Ltd.|NIACL","The Ramco Cements Ltd.|RAMCOCEM","Thermax Ltd.|THERMAX","Thyrocare Technologies Ltd.|THYROCARE","Time Technoplast Ltd.|TIMETECHNO","Timken India Ltd.|TIMKEN","Titan Company Ltd.|TITAN","Torrent Pharmaceuticals Ltd.|TORNTPHARM","Torrent Power Ltd.|TORNTPOWER","Trent Ltd.|TRENT","Trident Ltd.|TRIDENT","Tube Investments of India Ltd.|TIINDIA","UCO Bank|UCOBANK","UFLEX Ltd.|UFLEX","UPL Ltd.|UPL","Ujjivan Financial Services Ltd.|UJJIVAN","Ujjivan Small Finance Bank Ltd.|UJJIVANSFB","UltraTech Cement Ltd.|ULTRACEMCO","Union Bank of India|UNIONBANK","United Breweries Ltd.|UBL","United Spirits Ltd.|MCDOWELL-N","V-Guard Industries Ltd.|VGUARD","V-Mart Retail Ltd.|VMART","V.I.P. Industries Ltd.|VIPIND","VRL Logistics Ltd.|VRLLOG","VST Industries Ltd.|VSTIND","Vaibhav Global Ltd.|VAIBHAVGBL","Vakrangee Ltd.|VAKRANGEE","Vardhman Textiles Ltd.|VTL","Varroc Engineering Ltd.|VARROC","Varun Beverages Ltd.|VBL","Venky's (India) Ltd.|VENKEYS","Vesuvius India Ltd.|VESUVIUS","Vinati Organics Ltd.|VINATIORGA","Vodafone Idea Ltd.|IDEA","Voltas Ltd.|VOLTAS","WABCO India Ltd.|WABCOINDIA","Welspun Corp Ltd.|WELCORP","Welspun India Ltd.|WELSPUNIND","Westlife Development Ltd.|WESTLIFE","Whirlpool of India Ltd.|WHIRLPOOL","Wipro Ltd.|WIPRO","Wockhardt Ltd.|WOCKPHARMA","Zee Entertainment Enterprises Ltd.|ZEEL","Zensar Technolgies Ltd.|ZENSARTECH","Zydus Wellness Ltd.|ZYDUSWELL","eClerx Services Ltd.|ECLERX"]
+        $('#back_name').autocomplete({
+        lookup: backarr
+        });
+   </script>
+   </div>
+<div class="longshort" style="display: none;">
+   <button type="button" class="btn btn-success btn-lg" id="longg" value="golong">Go Long</button>
+    <h3 style="margin-left: 30px;">OR</h3>
+    <button type="button" class="btn btn-danger btn-lg" id="shortt" value="goshort">Go Short</button>
+</div>
+<div id="template" style="display: none;">
+  <div class="one">
+    <br><select class="indicators" name="indicators" id="onee">
+            <option value="">--Chose indicator--</option>
+            <option value="clo">Close</option>
+            <option value="rsi">RSI(14)</option>
+            <option value="bb">Bollinger Band(20)</option>
+            <option value="macd">MACD Line(12,26,9)</option>
+            <option value="mfi">Money Flow Index(14)</option>
+            <option value="roc">ROC(9)</option>
+            <option value="wil">Williams %R(14)</option>
+            <option value="sma10">SMA(10)</option>
+            <option value="sma20">SMA(20)</option>
+            <option value="sma50">SMA(50)</option>
+            <option value="sma100">SMA(100)</option>
+            <option value="sma200">SMA(200)</option>
+            <option value="ema10">EMA(10)</option>
+            <option value="ema20">EMA(20)</option>
+            <option value="ema50">EMA(50)</option>
+            <option value="ema100">EMA(100)</option>
+            <option value="ema200">EMA(200)</option>
+            <option value="cl">Conversion Line (Ichimoku Cloud)</option>
+            <option value="ls">Lag Span (Ichimoku Cloud)</option>
+            <option value="srsi">Fast Line (Stochastic RSI(14))</option>
+        </select><br>
+  </div>
+</div>
+
+<div id="submm" style="display: none;">
+  <button type="button" name="formbackk" class="formbackk btn btn-dark">Backtest</button>
+</div>
+
+<div id="exittag" style="display: none;">
+<h1>Exit Rule</h1>
+</div>
+
+<div class="after_stp_loss" style="display: none;">
+  <h3>Enter Stoploss in percentage (%)</h3>
+  <input type="text" name="after_stp_loss" class="stpls_value" placeholder="" value=""><br>
+</div>
+
+<div class="rsi_v" style="display: none;">
+  <div class="row">
+
+    <br><select class='parameters ml-3 mt-2' name='parameters'>
+      <option value="">--Choose Parameters--</option>
+      <option value='crossover'>Crossing over</option>
+      <option value='crossunder'>Crossing under</option>
+      <option value='above'>Above</option>
+      <option value='below'>Below</option>
+   </select>
+
+    <input type="text" name="rsi_value" value="" placeholder="Enter Value" class="values ml-3 mt-2">
+
+    <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+</div>
+</div>
+
+<div class="mfi_v" style="display: none;">
+  <div class="row">
+
+    <br><select class='parameters ml-3 mt-2' name='parameters'>
+      <option value="">--Choose Parameters--</option>
+      <option value='crossover'>Crossing over</option>
+      <option value='crossunder'>Crossing under</option>
+      <option value='above'>Above</option>
+      <option value='below'>Below</option>
+   </select>
+
+    <input type="text" name="rsi_value" value="" placeholder="Enter Value" class="values ml-3 mt-2">
+
+    <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+</div>
+</div>
+
+<div class="roc_v" style="display: none;">
+  <div class="row">
+
+    <br><select class='parameters ml-3 mt-2' name='parameters'>
+      <option value="">--Choose Parameters--</option>
+      <option value='crossover'>Crossing over</option>
+      <option value='crossunder'>Crossing under</option>
+      <option value='above'>Above</option>
+      <option value='below'>Below</option>
+   </select>
+
+    <input type="text" name="rsi_value" value="" placeholder="Enter Value" class="values ml-3 mt-2">
+
+    <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+</div>
+</div>
+
+<div class="bb_v" style="display: none;">
+      <div class="row">
+
+        <br><select class='parameters ml-3 mt-2' name='parameters'>
+          <option value=''>--Choose Parameters--</option>
+          <option value='crossover'>Crossing over</option>
+          <option value='crossunder'>Crossing under</option>
+          <option value='above'>Above</option>
+          <option value='below'>Below</option>
+       </select>
+
+        <select class='values ml-3 mt-2' name='values'>
+          <option value=''>--Choose Entry Points--</option>
+          <option value='lb'>Lower Band</option>
+          <option value='mb'>Middle Band</option>
+          <option value='up'>Upper Band</option>
+       </select>
+
+          <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+    </div>
+</div>
+
+<div class="sma_v" style="display: none;">
+      <div class="row">
+
+        <br><select class='parameters ml-3 mt-2' name='parameters'>
+          <option value=''>--Choose Parameters--</option>
+          <option value='crossover'>Crossing over</option>
+          <option value='crossunder'>Crossing under</option>
+          <option value='above'>Above</option>
+          <option value='below'>Below</option>
+       </select>
+
+        <select class='values ml-3 mt-2' name='values'>
+            <option value=''>--Choose Entry Points--</option>
+            <option value="sma10">SMA(10)</option>
+            <option value="sma20">SMA(20)</option>
+            <option value="sma50">SMA(50)</option>
+            <option value="sma100">SMA(100)</option>
+            <option value="sma200">SMA(200)</option>
+       </select>
+
+          <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+    </div>
+</div>
+
+<div class="ema_v" style="display: none;">
+      <div class="row">
+
+        <br><select class='parameters ml-3 mt-2' name='parameters'>
+          <option value=''>--Choose Parameters--</option>
+          <option value='crossover'>Crossing over</option>
+          <option value='crossunder'>Crossing under</option>
+          <option value='above'>Above</option>
+          <option value='below'>Below</option>
+       </select>
+
+        <select class='values ml-3 mt-2' name='values'>
+            <option value=''>--Choose Entry Points--</option>
+            <option value="ema10">EMA(10)</option>
+            <option value="ema20">EMA(20)</option>
+            <option value="ema50">EMA(50)</option>
+            <option value="ema100">EMA(100)</option>
+            <option value="ema200">EMA(200)</option>
+       </select>
+
+          <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+    </div>
+</div>
+
+<div class="clo_v" style="display: none;">
+      <div class="row">
+
+        <br><select class='parameters ml-3 mt-2' name='parameters'>
+          <option value=''>--Choose Parameters--</option>
+          <option value='crossover'>Crossing over</option>
+          <option value='crossunder'>Crossing under</option>
+          <option value='above'>Above</option>
+          <option value='below'>Below</option>
+       </select>
+
+        <select class='values ml-3 mt-2' name='values'>
+            <option value=''>--Choose Entry Points--</option>
+            <option value="pp">Pivot Point</option>
+            <option value="s1">Support 1</option>
+            <option value="s2">Support 2</option>
+            <option value="s3">Support 3</option>
+            <option value="r1">Resistance 1</option>
+            <option value="r2">Resistance 2</option>
+            <option value="r3">Resistance 3</option>
+            <option value="sma10">SMA(10)</option>
+            <option value="sma20">SMA(20)</option>
+            <option value="sma50">SMA(50)</option>
+            <option value="sma100">SMA(100)</option>
+            <option value="sma200">SMA(200)</option>
+            <option value="ls">Lag Span</option>
+            <option value="gc">Green Cloud</option>
+            <option value="rc">Red Cloud</option>
+            <option value="cl">Conversion Line</option>
+            <option value="bl">Base Line</option>
+            <option value="ema10">EMA(10)</option>
+            <option value="ema20">EMA(20)</option>
+            <option value="ema50">EMA(50)</option>
+            <option value="ema100">EMA(100)</option>
+            <option value="ema200">EMA(200)</option>
+       </select>
+
+          <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+    </div>
+</div>
+
+
+<div class="ic_v" style="display: none;">
+      <div class="row">
+
+        <br><select class='parameters ml-3 mt-2' name='parameters'>
+          <option value=''>--Choose Parameters--</option>
+          <option value='crossover'>Crossing over</option>
+          <option value='crossunder'>Crossing under</option>
+          <option value='above'>Above</option>
+          <option value='below'>Below</option>
+       </select>
+
+        <select class='values ml-3 mt-2' name='values'>
+            <option value=''>--Choose Entry Points--</option>
+            <option value="ls">Lag Span</option>
+            <option value="gc">Green Cloud</option>
+            <option value="rc">Red Cloud</option>
+            <option value="cl">Conversion Line</option>
+            <option value="bl">Base Line</option>
+       </select>
+
+          <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+    </div>
+</div>
+
+<div class="srsi_v" style="display: none;">
+  <div class="row">
+
+    <br><select class='parameters ml-3 mt-2' name='parameters'>
+      <option value="">--Choose Parameters--</option>
+      <option value='crossover'>Crossing over</option>
+      <option value='crossunder'>Crossing under</option>
+      <option value='above'>Above</option>
+      <option value='below'>Below</option>
+   </select>
+
+      <select class='values ml-3 mt-2' name='values'>
+          <option value=''>--Choose Entry Points--</option>
+          <option value='slow'>Slow Line</option>
+          <option value='num'>0</option>
+          <option value='num'>10</option>
+          <option value='num'>20</option>
+          <option value='num'>30</option>
+          <option value='num'>40</option>
+          <option value='num'>50</option>
+          <option value='num'>60</option>
+          <option value='num'>70</option>
+          <option value='num'>80</option>
+          <option value='num'>90</option>
+          <option value='num'>100</option>
+       </select>
+
+</div>
+</div>
+
+<div class="macd_v" style="display: none;">
+      <div class="row">
+
+        <br><select class='parameters ml-3 mt-2' name='parameters'>
+          <option value=''>--Choose Parameters--</option>
+          <option value='crossover'>Crossing over</option>
+          <option value='crossunder'>Crossing under</option>
+          <option value='above'>Above</option>
+          <option value='below'>Below</option>
+       </select>
+
+        <select class='values ml-3 mt-2' name='values'>
+          <option value=''>--Choose Entry Points--</option>
+          <option value='sig'>Signal Line</option>
+          <option value='zero'>Zero Line</option>
+       </select>
+
+          <button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
+
+    </div>
+</div>
+
+<div class="spls" style="display: none;">
+   <button type="button" name="stploss" id="stploss" class="btn btn-dark">Stoploss</button>
+</div>
+
+<div class="rows">
+<div class="one" id="isko">
+  <h1>Entry Rule</h1>
+  <select class="indicators" name="indicators" id="onpee">
+    <option value="">--Chose indicator--</option>
+    <option value="clo">Close</option>
+    <option value="rsi">RSI(14)</option>
+    <option value="bb">Bollinger Band(20)</option>
+    <option value="macd">MACD Line(12,26,9)</option>
+    <option value="mfi">Money Flow Index(14)</option>
+    <option value="roc">ROC(9)</option>
+    <option value="wil">Williams %R(14)</option>
+    <option value="sma10">SMA(10)</option>
+    <option value="sma20">SMA(20)</option>
+    <option value="sma50">SMA(50)</option>
+    <option value="sma100">SMA(100)</option>
+    <option value="sma200">SMA(200)</option>
+    <option value="ema10">EMA(10)</option>
+    <option value="ema20">EMA(20)</option>
+    <option value="ema50">EMA(50)</option>
+    <option value="ema100">EMA(100)</option>
+    <option value="ema200">EMA(200)</option>
+    <option value="cl">Conversion Line (Ichimoku Cloud)</option>
+    <option value="ls">Lag Span (Ichimoku Cloud)</option>
+    <option value="srsi">Fast Line (Stochastic RSI(14))</option>
+  </select>
+</div>
+
+</div>
+<div class="addc">
+  <br><button type="button" name="add" id="add" class="btn btn-dark">ADD</button><br><br>
+</div>
+    <button type="button" name="entry_rule" id="entry_rule" class="btn btn-dark">Submit Entry Rule</button><br><br>
+
+</form>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <script>
+      $(document).ready(function(){
+        var a = "";
+        var b = "";
+        var c = "";
+        var sec = 11;
+        var pop_indi = 0;
+        var seperator = 0;
+        var count = 1;
+        var check = "";
+        var final = 0;
+        var loso = "";
+
+        $("#isko").hide();
+        $(".addc").hide();
+        $("#entry_rule").hide();
+
+        $("#ssn").click(function(){
+            $(".longshort").show();
+            $(".sn").hide();
+        });
+
+         $("#longg").click(function(){
+            loso = $("#longg").val();
+            $("#isko").show();
+            $(".addc").show();
+            $("#entry_rule").show();
+            $(".longshort").hide();
+         });
+
+         $("#shortt").click(function(){
+            loso = $("#shortt").val();
+            $("#isko").show();
+            $(".addc").show();
+            $("#entry_rule").show();
+            $(".longshort").hide();
+         });
+
+
+        $(".rows").on('change','.indicators:last',function(){
+          check = $(".indicators:last").val();
+          //a += $(".indicators:last").val() + ",";
+          //console.log(check);
+          if(check == "rsi" || check=="wil"){
+          pop_indi = pop_indi +1;
+              if(pop_indi > 1){
+                $('.row').last().remove();
+              }
+
+          $(".rows:last").append($('.rsi_v').html());
+          b = $(".parameters:last").val() + ",";
+         }
+          else if(check == "bb"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.bb_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "macd"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.macd_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "mfi"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.mfi_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "roc"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.roc_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "sma10" || check == "sma20" || check == "sma50" || check == "sma100" || check == "sma200"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.sma_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "ema10" || check == "ema20" || check == "ema50" || check == "ema100" || check == "ema200"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.ema_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "ls" || check == "cl"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.ic_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "srsi"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.srsi_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+          else if(check == "clo"){
+            pop_indi = pop_indi +1;
+            if(pop_indi > 1){
+              $('.row').last().remove();
+            }
+
+            $(".rows:last").append($('.clo_v').html());
+            b = $(".parameters:last").val() + ",";
+          }
+        });
+
+        $("#add").click(function(){
+          count += 1;
+          var ee = $("#entry_rule").length
+          pop_indi = 0;
+          var num = $(".one").length
+          var num2 = $(".row").length
+          if(num > 1){
+          $(".indicators:last").prop('disabled',true);}
+          if(num2 > 10){
+          //jitne indicators add karega uss hisab se change hoga idhar 2 hai
+          //bcoz rsi_v and bb_v
+          $(".parameters:last").prop('disabled',true);
+          $(".values:last").prop('disabled',true);}
+          $(".rows:last").append($('#template').html());
+        });
+
+        $(document).on('click','.remove', function(){
+          $(this).parent().prev().remove();
+           $(this).closest('.row').remove();
+           count = count - 1;
+        });
+
+        $("#entry_rule").click(function(){
+            seperator = count;
+            $(".rows:last").append($('#exittag').html());
+            $(this).remove();
+            pop_indi = 0;
+            var num = $(".one").length
+            var num2 = $(".row").length
+            if(num > 1){
+            $(".indicators:last").prop('disabled',true);}
+            if(num2 > 10){
+            //jitne indicators add karega uss hisab se change hoga idhar 2 hai
+            //bcoz rsi_v and bb_v
+            $(".parameters:last").prop('disabled',true);
+            $(".values:last").prop('disabled',true);}
+            $(".rows:last").append($('#template').html());
+            $(".addc").append($('.spls').html());
+            $(".addc").append($('#submm').html());
+        });
+
+        $(".addc").on('click','#stploss',function(){
+          console.log("hi");
+          pop_indi = 0;
+          var num = $(".one").length
+          var num2 = $(".row").length
+          if(num > 1){
+          $(".indicators:last").prop('disabled',true);}
+          if(num2 > 10){
+          //jitne indicators add karega uss hisab se change hoga idhar 2 hai
+          //bcoz rsi_v and bb_v
+          $(".parameters:last").prop('disabled',true);
+          $(".values:last").prop('disabled',true);}
+          $(".addc").prepend($('.after_stp_loss').html());
+          for(var i=0;i<3;i++){
+            $(this).prev().remove();
+          }
+          $(this).remove();
+
+        });
+
+        $(".addc").on('click','.formbackk',function(){
+          var af = $("#back_name").val()
+
+          $(".indicators").each(function(){
+            if($(this).val() !== ""){
+              final += 1;
+            a += $(this).val() + ",";
+            if(final == seperator){
+              a += "!!";
+            }}
+          })
+          final = 0;
+          $(".parameters").each(function(){
+            if($(this).val() !== ""){
+              final += 1;
+            b += $(this).val() + ",";
+            if(final == seperator){
+              b += "!!";
+            }}
+          })
+          final = 0;
+          $(".values").each(function(){
+            if($(this).val() !== ""){
+              final += 1;
+            c += $(this).val() + ",";
+            if(final == seperator){
+              c += "!!";
+            }}
+          })
+          var stpp = $(".stpls_value:last").val();
+          console.log(stpp);
+          console.log(a);
+          console.log(b);
+          console.log(c);
+          console.log(af);
+          console.log(seperator);
+          console.log(final);
+
+          $(".rows:last").append($('#bm').html());
+          $(".backe:last").attr("value",a+"||"+b+"||"+c+"||"+stpp+",||"+af+",||"+loso);
+          $("form").submit();
+        });
+
+})
+
+
+
+</script>
+
+{% endblock %}
+<!-- <a href='https://pngtree.com/so/app'>app png from pngtree.com</a> -->
+<!-- <a href='https://pngtree.com/so/finance'>finance png from pngtree.com</a> -->

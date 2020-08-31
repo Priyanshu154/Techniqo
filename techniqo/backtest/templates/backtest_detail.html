@@ -1,0 +1,68 @@
+{% extends 'home.html' %}
+
+{% block title %} Backtesting Result {% endblock %}
+{% block style %}
+{% load static %}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="shadow mb-5 bg-white rounded mt-5">
+        <div class="card">
+            <div class="card-body">
+                {% if resultt > 0 %}
+                <h1 class="text-success" align="center">Total Profit: {{resultt}}</h1>
+                {% elif resultt < 0 %}
+                <h1 class="text-danger" align="center">Total Loss: {{resultt}}</h1>
+                {% else %}
+                <h1 class="text-dark" align="center">Total Profit: {{resultt}}</h1>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <div class="shadow mb-5 bg-white rounded mt-5">
+        <div class="card">
+            <div class="card-body">
+                {% if whatto == 1 or flagr == 1%}
+                <h2 align="center">No Match for this Strategy</h2>
+                {% else %}
+                <table class="table table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Point</th>
+                      <th scope="col">Close</th>
+                      <th scope="col">Profit/loss</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for percentage,entry_price,exit_price,entry_date,exit_date,rage in zipdata %}
+                       <tr>
+                          <th scope="row">{{entry_date}}</th>
+                          <td>Entry</td>
+                          <td>{{entry_price}}</td>
+                          <td></td>
+                       </tr>
+                       <tr>
+                          <th scope="row">{{exit_date}}</th>
+                          <td>Exit</td>
+                          <td>{{exit_price}}</td>
+                          {% if percentage < 0 %}
+                           <td class="text-danger"><b>{{percentage}}</b></td>
+                          {% else %}
+                           <td class="text-success"><b>{{percentage}}</b></td>
+                          {% endif %}
+                       </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

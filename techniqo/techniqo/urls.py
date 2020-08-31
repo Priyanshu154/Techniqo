@@ -27,4 +27,8 @@ urlpatterns = [
     path('intrinsic/',include('intrinsic.urls')),
     path('news/', include('news.urls')),
     path('peers/', include('peers.urls')),
-] + static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
+    path('technicals/', include('technicals.urls')),
+    path('market/', include('market.urls')),
+    path('stock/',include('stock.urls')),
+    path('backtest/',include('backtest.urls')),
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

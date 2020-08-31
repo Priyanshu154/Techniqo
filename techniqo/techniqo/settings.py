@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'intrinsic',
     'news',
     'peers',
+    'technicals',
+    'market',
+    'stock',
+    'backtest',
 ]
 
 MIDDLEWARE = [
