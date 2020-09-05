@@ -11,11 +11,11 @@
         <div class="card">
             <div class="card-body">
                 {% if resultt > 0 %}
-                <h1 class="text-success" align="center">Total Profit: {{resultt}}</h1>
+                <h1 class="text-success" align="center">Total Profit: {{resultt}}%</h1>
                 {% elif resultt < 0 %}
-                <h1 class="text-danger" align="center">Total Loss: {{resultt}}</h1>
+                <h1 class="text-danger" align="center">Total Loss: {{resultt}}%</h1>
                 {% else %}
-                <h1 class="text-dark" align="center">Total Profit: {{resultt}}</h1>
+                <h1 class="text-dark" align="center">Total Profit: {{resultt}}%</h1>
                 {% endif %}
 
             </div>
@@ -24,7 +24,7 @@
     <div class="shadow mb-5 bg-white rounded mt-5">
         <div class="card">
             <div class="card-body">
-                {% if whatto == 1 or flagr == 1%}
+                {% if whatto == 1 or flagr == 1 %}
                 <h2 align="center">No Match for this Strategy</h2>
                 {% else %}
                 <table class="table table-hover">
@@ -49,9 +49,9 @@
                           <td>Exit</td>
                           <td>{{exit_price}}</td>
                           {% if percentage < 0 %}
-                           <td class="text-danger"><b>{{percentage}}</b></td>
+                           <td class="text-danger"><b>{{percentage}}%</b></td>
                           {% else %}
-                           <td class="text-success"><b>{{percentage}}</b></td>
+                           <td class="text-success"><b>{{percentage}}%</b></td>
                           {% endif %}
                        </tr>
 

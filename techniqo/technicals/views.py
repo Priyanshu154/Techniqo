@@ -53,6 +53,7 @@ def triggers(request):
     ticker = []
     value = []
     close = []
+
     ni = assign_cell(cp)
     num = 0
 

@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'market',
     'stock',
     'backtest',
+    'scanner',
+
 ]
 
 MIDDLEWARE = [

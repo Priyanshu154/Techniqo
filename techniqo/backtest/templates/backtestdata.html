@@ -25,8 +25,7 @@ background-size: 35%;
 
 <div class="container">
 
-    <h1>Welcome to free backtesting </h1>
-
+    <h1>Welcome to Trading strategy backtesting </h1>
 
     <div id="bm">
       <input type="hidden" name="backe" value="" class="backe">
@@ -55,7 +54,6 @@ background-size: 35%;
             <option value="">--Chose indicator--</option>
             <option value="clo">Close</option>
             <option value="rsi">RSI(14)</option>
-            <option value="bb">Bollinger Band(20)</option>
             <option value="macd">MACD Line(12,26,9)</option>
             <option value="mfi">Money Flow Index(14)</option>
             <option value="roc">ROC(9)</option>
@@ -230,6 +228,9 @@ background-size: 35%;
 
         <select class='values ml-3 mt-2' name='values'>
             <option value=''>--Choose Entry Points--</option>
+            <option value='lb'>Lower Band</option>
+            <option value='mb'>Middle Band</option>
+            <option value='up'>Upper Band</option>
             <option value="pp">Pivot Point</option>
             <option value="s1">Support 1</option>
             <option value="s2">Support 2</option>
@@ -348,7 +349,6 @@ background-size: 35%;
     <option value="">--Chose indicator--</option>
     <option value="clo">Close</option>
     <option value="rsi">RSI(14)</option>
-    <option value="bb">Bollinger Band(20)</option>
     <option value="macd">MACD Line(12,26,9)</option>
     <option value="mfi">Money Flow Index(14)</option>
     <option value="roc">ROC(9)</option>
@@ -432,15 +432,6 @@ background-size: 35%;
           $(".rows:last").append($('.rsi_v').html());
           b = $(".parameters:last").val() + ",";
          }
-          else if(check == "bb"){
-            pop_indi = pop_indi +1;
-            if(pop_indi > 1){
-              $('.row').last().remove();
-            }
-
-            $(".rows:last").append($('.bb_v').html());
-            b = $(".parameters:last").val() + ",";
-          }
           else if(check == "macd"){
             pop_indi = pop_indi +1;
             if(pop_indi > 1){
@@ -523,7 +514,7 @@ background-size: 35%;
           var num2 = $(".row").length
           if(num > 1){
           $(".indicators:last").prop('disabled',true);}
-          if(num2 > 10){
+          if(num2 > 9){
           //jitne indicators add karega uss hisab se change hoga idhar 2 hai
           //bcoz rsi_v and bb_v
           $(".parameters:last").prop('disabled',true);
@@ -546,7 +537,7 @@ background-size: 35%;
             var num2 = $(".row").length
             if(num > 1){
             $(".indicators:last").prop('disabled',true);}
-            if(num2 > 10){
+            if(num2 > 9){
             //jitne indicators add karega uss hisab se change hoga idhar 2 hai
             //bcoz rsi_v and bb_v
             $(".parameters:last").prop('disabled',true);
@@ -563,7 +554,7 @@ background-size: 35%;
           var num2 = $(".row").length
           if(num > 1){
           $(".indicators:last").prop('disabled',true);}
-          if(num2 > 10){
+          if(num2 > 9){
           //jitne indicators add karega uss hisab se change hoga idhar 2 hai
           //bcoz rsi_v and bb_v
           $(".parameters:last").prop('disabled',true);

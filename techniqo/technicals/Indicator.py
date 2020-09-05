@@ -1,12 +1,9 @@
-import pandas as pd
 import pandas_datareader.data as web
 from datetime import datetime
-from pandas.util.testing import assert_frame_equal
 from matplotlib.dates import date2num
 import math
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
-import nsepy
 
 # Name of top 50 stocks of NSE
 nifty_50 = ['ADANIPORTS','ASIANPAINT','AXISBANK','BAJAJ-AUTO','BAJAJFINSV','BAJFINANCE','BHARTIARTL','BPCL','BRITANNIA','CIPLA','COALINDIA','DRREDDY','EICHERMOT','GAIL','GRASIM','HCLTECH','HDFC','HDFCBANK','HEROMOTOCO','HINDALCO','HINDUNILVR','ICICIBANK','INDUSINDBK','INFRATEL','INFY','IOC','ITC','JSWSTEEL','KOTAKBANK','LT','M&M','MARUTI','NESTLEIND','NTPC','ONGC','POWERGRID','RELIANCE','SBIN','SUNPHARMA','TATAMOTORS','TATASTEEL','TCS','TECHM','TITAN','ULTRACEMCO','UPL','VEDL','WIPRO','YESBANK','ZEEL']
@@ -741,12 +738,18 @@ for i in range(0,len(nifty_500)):
         up, lo, ma = bollinger_band(close, 20, 2)
         valblue, valred = S_RSI(close, 14, 3, 3, 14)
         cl, bl, sa, sb, ls = Icloud(9, 26, 52, 26)
+        wil = WILLIAM_R(close, 14)
+        roc = ROC(close, 9)
 
 
         for x in range(2, sheet1.max_row + 1):
-            if st == sheet1.cell(x,3).value:
+            if st == sheet1.cell(x, 3).value:
                 sheet1.cell(x, column_index_from_string('E')).value = rsi[len(rsi)-1]
                 sheet1.cell(x, column_index_from_string('D')).value = rsi[len(rsi)-2]
+                sheet1.cell(x, column_index_from_string('Y')).value = wil[len(wil)-1]
+                sheet1.cell(x, column_index_from_string('BN')).value = wil[len(wil)-2]
+                sheet1.cell(x, column_index_from_string('X')).value = roc[len(roc)-1]
+                sheet1.cell(x, column_index_from_string('BO')).value = roc[len(roc)-2]
                 sheet1.cell(x, column_index_from_string('F')).value = mh[len(mh)-1]
                 sheet1.cell(x, column_index_from_string('G')).value = s3[len(s3)-1]
                 sheet1.cell(x, column_index_from_string('H')).value = s2[len(s2)-1]

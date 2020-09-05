@@ -1,0 +1,46 @@
+{% extends 'home.html' %}
+
+{% block title %}Custom Screener Result{% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<div class="container">
+<div class="shadow mb-5 mt-5 bg-white rounded">
+    <div class="card">
+      <div class="card-body">
+          <h1 align="center">Custom Screener Result</h1>
+      </div>
+    </div>
+</div>
+
+<div class="shadow mb-5 bg-white rounded">
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Stock Name</th>
+              <th scope="col">Ticker</th>
+              <th scope="col">Last Price</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for stock_nam , ticker_nam , ltp_nam in zipal %}
+            <tr>
+              <td>{{ stock_nam }}</td>
+              <td>{{ ticker_nam }}</td>
+              <td>{{ ltp_nam }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+

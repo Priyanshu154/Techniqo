@@ -14,7 +14,7 @@ def backdata(request):
     long_short = inter[5].strip()
     yahoo_st = inter[4].split("|")[1].strip()
     print(yahoo_st)
-    start = datetime(2019, 6, 6)
+    start = datetime(2017, 6, 6)
     end = datetime(2020, 8, 17)
     data = web.DataReader(f'{yahoo_st}.NS', 'yahoo', start, end)
     data_reset = data.reset_index()
@@ -120,7 +120,7 @@ def backdata(request):
                 data_reset[col] = rsi_arr
                 col += 'a'
 
-        elif indicator_entry[i] == "bb":
+        elif indicator_entry[i] == "clo" and (value_entry[i] == "lb" or value_entry[i] == "mb" or value_entry[i] == "up"):
             upper, lower, middle = data_indic.bollinger_band(close, 20, 2)
             if parameter_entry[i] == "crossover":
                 for c in range(20):
@@ -1000,7 +1000,7 @@ def backdata(request):
                 data_reset[col] = rsie_arr
                 col += 'a'
 
-        elif indicator_exit[i] == "bb":
+        elif indicator_exit[i] == "clo" and (value_exit[i] == "lb" or value_exit[i] == "mb" or value_exit[i] == "up"):
             upper, lower, middle = data_indic.bollinger_band(close, 20, 2)
             if parameter_exit[i] == "crossover":
                 for c in range(20):
@@ -1308,7 +1308,7 @@ def backdata(request):
                 for c in range(14):
                     srsie_arr.append("No")
                 for j in range(14, len(d_line)):
-                    if value_exit[i] == "sig":
+                    if value_exit[i] == "slow":
                         if d_line[j] > k_line[j]:
                             srsie_arr.append("Yes")
                         else:
