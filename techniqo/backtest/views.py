@@ -1,12 +1,21 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 import pandas_datareader.data as web
 from datetime import datetime
 from matplotlib.dates import date2num
 import statistics
 from . import data_indic
-
+import openpyxl as xl
 
 # Create your views here.
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 def backdata(request):
     dataa = request.POST.get('backe', 'default')
     print(dataa)
@@ -1964,8 +1973,27 @@ def backdata(request):
              'entry_date': date_front, 'exit_date': dateex_front, 'whatto': whatto, 'zipdata': zipdata,
              'nothing': nothing, 'flagr': flagr}
 
+    wb = xl.load_workbook('login/users.xlsx')
+    ip = get_client_ip(request)
+    sheet = wb["Sheet1"]
+    for i in range(2, sheet.max_row + 1):
+        if (ip == sheet.cell(i, 3).value):
+            if (sheet.cell(i, 4).value == "yes"):
+                dictb["email"] = sheet.cell(i, 1).value
+
     return render(request, 'backtest_detail.html', dictb)
 
 
 def index(request):
-    return render(request, 'backtestdata.html')
+
+    wb = xl.load_workbook('login/users.xlsx')
+    ip = get_client_ip(request)
+    sheet = wb["Sheet1"]
+    dictb = {}
+    for i in range(2, sheet.max_row + 1):
+        if (ip == sheet.cell(i, 3).value):
+            if (sheet.cell(i, 4).value == "yes"):
+                dictb["email"] = sheet.cell(i, 1).value
+                return render(request, 'backtestdata.html', dictb)
+    response = redirect('/login')
+    return response

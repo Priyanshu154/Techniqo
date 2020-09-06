@@ -26,13 +26,15 @@ font-size: 17px;
 <body style = "background-color: #f5ffff;">
 {% load static %}
 <script>
+    email = "{{ email | safe }}"
+    console.log(email)
     subshares = function(){
         document.getElementById("shares").submit();
     }
 </script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-  <a class="navbar-brand" href="http://127.0.0.1:8000/">Techniqo</a>
+  <a class="navbar-brand" href="{{STATIC_URL}}/">Techniqo</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -40,52 +42,86 @@ font-size: 17px;
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto" id="firstnav">
       <li class="nav-item active ">
-        <a class="nav-link" href="http://127.0.0.1:8000/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{STATIC_URL}}/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-white" href="#">Channels</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="http://127.0.0.1:8000/candlepattern/">CandleSticks</a>
+        <a class="nav-link text-white" href="{{STATIC_URL}}/candlepattern/">CandleSticks</a>
       </li>
        <li class="nav-item">
-        <a class="nav-link text-white" href="http://127.0.0.1:8000/backtest/">Backtesting</a>
+        <a class="nav-link text-white" href="{{STATIC_URL}}/backtest/">Backtesting</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link text-white" href="http://127.0.0.1:8000/scanner/">Screener</a>
+        <a class="nav-link text-white" href="{{STATIC_URL}}/scanner/">Screener</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link text-white" href="http://127.0.0.1:8000/intrinsic/">Intrinsic Valuation</a>
+        <a class="nav-link text-white" href="{{STATIC_URL}}/intrinsic/">Intrinsic Valuation</a>
       </li>
         <li class="nav-item">
-        <a class="nav-link text-white" href="http://127.0.0.1:8000/news/">News</a>
+        <a class="nav-link text-white" href="{{STATIC_URL}}/news/">News</a>
       </li>
          <li class="nav-item">
         <a class="nav-link text-white" href="#">Portfolio</a>
       </li>
 
     </ul>
-       <a href="#"><button type="button" class="btn btn-light ml-3">Login/Signin</button></a>
+     <style>
+          #username{
+            color: white;
+          }
+      </style>
+    <div id = "username">
+
+    </div>
   </div>
 
 </nav>
 
 
+<script>
+    if(email !== "" && email !== "exists" && email !== "invalid"){
+        var a = document.createElement("a");
+        var p = document.createElement("div");
 
+        var name = email.slice(0 , email.indexOf("@") )
+        p.appendChild( document.createTextNode(name + " ") )
+
+//<a href="#" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Link</a>
+
+        a.setAttribute("href", "{{STATIC_URL}}/login/logout");
+        a.setAttribute("class", "btn btn-light btn-sm");
+        a.setAttribute("role", "button");
+        a.appendChild(document.createTextNode("Log out") )
+        p.appendChild(a)
+        document.getElementById("username").appendChild( p );
+    }
+    else{
+        var a = document.createElement("a");
+        a.setAttribute("href", "{{STATIC_URL}}/login/" );
+        var button = document.createElement("button");
+        button.setAttribute("type", "button")
+        button.setAttribute("class", "btn btn-light ml-3")
+        button.appendChild( document.createTextNode("Login/Signin"));
+        a.appendChild(button)
+        document.getElementById("username").appendChild(a);
+    }
+</script>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link text-dark" href="http://127.0.0.1:8000/market/"><h5>Market</h5></a>
+        <a class="nav-link text-dark" href="{{STATIC_URL}}/market/"><h5>Market</h5></a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link text-dark" href="http://127.0.0.1:8000/peers/"><h5>Peers</h5></a>
+        <a class="nav-link text-dark" href="{{STATIC_URL}}/peers/"><h5>Peers</h5></a>
       </li>
         <li class="nav-item">
-        <a class="nav-link text-dark" href=" http://127.0.0.1:8000/technicals/"><h5>Technicals</h5></a>
+        <a class="nav-link text-dark" href=" {{STATIC_URL}}/technicals/"><h5>Technicals</h5></a>
       </li>
 
         <li class="nav-item">

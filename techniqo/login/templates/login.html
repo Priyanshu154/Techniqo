@@ -1,0 +1,19 @@
+{% extends "home.html" %}
+{% block body%}
+{% if email == "invalid" %}
+<script>
+  alert("Invalid email/password")
+</script>
+{% endif %}
+<div class = "container">
+<form class="form-signin" action = "login" method = "post">{% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input type="email" name = "email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password"  name = "password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <p> Don't have an acount? <a href = "{{STATIC_URL}}/login/">Create one!</a></p>
+  <button class="btn btn-lg btn-primary" type="submit">Login</button>
+</form>
+</div>
+{% endblock %}

@@ -32,5 +32,5 @@ urlpatterns = [
     path('stock/',include('stock.urls')),
     path('backtest/',include('backtest.urls')),
     path('scanner/',include('scanner.urls')),
-
+    path('login/',include('login.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

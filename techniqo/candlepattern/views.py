@@ -2,6 +2,13 @@ from django.shortcuts import render
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
 import os
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 def assign_cell(cp):
     if(cp == 'Hammer'): return 'M'
     elif(cp == 'Dragonfly Doji'): return 'L'
@@ -41,7 +48,16 @@ def assign_para(cp):
     elif(cp == 'Three Black Crows'): return "Three black crows are a visual pattern, meaning that there are no particular calculations to worry about when identifying this indicator. The three black crows pattern occurs when bears overtake the bulls during three consecutive trading sessions. The pattern shows on the pricing charts as three bearish long-bodied candlesticks with short or no shadows or wicks."
     elif(cp == 'Doji'): return "The long-legged doji is a candlestick that consists of long upper and lower shadows and has approximately the same opening and closing price. The candlestick signals indecision about the future direction of the underlying security."
 def index(request):
-    return render(request,'candlepattern/candlepatternh.html')
+    wb = xl.load_workbook('login/users.xlsx')
+    ip = get_client_ip(request)
+    sheet = wb["Sheet1"]
+    dict = {}
+    for i in range(2, sheet.max_row + 1):
+        if (ip == sheet.cell(i, 3).value):
+            if (sheet.cell(i, 4).value == "yes"):
+                print("matched")
+                dict["email"] = sheet.cell(i, 1).value
+    return render(request,'candlepattern/candlepatternh.html', dict)
 def candle(request):
     ni = request.GET.get("nifty", "nifty_500")
     cp = request.GET.get("candle", "Hammer")
@@ -75,4 +91,12 @@ def candle(request):
     para = assign_para(cp)
     zipp = zip(stocks,opens,high,low,close)
     dictt = {'zips': zipp ,'candle' : cp , 'number':num, 'paras': para , 'signals': signal, 'nifty': ni}
+    wb = xl.load_workbook('login/users.xlsx')
+    ip = get_client_ip(request)
+    sheet = wb["Sheet1"]
+    for i in range(2, sheet.max_row + 1):
+        if (ip == sheet.cell(i, 3).value):
+            if (sheet.cell(i, 4).value == "yes"):
+                print("matched")
+                dictt["email"] = sheet.cell(i, 1).value
     return render(request, 'result.html', dictt)

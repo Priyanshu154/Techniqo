@@ -4,10 +4,19 @@ import os
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
 
+workpath = os.path.dirname(os.path.abspath(__file__))
+xx = os.path.join(workpath, 'peers_new.xlsx')
+wb = xl.load_workbook(xx, data_only=True)
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 def ziping(stock_type):
-    workpath = os.path.dirname(os.path.abspath(__file__))
-    xx = os.path.join(workpath, 'peers_new.xlsx')
-    wb = xl.load_workbook(xx, data_only=True)
     sheet = wb['Sheet1']
 
     eps = []
@@ -180,4 +189,12 @@ def index(request):
     agri_zip = ziping("agris")
 
     dictt = {'banks_zips': banks_zip , 'it_zips': it_zip ,'fmcg_zips': fmcg_zip, 'pharma_zips': pharma_zip, 'auto_zips':auto_zip,'metals_zips':metal_zip,'finance_zips':finance_zip, 'oil_zips': oil_zip, 'retail_zips': retail_zip,'insurance_zips': insurance_zip,'agri_zips':agri_zip}
+    wb = xl.load_workbook('login/users.xlsx')
+    ip = get_client_ip(request)
+    sheet = wb["Sheet1"]
+    for i in range(2, sheet.max_row + 1):
+        if (ip == sheet.cell(i, 3).value):
+            if (sheet.cell(i, 4).value == "yes"):
+                print("matched")
+                dictt["email"] = sheet.cell(i, 1).value
     return render(request, 'peers.html', dictt)

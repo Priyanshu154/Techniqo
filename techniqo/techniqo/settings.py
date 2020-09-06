@@ -25,7 +25,7 @@ SECRET_KEY = '3#^h*uthh6ttc^u^kp(xhcpz_0h6+=rqu6-k2&7pzh8$48cc4w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.0.105", "0.0.0.0", "127.0.0.1"]
 
 
 # Application definition
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'stock',
     'backtest',
     'scanner',
-
+    'login'
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,46 @@
+{% extends "home.html" %}
+{% block body%}
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+{% if email == "exists" %}
+<script>
+  alert("This email already exists")
+</script>
+{% endif %}
+<div class = "container">
+
+  <p> Already have an account?
+
+  <a href = "{{STATIC_URL}}/login/login_redirect">Login</a>
+
+  </p>
+<form class="form-signin" action = "save" method = "post">{% csrf_token %}
+  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input type="email" name = "email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" name = "password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+  <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
+</form>
+</div>
+{% endblock %}

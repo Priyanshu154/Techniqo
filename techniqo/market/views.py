@@ -1,8 +1,16 @@
 from django.shortcuts import render
 import requests
 from bs4 import BeautifulSoup
+import openpyxl as xl
 
 # Create your views here.
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 def index(request):
     url = "https://trendlyne.com/stock-screeners/price-based/top-gainers/today/index/NIFTY100/nifty-100/"
     r = requests.get(url)
@@ -159,5 +167,13 @@ def index(request):
                 break
         result = zip(stocks, ltp, gain, vol)
         dictt = {'gainers': result, 'typee': 'gain', 'topic': 'Stocks with high Delivery', 'color': 'info','head3': "Delivery %", 'head4': "Delivery Volume", 'indexx': task, 'index':ind}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
         return render(request, 'market.html', dictt)
 

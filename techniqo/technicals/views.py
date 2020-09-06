@@ -2,11 +2,26 @@ from django.shortcuts import render
 import os
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
-
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 # Create your views here.
 def index(request):
-    return render(request, 'technicals.html')
+    wb = xl.load_workbook('login/users.xlsx')
+    ip = get_client_ip(request)
+    sheet = wb["Sheet1"]
+    dict = {}
+    for i in range(2, sheet.max_row + 1):
+        if (ip == sheet.cell(i, 3).value):
+            if (sheet.cell(i, 4).value == "yes"):
+                print("matched")
+                dict["email"] = sheet.cell(i, 1).value
+    return render(request, 'technicals.html', dict)
 
 
 def assign_para(tr):
@@ -77,7 +92,18 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Below 30", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "rsi_above_70":
         for i in range(2, sheet.max_row + 1):
@@ -99,7 +125,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Above 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "rsi":
         for i in range(2, sheet.max_row + 1):
@@ -121,7 +157,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Between 30 to 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "rsi_crossover_30":
         for i in range(2, sheet.max_row + 1):
@@ -143,7 +189,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Crossing over 30", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "rsi_crossunder_70":
         for i in range(2, sheet.max_row + 1):
@@ -165,7 +221,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index Crossing Under 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "macd_above":
         for i in range(2, sheet.max_row + 1):
@@ -187,7 +253,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "MACD Line above 0 line", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "macd_below":
         for i in range(2, sheet.max_row + 1):
@@ -209,7 +285,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "MACD Line below 0 line", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "macd_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -231,7 +317,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "MACD Line Crossing over Signal line", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "macd_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -253,7 +349,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "MACD Line Crossing below Signal line", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "above_lb":
         for i in range(2, sheet.max_row + 1):
@@ -275,7 +381,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price above Lower Band", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Lower Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "mb_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -297,7 +413,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Middle Band", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Middle Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "mb_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -319,7 +445,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Middle Band", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Middle Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "ub_below":
         for i in range(2, sheet.max_row + 1):
@@ -341,7 +477,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Below Upper bond", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Upper Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "ub_above":
         for i in range(2, sheet.max_row + 1):
@@ -363,7 +509,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Above Upper bond", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Upper Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "lb_below":
         for i in range(2, sheet.max_row + 1):
@@ -385,7 +541,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Below Lower bond", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Lower Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "pp_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -407,7 +573,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Pivot Point", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Pivot Point', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "pp_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -429,7 +605,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing Under Pivot Point", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Pivot Point', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "r1_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -451,7 +637,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Resistance 1", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Resistance 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "r2_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -473,7 +669,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Resistance 2", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Resistance 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "r3_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -495,7 +701,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Resistance 3", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Resistance 3', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "r1_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -517,7 +733,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Resistance 1", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Resistance 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "r2_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -539,7 +765,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing Under Resistance 2", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Resistance 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "r3_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -561,7 +797,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Resistance 3", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Resistance 3', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "s1_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -583,7 +829,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Support 1", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Support 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "s2_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -605,7 +861,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Support 2", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Support 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "s3_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -627,7 +893,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Support 3", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Support 3', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "s1_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -649,7 +925,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Support 1", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Support 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "s2_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -671,7 +957,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing Under Support 2", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Support 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "s3_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -693,7 +989,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Support 3", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Support 3', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50sma_200sma":
         for i in range(2, sheet.max_row + 1):
@@ -716,7 +1022,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "50 day SMA crossing over 200 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr,'head2': 'SMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20sma_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -738,7 +1054,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 20 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50sma_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -760,7 +1086,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 50 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 50', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "100sma_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -782,7 +1118,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 100 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 100', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "200sma_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -804,7 +1150,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 200 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20sma_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -826,7 +1182,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 20 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50sma_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -848,7 +1214,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 50 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 50', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "100sma_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -870,7 +1246,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 100 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 100', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "200sma_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -892,7 +1278,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 200 Day SMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50sma_100sma":
         temp = []
@@ -918,7 +1314,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA crossing over 100 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50_100sma_200sma":
         temp = []
@@ -947,7 +1353,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA and 100 day SMA crossing over 200 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100','head4': 'SMA 200'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20sma_50sma":
         for i in range(2, sheet.max_row + 1):
@@ -970,7 +1386,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day SMA crossing over 50 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50sma_100smau":
         temp = []
@@ -996,7 +1422,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA crossing under 100 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50_100sma_200smau":
         temp = []
@@ -1025,7 +1461,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA and 100 day SMA crossing under 200 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100','head4': 'SMA 200'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20sma_50smau":
         for i in range(2, sheet.max_row + 1):
@@ -1048,7 +1494,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day SMA crossing under 50 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50sma_200smau":
         for i in range(2, sheet.max_row + 1):
@@ -1071,7 +1527,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "50 day SMA crossing under 200 day SMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr,'head2': 'SMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50EMA_200EMA":
         for i in range(2, sheet.max_row + 1):
@@ -1094,7 +1560,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "50 day EMA crossing over 200 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr,'head2': 'EMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20EMA_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -1116,7 +1592,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 20 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50EMA_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -1138,7 +1624,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 50 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 50', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "100EMA_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -1160,7 +1656,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 100 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 100', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "200EMA_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -1182,7 +1688,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over 200 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -1204,7 +1720,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 20 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -1226,7 +1752,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 50 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 50', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "100EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -1248,7 +1784,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 100 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 100', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "200EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -1270,7 +1816,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under 200 Day EMA", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr, 'head2': 'Closing price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50EMA_100EMA":
         temp = []
@@ -1296,7 +1852,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA crossing over 100 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50_100EMA_200EMA":
         temp = []
@@ -1325,7 +1891,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA and 100 day EMA crossing over 200 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100','head4': 'EMA 200'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20EMA_50EMA":
         for i in range(2, sheet.max_row + 1):
@@ -1348,7 +1924,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day EMA crossing over 50 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50EMA_100EMAu":
         temp = []
@@ -1374,7 +1960,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA crossing under 100 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20_50_100EMA_200EMAu":
         temp = []
@@ -1403,7 +1999,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close, temp)
             dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA and 100 day EMA crossing under 200 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100','head4': 'EMA 200'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "20EMA_50EMAu":
         for i in range(2, sheet.max_row + 1):
@@ -1426,7 +2032,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day EMA crossing under 50 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "50EMA_200EMAu":
         for i in range(2, sheet.max_row + 1):
@@ -1449,7 +2065,17 @@ def triggers(request):
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "50 day EMA crossing under 200 day EMA ", 'paras': para, 'signals': signal,
                      'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr,'head2': 'EMA 50'}
-            return render(request, 'result_technicals.html', dictt)
+            wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
+        return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "MFI_below_30":
         for i in range(2, sheet.max_row + 1):
@@ -1471,7 +2097,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Below 30", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "MFI_above_70":
         for i in range(2, sheet.max_row + 1):
@@ -1493,7 +2129,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Above 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "MFI":
         for i in range(2, sheet.max_row + 1):
@@ -1515,7 +2161,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Between 30 to 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "MFI_crossover_30":
         for i in range(2, sheet.max_row + 1):
@@ -1537,7 +2193,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Crossing over 30", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "MFI_crossunder_70":
         for i in range(2, sheet.max_row + 1):
@@ -1559,7 +2225,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index Crossing Under 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "fl_sl_crossover":
         for i in range(2, sheet.max_row + 1):
@@ -1581,7 +2257,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Fast Line crossing over Slow Line below 30", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "fl_sl_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -1603,7 +2289,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "fl_sl_crossovern":
         for i in range(2, sheet.max_row + 1):
@@ -1625,7 +2321,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Fast Line crossing over Slow Line", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "fl_sl_crossundern":
         for i in range(2, sheet.max_row + 1):
@@ -1647,7 +2353,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "fl_below":
         for i in range(2, sheet.max_row + 1):
@@ -1669,7 +2385,17 @@ def triggers(request):
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para, 'signals': signal,
                  'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "fl_above":
         for i in range(2, sheet.max_row + 1):
@@ -1693,7 +2419,17 @@ def triggers(request):
         dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para,
                  'signals': signal,
                  'nifty': cp, 'head': 'Fast Line Value', 'number': num, 'techh': tr, 'head2': 'Slow Line Value'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "conl_basel_crossover":
         temp = []
@@ -1717,7 +2453,17 @@ def triggers(request):
         dictt = {'zips': zipp, 'trigger': "Conversion Line Crossing over Base line", 'paras': para,
                  'signals': signal,
                  'nifty': cp, 'head': 'Conversion Line', 'number': num, 'techh': tr, 'head2': 'Base Line'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "conl_basel_crossunder":
         for i in range(2, sheet.max_row + 1):
@@ -1740,7 +2486,17 @@ def triggers(request):
         dictt = {'zips': zipp, 'trigger': "Conversion Line Crossing Under Base line", 'paras': para,
                  'signals': signal,
                  'nifty': cp, 'head': 'Conversion Line', 'number': num, 'techh': tr, 'head2': 'Base Line'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "ic_bull":
         for i in range(2, sheet.max_row + 1):
@@ -1763,7 +2519,17 @@ def triggers(request):
         dictt = {'zips': zipp, 'trigger': "Price above Green Cloud", 'paras': para,
                  'signals': signal,
                  'nifty': cp, 'head': 'Cloud Top', 'number': num, 'techh': tr, 'head2': 'Closing Price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+
 
     elif tr == "ic_bear":
         for i in range(2, sheet.max_row + 1):
@@ -1786,4 +2552,14 @@ def triggers(request):
         dictt = {'zips': zipp, 'trigger': "Price below Red Cloud", 'paras': para,
                  'signals': signal,
                  'nifty': cp, 'head': 'Cloud Bottom', 'number': num, 'techh': tr, 'head2': 'Closing Price'}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+
         return render(request, 'result_technicals.html', dictt)
+

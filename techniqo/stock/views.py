@@ -8,6 +8,13 @@ from datetime import datetime
 from matplotlib.dates import date2num
 from . import data_indis
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 def shareholding(request):
     all_detail = request.GET.get('tickerdata')
     print(all_detail)
@@ -58,6 +65,14 @@ def shareholding(request):
 
         dictts = {'stockn': sname, 'typp': "Shareholdings", 'headd': headd, 'zipb': zipb, 'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, 'flag': 1}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictts["email"] = sheet.cell(i, 1).value
         return render(request, 'shareholding.html', dictts)
 
     elif check == "valuation":
@@ -81,6 +96,15 @@ def shareholding(request):
         zipb = zip(conn,conv)
         dictts = {'zipa': zipa, 'zipb': zipb,'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Valuation Ratios", 'flag': 2}
+
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictts["email"] = sheet.cell(i, 1).value
         return render(request, 'shareholding.html', dictts)
 
     elif check == "income":
@@ -110,20 +134,56 @@ def shareholding(request):
             except:
                 dictts = {'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname,}
+
+                wb = xl.load_workbook('login/users.xlsx')
+                ip = get_client_ip(request)
+                sheet = wb["Sheet1"]
+                for i in range(2, sheet.max_row + 1):
+                    if (ip == sheet.cell(i, 3).value):
+                        if (sheet.cell(i, 4).value == "yes"):
+                            print("matched")
+                            dictts["email"] = sheet.cell(i, 1).value
                 return render(request, 'nodata.html',dictts)
 
         dictts = {'ihead': ihead,'ibody': ibody, 'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Income Statement", 'flag': 3}
+
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictts["email"] = sheet.cell(i, 1).value
         return render(request, 'shareholding.html', dictts)
 
     elif check == "chart":
         if nse_ticker != "":
             dictts = { 'nse_ticker': nse_ticker,
                       "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Chart", 'flag': 5}
+
+            wb = xl.load_workbook('login/users.xlsx')
+            ip = get_client_ip(request)
+            sheet = wb["Sheet1"]
+            for i in range(2, sheet.max_row + 1):
+                if (ip == sheet.cell(i, 3).value):
+                    if (sheet.cell(i, 4).value == "yes"):
+                        print("matched")
+                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'shareholding.html', dictts)
         else:
             dictts = {'nse_ticker': nse_ticker,
                       "bse_ticker": bse_ticker, "stockn": sname }
+
+            wb = xl.load_workbook('login/users.xlsx')
+            ip = get_client_ip(request)
+            sheet = wb["Sheet1"]
+            for i in range(2, sheet.max_row + 1):
+                if (ip == sheet.cell(i, 3).value):
+                    if (sheet.cell(i, 4).value == "yes"):
+                        print("matched")
+                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'nodata.html', dictts)
 
     elif check == "balance":
@@ -157,11 +217,29 @@ def shareholding(request):
             zipbb = zip(bbody,bbody1,bbody2,bbody3,bbody4,bbody5)
             dictts = {'nse_ticker': nse_ticker, 'zipba':zipbb , 'bheadb': bhead,'typp': "Balance Sheet (in Cr.)", 'flag': 4,
                       "bse_ticker": bse_ticker, "stockn": sname}
+
+            wb = xl.load_workbook('login/users.xlsx')
+            ip = get_client_ip(request)
+            sheet = wb["Sheet1"]
+            for i in range(2, sheet.max_row + 1):
+                if (ip == sheet.cell(i, 3).value):
+                    if (sheet.cell(i, 4).value == "yes"):
+                        print("matched")
+                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'shareholding.html', dictts)
 
         except:
             dictts = {'nse_ticker': nse_ticker,
                       "bse_ticker": bse_ticker, "stockn": sname, }
+
+            wb = xl.load_workbook('login/users.xlsx')
+            ip = get_client_ip(request)
+            sheet = wb["Sheet1"]
+            for i in range(2, sheet.max_row + 1):
+                if (ip == sheet.cell(i, 3).value):
+                    if (sheet.cell(i, 4).value == "yes"):
+                        print("matched")
+                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'nodata.html', dictts)
 
 
@@ -173,7 +251,17 @@ def index(request):
     tick = ""
     url2 = ""
     if name == 'no':
-        return render(request, 'home.html')
+
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        dictts = {}
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictts["email"] = sheet.cell(i, 1).value
+        return render(request, 'home.html', dictts)
     else:
         workpath = os.path.dirname(os.path.abspath(__file__))
         xx = os.path.join(workpath, 'market_data_20.xlsx')
@@ -192,7 +280,17 @@ def index(request):
             try:
                 bse_ticker = name.split(", ")[1]
             except:
-                return render(request, 'wrong.html')
+
+                wb = xl.load_workbook('login/users.xlsx')
+                ip = get_client_ip(request)
+                sheet = wb["Sheet1"]
+                dictts = {}
+                for i in range(2, sheet.max_row + 1):
+                    if (ip == sheet.cell(i, 3).value):
+                        if (sheet.cell(i, 4).value == "yes"):
+                            print("matched")
+                            dictts["email"] = sheet.cell(i, 1).value
+                return render(request, 'wrong.html', dictts)
         for i in range(2, sheet.max_row + 1):
             if sheet.cell(i, 2).value == stock_name:
                 url = sheet.cell(i, 1).value
@@ -955,4 +1053,13 @@ def index(request):
                  'values': values, 'onlyma': onlyma, 'onlyst': onlyst, 'bet': bet, 'zipo3': zipo3, 'zipo4': zipo4,
                  'over_count': round(total_score,0),'totall':tech_count + round(total_score,0),'anas': analysis_score,
                  'ps': round(public_senti,0) , 'note': note,'hl': hl}
+
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
         return render(request, 'stockdata.html', dictt)
