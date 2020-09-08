@@ -5,6 +5,11 @@
   alert("Invalid email/password")
 </script>
 {% endif %}
+{% if email == "invalid_secque" %}
+<script>
+  alert("Incorrect security question/answer")
+</script>
+{% endif %}
 <div class = "container">
 <form class="form-signin" action = "login" method = "post">{% csrf_token %}
   <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
@@ -13,6 +18,7 @@
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password"  name = "password" id="inputPassword" class="form-control" placeholder="Password" required>
   <p> Don't have an acount? <a href = "{{STATIC_URL}}/login/">Create one!</a></p>
+  <p><a href = "{{STATIC_URL}}/login/forgot_redirect"> Forgot Password?</a></p>
   <button class="btn btn-lg btn-primary" type="submit">Login</button>
 </form>
 </div>
