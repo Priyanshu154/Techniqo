@@ -34,11 +34,13 @@
   <input type="email" name = "email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password" name = "password" id="inputPassword" class="form-control" placeholder="Password" required>
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember-me"> Remember me
-    </label>
-  </div>
+  Security question:
+  <select id ="sec" name = "security_que" required>
+    <option value = "1">Childhood best friend</option>
+    <option value = "2">First school name</option>
+    <option value = "3">Favourite actor/actress</option>
+  </select>
+  <input type = "text" name = "ans" required>
   <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
   <p class="mt-5 mb-3 text-muted">&copy; 2017-2020</p>
 </form>
