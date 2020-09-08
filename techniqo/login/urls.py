@@ -8,8 +8,4 @@ urlpatterns = [
     path('login', views.login),
     path('login_redirect', views.login_redirect),
     path('logout', views.logout),
-    path('forgot_redirect', views.forgot_redirect),
-    path('forgot', views.forgot),
-    path('reset_redirect', views.reset_redirect),
-    path('reset', views.reset),
 ]
