@@ -1,0 +1,123 @@
+{% extends 'home.html'%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block style %}
+#side_box{
+  width: 220px;
+  padding: 10px;
+  border: 2px solid black;
+  margin: 15px;
+  height: 700px;
+  border-radius: 10px;
+}
+
+
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<script>
+    sub = function(){
+        document.getElementById("form1").submit();
+    }
+    subb = function(){
+        document.getElementById("form2").submit();
+    }
+</script>
+<h1 align="center">Channel Patterns</h1>
+<div class="container">
+    <div class="row">
+
+<div class="col-lg-3 mt-1">
+    <div id="side_box" >
+    <form action = "/channel/" method ="get" id = "form1">
+        <div class="custom-control custom-switch mt-3 mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch1"  name = "mark" value = "channel" onclick ="sub()"
+                {%if selected == "channel"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch1"><b>Channel</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch2"  name = "mark" value = "channelu" onclick ="sub()"
+         {%if selected == "channelu"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch2"><b>Channel up</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch4"  name = "mark" value = "channeld" onclick ="sub()"
+         {%if selected == "channeld"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch4"><b>Channel down</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch5"  name = "mark" value = "doublet" onclick ="sub()"
+         {%if selected == "doublet"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch5"><b>Double Top</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch6"  name = "mark" value = "doubled" onclick ="sub()"
+         {%if selected == "doubled"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch6"><b>Double Bottom</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch7"  name = "mark" value = "multiplet" onclick ="sub()"
+         {%if selected == "multiplet"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch7"><b>Multiple Top</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch8"  name = "mark" value = "multipleb" onclick ="sub()"
+         {%if selected == "multipleb"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch8"><b>Multiple Bottom</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch9"  name = "mark" value = "head_n_s" onclick ="sub()"
+         {%if selected == "head_n_s"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch9"><b>Head and Shoulder</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch10"  name = "mark" value = "wedge" onclick ="sub()"
+         {%if selected == "wedge"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch10"><b>Wedge</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch11"  name = "mark" value = "wedgeu" onclick ="sub()"
+         {%if selected == "wedgeu"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch11"><b>Wedge up</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch12"  name = "mark" value = "wedged" onclick ="sub()"
+         {%if selected == "wedged"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch12"><b>Wedge down</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch13"  name = "mark" value = "trendlines" onclick ="sub()"
+         {%if selected == "trendlines"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch13"><b>Trendline support</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch14"  name = "mark" value = "trendliner" onclick ="sub()"
+         {%if selected == "trendliner"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch14"><b>Trendline resistance</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch15"  name = "mark" value = "horizontal_sr" onclick ="sub()"
+         {%if selected == "horizontal_sr"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch15"><b>Horizontal Support/Resistance</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch16"  name = "mark" value = "ascendingt" onclick ="sub()"
+         {%if selected == "ascendingt"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch16"><b>Ascending Triangle</b></label>
+        </div>
+        <div class="custom-control custom-switch mb-3">
+         <input type="radio"class="custom-control-input" id="customSwitch17"  name = "mark" value = "descendingt" onclick ="sub()"
+         {%if selected == "descendingt"%} checked {% endif %}>
+            <label class="custom-control-label" for="customSwitch17"><b>Descending Triangle</b></label>
+        </div>
+    </form>
+</div>
+</div>
+<div class="col-lg-9">
+    <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+    </div>
+</div>
+    </div>
+</div>
+
+{%endblock%}
