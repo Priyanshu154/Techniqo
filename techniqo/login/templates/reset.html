@@ -1,0 +1,32 @@
+{% extends "home.html" %}
+{% block body%}
+{% if email == "invalid_secque" %}
+<script>
+  alert("Invalid email/password")
+</script>
+{% endif %}
+<div class = "container">
+<form class="form-signin" action = "reset" method = "post" id = "subm">{% csrf_token %}
+ New Password<br>
+  <input type="password" name = "password" id = "password1" class="form-control" placeholder="Password" required>
+  Confirm Password <br>
+  <input type="password"  name = "password2" id = "password2" onchange ="confirm()" class="form-control" placeholder="Password" required>
+    <input type = "hidden" name = "email" value = "{{email}}">
+    <button type="button" onclick = "confirm()" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<script>
+    var confirm = function(){
+        var p1 = document.getElementById("password1")
+        var p2 = document.getElementById("password2")
+        if(p1.value != p2.value){
+            alert("confirm password and new password mismatched")
+        }
+        else{
+          console.log("hi")
+
+            document.getElementById("subm").submit();
+        }
+    }
+</script>
+{% endblock %}
