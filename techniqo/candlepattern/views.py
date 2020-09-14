@@ -63,7 +63,7 @@ def candle(request):
     cp = request.GET.get("candle", "Hammer")
     print(cp)
     col_name = assign_cell(cp)
-    nifty =  ni + ".xlsx"
+    nifty = ni + ".xlsx"
     #jab bhi directly ecxel sheet read karneki hogi next two points are compulsary
     workpath = os.path.dirname(os.path.abspath(__file__))
     xx = os.path.join(workpath, nifty) #yaha tak
@@ -76,7 +76,7 @@ def candle(request):
     low = []
     close = []
     num = 0
-    for i in range(2 , sheet.max_row + 1):
+    for i in range(2, sheet.max_row + 1):
 
         cell = sheet.cell(i, column_index_from_string(col_name))
         c = cell.value

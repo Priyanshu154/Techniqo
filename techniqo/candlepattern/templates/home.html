@@ -62,9 +62,7 @@ font-size: 17px;
         <li class="nav-item">
         <a class="nav-link text-white" href="{{STATIC_URL}}/news/">News</a>
       </li>
-         <li class="nav-item">
-        <a class="nav-link text-white" href="#">Portfolio</a>
-      </li>
+
 
     </ul>
      <style>
@@ -121,18 +119,13 @@ font-size: 17px;
         <a class="nav-link text-dark" href="{{STATIC_URL}}/peers/"><h5>Peers</h5></a>
       </li>
         <li class="nav-item">
-        <a class="nav-link text-dark" href=" {{STATIC_URL}}/technicals/"><h5>Technicals</h5></a>
+        <a class="nav-link text-dark" href="{{STATIC_URL}}/technicals/"><h5>Technicals</h5></a>
       </li>
 
         <li class="nav-item">
-        <a class="nav-link text-dark" href="#"><h5>Opinions</h5></a>
+        <a class="nav-link text-dark" href="{{STATIC_URL}}/techniqo_alerts/"><h5>Opinions</h5></a>
       </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" href="#"><h5>Charts</h5></a>
-      </li>
-         <li class="nav-item">
-        <a class="nav-link text-dark" href="#"><h5>Calculators</h5></a>
-      </li>
+
 
     </ul>
        <form action="/stock/" class="form-inline my-2 my-lg-0" method = "get" id = "shares">
@@ -154,6 +147,58 @@ font-size: 17px;
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+<!-- Footer -->
+<script>
+    feed = function(){
+        document.getElementById("formfeed").submit();
+    }
+</script>
+<footer  class="page-footer font-small bg-dark pt-4 mt-5 text-white pagefoot">
+   <div class="row">
+     <div class="col-4" align="center">
+         <form action="{{STATIC_URL}}/suggestion/" method="post" id="formfeed">{% csrf_token %}
+           <div class="form-group">
+               <label for="feedback" class="ml-2"><h5 class="text-white">Please give your valuable suggestions here</h5></label>
+            <textarea class="form-control ml-2" id="feedback" rows="2" name="feedback"></textarea>
+          </div>
+             <button type="button" class="btn btn-light ml-2" onclick="feed()">Submit</button>
+         </form>
+     </div>
+
+     <div class="col-8">
+         <h4 align="center"><u>Quick Links</u></h4>
+         <div class="row mt-3">
+              <div class="col-4" align="center">
+                     <a href="#" class="text-white">Channel Patterns</a><br>
+                     <a href="{{STATIC_URL}}/candlepattern/" class="text-white">Candlestick Patterns</a><br>
+                     <a href="{{STATIC_URL}}/backtest/" class="text-white">Strategy Backtesting Tool</a>
+                     <a href="{{STATIC_URL}}/scanner/" class="text-white">Custom Technical Screener</a>
+              </div>
+              <div class="col-4" align="center">
+                     <a href="{{STATIC_URL}}/intrinsic/" class="text-white">Intrinsic Value Calculator</a><br>
+                     <a href="{{STATIC_URL}}/news/" class="text-white">News Section</a><br>
+                     <a href="{{STATIC_URL}}/market/" class="text-white">Market Movers</a>
+              </div>
+              <div class="col-4" align="center">
+                 <a href="{{STATIC_URL}}/peers/" class="text-white">Peers Comparison</a><br>
+                 <a href="{{STATIC_URL}}/technicals/" class="text-white">Technical Combinations</a><br>
+                 <a href="{{STATIC_URL}}/techniqo_alerts/" class="text-white">Techniqo Special Alerts</a>
+              </div>
+         </div>
+         {% block diva %} {% endblock %}
+     </div>
+   </div>
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="#" class="text-white"> Techniqo</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 
 </body>
 </html>

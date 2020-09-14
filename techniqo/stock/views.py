@@ -8,13 +8,6 @@ from datetime import datetime
 from matplotlib.dates import date2num
 from . import data_indis
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
 def shareholding(request):
     all_detail = request.GET.get('tickerdata')
     print(all_detail)
@@ -61,18 +54,10 @@ def shareholding(request):
             boddy3.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[2].get_text().strip())
             boddy4.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[3].get_text().strip())
             boddy5.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[4].get_text().strip())
-        zipb = zip(boddy,boddy2,boddy3,boddy4,boddy5)
+        zipshare = zip(boddy, boddy2, boddy3, boddy4, boddy5)
 
-        dictts = {'stockn': sname, 'typp': "Shareholdings", 'headd': headd, 'zipb': zipb, 'nse_ticker': nse_ticker,
+        dictts = {'stockn': sname, 'typp': "Shareholdings", 'headd': headd, 'zipb': zipshare, 'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, 'flag': 1}
-        wb = xl.load_workbook('login/users.xlsx')
-        ip = get_client_ip(request)
-        sheet = wb["Sheet1"]
-        for i in range(2, sheet.max_row + 1):
-            if (ip == sheet.cell(i, 3).value):
-                if (sheet.cell(i, 4).value == "yes"):
-                    print("matched")
-                    dictts["email"] = sheet.cell(i, 1).value
         return render(request, 'shareholding.html', dictts)
 
     elif check == "valuation":
@@ -92,19 +77,10 @@ def shareholding(request):
                     conn.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {"class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[0].get_text().strip())
                     conv.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {"class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[1].get_text().strip())
                     ct += 1
-        zipa = zip(stdn,stdv)
-        zipb = zip(conn,conv)
-        dictts = {'zipa': zipa, 'zipb': zipb,'nse_ticker': nse_ticker,
+        zipstdalone = zip(stdn,stdv)
+        zipconsol = zip(conn,conv)
+        dictts = {'zipa': zipstdalone, 'zipb': zipconsol,'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Valuation Ratios", 'flag': 2}
-
-        wb = xl.load_workbook('login/users.xlsx')
-        ip = get_client_ip(request)
-        sheet = wb["Sheet1"]
-        for i in range(2, sheet.max_row + 1):
-            if (ip == sheet.cell(i, 3).value):
-                if (sheet.cell(i, 4).value == "yes"):
-                    print("matched")
-                    dictts["email"] = sheet.cell(i, 1).value
         return render(request, 'shareholding.html', dictts)
 
     elif check == "income":
@@ -134,56 +110,20 @@ def shareholding(request):
             except:
                 dictts = {'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname,}
-
-                wb = xl.load_workbook('login/users.xlsx')
-                ip = get_client_ip(request)
-                sheet = wb["Sheet1"]
-                for i in range(2, sheet.max_row + 1):
-                    if (ip == sheet.cell(i, 3).value):
-                        if (sheet.cell(i, 4).value == "yes"):
-                            print("matched")
-                            dictts["email"] = sheet.cell(i, 1).value
                 return render(request, 'nodata.html',dictts)
 
         dictts = {'ihead': ihead,'ibody': ibody, 'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Income Statement", 'flag': 3}
-
-        wb = xl.load_workbook('login/users.xlsx')
-        ip = get_client_ip(request)
-        sheet = wb["Sheet1"]
-        for i in range(2, sheet.max_row + 1):
-            if (ip == sheet.cell(i, 3).value):
-                if (sheet.cell(i, 4).value == "yes"):
-                    print("matched")
-                    dictts["email"] = sheet.cell(i, 1).value
         return render(request, 'shareholding.html', dictts)
 
     elif check == "chart":
         if nse_ticker != "":
             dictts = { 'nse_ticker': nse_ticker,
                       "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Chart", 'flag': 5}
-
-            wb = xl.load_workbook('login/users.xlsx')
-            ip = get_client_ip(request)
-            sheet = wb["Sheet1"]
-            for i in range(2, sheet.max_row + 1):
-                if (ip == sheet.cell(i, 3).value):
-                    if (sheet.cell(i, 4).value == "yes"):
-                        print("matched")
-                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'shareholding.html', dictts)
         else:
             dictts = {'nse_ticker': nse_ticker,
                       "bse_ticker": bse_ticker, "stockn": sname }
-
-            wb = xl.load_workbook('login/users.xlsx')
-            ip = get_client_ip(request)
-            sheet = wb["Sheet1"]
-            for i in range(2, sheet.max_row + 1):
-                if (ip == sheet.cell(i, 3).value):
-                    if (sheet.cell(i, 4).value == "yes"):
-                        print("matched")
-                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'nodata.html', dictts)
 
     elif check == "balance":
@@ -217,51 +157,23 @@ def shareholding(request):
             zipbb = zip(bbody,bbody1,bbody2,bbody3,bbody4,bbody5)
             dictts = {'nse_ticker': nse_ticker, 'zipba':zipbb , 'bheadb': bhead,'typp': "Balance Sheet (in Cr.)", 'flag': 4,
                       "bse_ticker": bse_ticker, "stockn": sname}
-
-            wb = xl.load_workbook('login/users.xlsx')
-            ip = get_client_ip(request)
-            sheet = wb["Sheet1"]
-            for i in range(2, sheet.max_row + 1):
-                if (ip == sheet.cell(i, 3).value):
-                    if (sheet.cell(i, 4).value == "yes"):
-                        print("matched")
-                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'shareholding.html', dictts)
 
         except:
             dictts = {'nse_ticker': nse_ticker,
                       "bse_ticker": bse_ticker, "stockn": sname, }
-
-            wb = xl.load_workbook('login/users.xlsx')
-            ip = get_client_ip(request)
-            sheet = wb["Sheet1"]
-            for i in range(2, sheet.max_row + 1):
-                if (ip == sheet.cell(i, 3).value):
-                    if (sheet.cell(i, 4).value == "yes"):
-                        print("matched")
-                        dictts["email"] = sheet.cell(i, 1).value
             return render(request, 'nodata.html', dictts)
 
 
 # Create your views here.
 def index(request):
-    global soup2
+    global soup2, zipshare, zipshare, zipstdalone, zipconsol
     name = request.GET.get('stock_namee', 'no')
     url = ""
     tick = ""
     url2 = ""
     if name == 'no':
-
-        wb = xl.load_workbook('login/users.xlsx')
-        ip = get_client_ip(request)
-        sheet = wb["Sheet1"]
-        dictts = {}
-        for i in range(2, sheet.max_row + 1):
-            if (ip == sheet.cell(i, 3).value):
-                if (sheet.cell(i, 4).value == "yes"):
-                    print("matched")
-                    dictts["email"] = sheet.cell(i, 1).value
-        return render(request, 'home.html', dictts)
+        return render(request, 'home.html')
     else:
         workpath = os.path.dirname(os.path.abspath(__file__))
         xx = os.path.join(workpath, 'market_data_20.xlsx')
@@ -280,17 +192,7 @@ def index(request):
             try:
                 bse_ticker = name.split(", ")[1]
             except:
-
-                wb = xl.load_workbook('login/users.xlsx')
-                ip = get_client_ip(request)
-                sheet = wb["Sheet1"]
-                dictts = {}
-                for i in range(2, sheet.max_row + 1):
-                    if (ip == sheet.cell(i, 3).value):
-                        if (sheet.cell(i, 4).value == "yes"):
-                            print("matched")
-                            dictts["email"] = sheet.cell(i, 1).value
-                return render(request, 'wrong.html', dictts)
+                return render(request, 'wrong.html')
         for i in range(2, sheet.max_row + 1):
             if sheet.cell(i, 2).value == stock_name:
                 url = sheet.cell(i, 1).value
@@ -1030,14 +932,14 @@ def index(request):
 
         if experts != 0.0 and experts != 100.0:
             public_senti = experts
-        elif high_52:
+        elif high_52 and low_52:
             public_senti = ((100 - ((high_52-price)/high_52)*100) + ((price-low_52)/low_52)*100)/2
         else:
             public_senti = 5
 
         note = []
         if analysis_score - 10 < public_senti < analysis_score + 10:
-            note = ["Neutral","dark"]
+            note = ["Neutral", "dark"]
         elif analysis_score - 30 < public_senti < analysis_score - 10:
             note = ["Fear", "success"]
         elif analysis_score - 100 < public_senti < analysis_score - 30:
@@ -1047,19 +949,67 @@ def index(request):
         else:
             note = ["Extreme Greed", "danger"]
 
+        try:
+            headd = []
+            boddy = []
+            boddy2 = []
+            boddy3 = []
+            boddy4 = []
+            boddy5 = []
+            for i in range(0, 5):
+                headd.append(soup.find_all("thead", {"count": "10"})[0].find_all("th")[i].get_text().strip())
+            for i in range(0, 9):
+                boddy.append(
+                    soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                        "td")[0].get_text().strip())
+                boddy2.append(
+                    soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                        "td")[1].get_text().strip())
+                boddy3.append(
+                    soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                        "td")[2].get_text().strip())
+                boddy4.append(
+                    soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                        "td")[3].get_text().strip())
+                boddy5.append(
+                    soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                        "td")[4].get_text().strip())
+            zipshare = zip(boddy, boddy2, boddy3, boddy4, boddy5)
+        except:
+            pass
+
+        try:
+            stdn = []
+            stdv = []
+            conn = []
+            conv = []
+            ct = 1
+            for i in range(3):
+                for j in range(4):
+                    if ct < 12:
+                        stdn.append(soup.find_all("div", {"id": "standalone_valuation"})[0].find_all("ul", {
+                            "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all(
+                            "div")[0].get_text().strip())
+                        stdv.append(soup.find_all("div", {"id": "standalone_valuation"})[0].find_all("ul", {
+                            "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all(
+                            "div")[1].get_text().strip())
+                        conn.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {
+                            "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all(
+                            "div")[0].get_text().strip())
+                        conv.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {
+                            "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all(
+                            "div")[1].get_text().strip())
+                        ct += 1
+            zipstdalone = zip(stdn, stdv)
+            zipconsol = zip(conn, conv)
+        except:
+            pass
+
         dictt = {'stockn': stock_name, 'nse_ticker': nse_ticker, "bse_ticker": bse_ticker, 'price': price,
                  'change': change,
                  'colors': color, 'tech_count': tech_count, 'senti': senti, 'scolors': senti_color, 'flag': flag,
                  'values': values, 'onlyma': onlyma, 'onlyst': onlyst, 'bet': bet, 'zipo3': zipo3, 'zipo4': zipo4,
-                 'over_count': round(total_score,0),'totall':tech_count + round(total_score,0),'anas': analysis_score,
-                 'ps': round(public_senti,0) , 'note': note,'hl': hl}
-
-        wb = xl.load_workbook('login/users.xlsx')
-        ip = get_client_ip(request)
-        sheet = wb["Sheet1"]
-        for i in range(2, sheet.max_row + 1):
-            if (ip == sheet.cell(i, 3).value):
-                if (sheet.cell(i, 4).value == "yes"):
-                    print("matched")
-                    dictt["email"] = sheet.cell(i, 1).value
+                 'over_count': round(total_score, 0), 'totall': tech_count + round(total_score, 0), 'anas': analysis_score,
+                 'ps': round(public_senti, 0), 'note': note, 'hl': hl, 'zipshare': zipshare, 'zipstd': zipstdalone,
+                 'zipconsol': zipconsol}
         return render(request, 'stockdata.html', dictt)

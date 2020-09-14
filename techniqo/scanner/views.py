@@ -6,7 +6,7 @@ from matplotlib.dates import date2num
 import statistics
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
-import openpyxl as xl
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -68,8 +68,9 @@ def techscreen(request):
     parameter_entry = parameter_entry_str.split(",")
     value_entry = value_entry_str.split(",")
 
-    workpath = os.path.dirname(os.path.abspath(__file__))
-    xx = os.path.join(workpath, 'technicals_ours.xlsx')  # yaha tak
+   #workpath = os.path.dirname(os.path.abspath(__file__))
+    workpath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    xx = os.path.join(workpath, 'technicals\\technicals_ours.xlsx')  # yaha tak
     wb = xl.load_workbook(xx, data_only=True)
     sheet = wb['sheet']
     stocks = []

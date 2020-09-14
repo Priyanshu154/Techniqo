@@ -33,5 +33,6 @@ urlpatterns = [
     path('backtest/',include('backtest.urls')),
     path('scanner/',include('scanner.urls')),
     path('login/',include('login.urls')),
+    path('suggestion/', views.suggest),
     path('channel/',include('channel.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

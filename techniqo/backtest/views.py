@@ -6,6 +6,9 @@ from matplotlib.dates import date2num
 import statistics
 from . import data_indic
 import openpyxl as xl
+import os
+import pandas as pd
+import xlrd
 
 # Create your views here.
 def get_client_ip(request):
@@ -23,11 +26,14 @@ def backdata(request):
     long_short = inter[5].strip()
     yahoo_st = inter[4].split("|")[1].strip()
     print(yahoo_st)
-    start = datetime(2017, 6, 6)
-    end = datetime(2020, 8, 17)
-    data = web.DataReader(f'{yahoo_st}.NS', 'yahoo', start, end)
-    data_reset = data.reset_index()
-    data_reset['date_ax'] = data_reset['Date'].apply(lambda date: date2num(date))
+    #start = datetime(2017, 6, 6)
+    #end = datetime(2020, 8, 17)
+    workpath = os.path.dirname(os.path.abspath(__file__))
+    xx = os.path.join(workpath, f'D:/college/webend/techniqo/data_new_ticker/{yahoo_st}.xlsx')  # yaha tak
+    wb = xl.load_workbook(xx, data_only=True)
+    sheet = wb["Sheet1"]
+    data_reset = pd.read_excel(xx)
+    wb.save(f'D:/college/webend/techniqo/data_new_ticker/{yahoo_st}.xlsx')
     close = data_reset['Close'].to_list()
     high = data_reset['High'].to_list()
     low = data_reset['Low'].to_list()
@@ -1842,9 +1848,9 @@ def backdata(request):
     exit_close_points = []
     for i in range(len(close)):
         ce = 0
-        if data_reset.iloc[i, 8] == "Yes":
+        if data_reset.iloc[i, 7] == "Yes":
             for j in range(count_entry):
-                if data_reset.iloc[i, 7 + 1 + j] == "Yes":
+                if data_reset.iloc[i, 6 + 1 + j] == "Yes":
                     ce += 1
                 if ce == count_entry:
                     entry_dt_points.append(dt[i])
@@ -1852,9 +1858,9 @@ def backdata(request):
                     entry_close_points.append(close[i])
 
         cex = 0
-        if data_reset.iloc[i, 7 + count_entry + 1] == "Yes":
+        if data_reset.iloc[i, 6 + count_entry + 1] == "Yes":
             for j in range(count_exit):
-                if data_reset.iloc[i, 7 + count_entry + 1 + j] == "Yes":
+                if data_reset.iloc[i, 6 + count_entry + 1 + j] == "Yes":
                     cex += 1
                 if cex == count_exit:
                     exit_dt_points.append(dt[i])
@@ -1910,9 +1916,15 @@ def backdata(request):
                             for t in range(stp_start, stp_end + 1):
                                 if close[t] <= close[stp_start] * (100 - stoploss) / 100:
                                     if long_short == "golong":
-                                        total.append(round(((close[t] - price_entry) / close[t]) * 100, 2))
+                                        if round(((close[t] - price_entry) / close[t]) * 100, 2) < -stoploss:
+                                            total.append(-stoploss)
+                                        else:
+                                            total.append(round(((close[t] - price_entry) / close[t]) * 100, 2))
                                     else:
-                                        total.append(-round(((close[t] - price_entry) / close[t]) * 100, 2))
+                                        if round(((close[t] - price_entry) / close[t]) * 100, 2) < -stoploss:
+                                            total.append(-stoploss)
+                                        else:
+                                            total.append(-round(((close[t] - price_entry) / close[t]) * 100, 2))
                                     print(date[t])
                                     ref = dt[t]
                                     date_front.append(entry_date_points[i])
@@ -1923,9 +1935,15 @@ def backdata(request):
                                     break
                             if flag == 0:
                                 if long_short == "golong":
-                                    total.append(round(((price_exit - price_entry) / price_exit) * 100, 2))
+                                    if round(((price_exit - price_entry) / price_exit) * 100, 2) < -stoploss:
+                                        total.append(-stoploss)
+                                    else:
+                                        total.append(round(((price_exit - price_entry) / price_exit) * 100, 2))
                                 else:
-                                    total.append(-round(((price_exit - price_entry) / price_exit) * 100, 2))
+                                    if round(((price_exit - price_entry) / price_exit) * 100, 2) < -stoploss:
+                                        total.append(-stoploss)
+                                    else:
+                                        total.append(-round(((price_exit - price_entry) / price_exit) * 100, 2))
                                 ref = exit_dt_points[j]
                                 print(exit_date_points[j])
                                 date_front.append(entry_date_points[i])
@@ -1966,7 +1984,7 @@ def backdata(request):
         nothing = " No Match for this Strategy"
         flagr = 1
     else:
-        resultt = float(f'{statistics.mean(total):.2f}')
+        resultt = float(f'{sum(total):.2f}')
 
     zipdata = zip(total, entry_front, exit_front, date_front, dateex_front, range(len(date_front) + len(dateex_front)))
     dictb = {'datta': dataa, 'resultt': resultt, 'percentage': total, 'entry': entry_front, 'exit': exit_front,
@@ -1980,7 +1998,7 @@ def backdata(request):
         if (ip == sheet.cell(i, 3).value):
             if (sheet.cell(i, 4).value == "yes"):
                 dictb["email"] = sheet.cell(i, 1).value
-
+    print(data_reset)
     return render(request, 'backtest_detail.html', dictb)
 
 

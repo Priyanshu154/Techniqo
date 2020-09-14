@@ -4,34 +4,78 @@ from matplotlib.dates import date2num
 import math
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
-
-# Name of top 50 stocks of NSE
-nifty_50 = ['ADANIPORTS','ASIANPAINT','AXISBANK','BAJAJ-AUTO','BAJAJFINSV','BAJFINANCE','BHARTIARTL','BPCL','BRITANNIA','CIPLA','COALINDIA','DRREDDY','EICHERMOT','GAIL','GRASIM','HCLTECH','HDFC','HDFCBANK','HEROMOTOCO','HINDALCO','HINDUNILVR','ICICIBANK','INDUSINDBK','INFRATEL','INFY','IOC','ITC','JSWSTEEL','KOTAKBANK','LT','M&M','MARUTI','NESTLEIND','NTPC','ONGC','POWERGRID','RELIANCE','SBIN','SUNPHARMA','TATAMOTORS','TATASTEEL','TCS','TECHM','TITAN','ULTRACEMCO','UPL','VEDL','WIPRO','YESBANK','ZEEL']
-
-# Name of top 500 stocks of NSE
-nifty_500 = ['3MINDIA.NS','AARTIIND.NS','AAVAS.NS','ABB.NS','ABBOTINDIA.NS','ACC.NS','ADANIGAS.NS','ADANIGREEN.NS','ADANIPORTS.NS','ADANIPOWER.NS','ADANITRANS.NS','ABCAPITAL.NS','ABFRL.NS','ADVENZYMES.NS','AEGISCHEM.NS','AFFLE.NS','AIAENG.NS','AJANTPHARM.NS','AKZOINDIA.NS','APLLTD.NS','ALKEM.NS','ALKYLAMINE.NS','ALLCARGO.NS','AMARAJABAT.NS','AMBER.NS','AMBUJACEM.NS','APLAPOLLO.NS','APOLLOHOSP.NS','APOLLOTYRE.NS','ARVINDFASN.NS','ASAHIINDIA.NS','ASHOKLEY.NS','ASHOKA.NS','ASIANPAINT.NS','ASTERDM.NS','ASTRAL.NS','ASTRAZEN.NS','ATUL.NS','AUBANK.NS','AUROPHARMA.NS','AVANTIFEED.NS','DMART.NS','AXISBANK.NS','BAJAJ-AUTO.NS','BAJAJCON.NS','BAJAJELEC.NS','BAJFINANCE.NS','BAJAJFINSV.NS','BAJAJHLDNG.NS','BALKRISIND.NS','BALMLAWRIE.NS','BALRAMCHIN.NS','BANDHANBNK.NS','BANKBARODA.NS','BANKINDIA.NS','MAHABANK.NS','BASF.NS','BATAINDIA.NS','BAYERCROP.NS','BEML.NS','BERGEPAINT.NS','BDL.NS','BEL.NS','BHARATFORG.NS','BHARATRAS.NS','BHARTIARTL.NS','INFRATEL.NS','BHEL.NS','BIOCON.NS','BIRLACORPN.NS','BSOFT.NS','BLISSGVS.NS','BLUEDART.NS','BLUESTARCO.NS','BBTC.NS','BOMDYEING.NS','BOSCHLTD.NS','BPCL.NS','BRIGADE.NS','BRITANNIA.NS','BSE.NS','CADILAHC.NS','CANFINHOME.NS','CANBK.NS','CAPLIPOINT.NS','CGCL.NS','CARBORUNIV.NS','CASTROLIND.NS','CCL.NS','CEATLTD.NS','CENTRALBK.NS','CDSL.NS','CENTURYPLY.NS','CENTURYTEX.NS','CERA.NS','CESC.NS','CHAMBLFERT.NS','CHENNPETRO.NS','CHOLAHLDNG.NS','CHOLAFIN.NS','CIPLA.NS','CUB.NS','COALINDIA.NS','COCHINSHIP.NS','COLPAL.NS','CONCOR.NS','COROMANDEL.NS','CARERATING.NS','CREDITACC.NS','CRISIL.NS','CROMPTON.NS','CSBBANK.NS','CUMMINSIND.NS','CYIENT.NS','DABUR.NS','DALBHARAT.NS','DBCORP.NS','DCBBANK.NS','DCMSHRIRAM.NS','DEEPAKNTR.NS','DELTACORP.NS','DHANUKA.NS','DBL.NS','DISHTV.NS','DCAL.NS','DIVISLAB.NS','DIXON.NS','DLF.NS','LALPATHLAB.NS','DRREDDY.NS','ECLERX.NS','EDELWEISS.NS','EICHERMOT.NS','EIDPARRY.NS','EIHOTEL.NS','ELGIEQUIP.NS','EMAMILTD.NS','ENDURANCE.NS','ENGINERSIN.NS','EQUITAS.NS','ERIS.NS','ESABINDIA.NS','ESCORTS.NS','ESSELPACK.NS','EXIDEIND.NS','FDC.NS','FEDERALBNK.NS','FINEORG.NS','FINCABLES.NS','FINPIPE.NS','FSL.NS','FORTIS.NS','FCONSUMER.NS','FRETAIL.NS','GAIL.NS','GALAXYSURF.NS','GRSE.NS','GARFIBRES.NS','GEPIL.NS','GET&D.NS','GICRE.NS','GILLETTE.NS','GLENMARK.NS','GMDCLTD.NS','GMMPFAUDLR.NS','GMRINFRA.NS','GODFRYPHLP.NS','GODREJAGRO.NS','GODREJCP.NS','GODREJIND.NS','GODREJPROP.NS','GRANULES.NS','GRAPHITE.NS','GRASIM.NS','GESHIP.NS','GREAVESCOT.NS','GRINDWELL.NS','GLAXO.NS','GUJALKALI.NS','FLUOROCHEM.NS','GUJGASLTD.NS','GHCL.NS','GNFC.NS','GPPL.NS','GSFC.NS','GSPL.NS','GULFOILLUB.NS','HATHWAY.NS','HATSUN.NS','HAVELLS.NS','HCLTECH.NS','HDFCAMC.NS','HDFCBANK.NS','HDFCLIFE.NS','HEG.NS','HEIDELBERG.NS','HERITGFOOD.NS','HEROMOTOCO.NS','HEXAWARE.NS','HFCL.NS','HSCL.NS','HIMATSEIDE.NS','HINDALCO.NS','HAL.NS','HINDCOPPER.NS','HINDUNILVR.NS','HINDZINC.NS','HONAUT.NS','HDFC.NS','HINDPETRO.NS','HUDCO.NS','ICICIBANK.NS','ICICIGI.NS','ICICIPRULI.NS','ISEC.NS','ICRA.NS','IDBI.NS','IDEA.NS','IDFC.NS','IDFCFIRSTB.NS','IFBIND.NS','IFCI.NS','IIFL.NS','IIFLWAM.NS','INDIACEM.NS','ITDC.NS','IBULHSGFIN.NS','IBREALEST.NS','IBVENTURES.NS','INDIAMART.NS','INDIANB.NS','IEX.NS','INDHOTEL.NS','IOB.NS','INDOCO.NS','INDOSTAR.NS','IGL.NS','INDUSINDBK.NS','INFIBEAM.NS','NAUKRI.NS','INFY.NS','INGERRAND.NS','INOXLEISUR.NS','INTELLECT.NS','INDIGO.NS','IOC.NS','IPCALAB.NS','IRB.NS','IRCON.NS','IRCTC.NS','ITC.NS','ITI.NS','JKCEMENT.NS','JAGRAN.NS','JAICORPLTD.NS','J&KBANK.NS','JBCHEPHARM.NS','JINDALSAW.NS','JSL.NS','JSLHISAR.NS','JINDALSTEL.NS','JKLAKSHMI.NS','JKPAPER.NS','JKTYRE.NS','JMFINANCIL.NS','JCHAC.NS','JSWENERGY.NS','JSWSTEEL.NS','JUBLFOOD.NS','JUBILANT.NS','JUSTDIAL.NS','JYOTHYLAB.NS','KAJARIACER.NS','KALPATPOWR.NS','KANSAINER.NS','KTKBANK.NS','KARURVYSYA.NS','KSCL.NS','KEC.NS','KEI.NS','KNRCON.NS','KOLTEPATIL.NS','KOTAKBANK.NS','KPITTECH.NS','KPRMILL.NS','KRBL.NS','KSB.NS','L&TFH.NS','LTTS.NS','LAOPALA.NS','LAXMIMACH.NS','LT.NS','LTI.NS','LAURUSLABS.NS','LEMONTREE.NS','LICHSGFIN.NS','LINDEINDIA.NS','LUPIN.NS','LUXIND.NS','M&MFIN.NS','MGL.NS','MAHSCOOTER.NS','MAHSEAMLES.NS','M&M.NS','MAHINDCIE.NS','MHRIL.NS','MAHLOG.NS','MANAPPURAM.NS','MRPL.NS','MARICO.NS','MARUTI.NS','MASFIN.NS','MFSL.NS','MCX.NS','METROPOLIS.NS','MINDACORP.NS','MINDAIND.NS','MINDTREE.NS','MIDHANI.NS','MMTC.NS','MOIL.NS','MOTHERSUMI.NS','MOTILALOFS.NS','MPHASIS.NS','MRF.NS','MUTHOOTFIN.NS','NH.NS','NATCOPHARM.NS','NATIONALUM.NS','NFL.NS','NBVENTURES.NS','NAVINFLUOR.NS','NBCC.NS','NCC.NS','NESCO.NS','NESTLEIND.NS','NIACL.NS','NHPC.NS','NIITTECH.NS','NILKAMAL.NS','NAM-INDIA.NS','NLCINDIA.NS','NMDC.NS','NTPC.NS','OBEROIRLTY.NS','OFSS.NS','OIL.NS','OMAXE.NS','ONGC.NS','ORIENTCEM.NS','ORIENTELEC.NS','ORIENTREF.NS','PAGEIND.NS','PERSISTENT.NS','PETRONET.NS','PFIZER.NS','PHILIPCARB.NS','PHOENIXLTD.NS','PIIND.NS','PIDILITIND.NS','PEL.NS','PNBHOUSING.NS','PNCINFRA.NS','POLYMED.NS','POLYCAB.NS','PFC.NS','POWERGRID.NS','PRAJIND.NS','PRESTIGE.NS','PRSMJOHNSN.NS','PGHL.NS','PGHH.NS','PTC.NS','PNB.NS','PVR.NS','QUESS.NS','RADICO.NS','RVNL.NS','RAIN.NS','RAJESHEXPO.NS','RALLIS.NS','RCF.NS','RATNAMANI.NS','RAYMOND.NS','RBLBANK.NS','REDINGTON.NS','RELAXO.NS','RELIANCE.NS','REPCOHOME.NS','RITES.NS','RECLTD.NS','SADBHAV.NS','SANOFI.NS','SBILIFE.NS','SCHAEFFLER.NS','SCHNEIDER.NS','SIS.NS','SEQUENT.NS','SFL.NS','SCI.NS','SHOPERSTOP.NS','SHREECEM.NS','RENUKA.NS','SHRIRAMCIT.NS','SRTRANSFIN.NS','SIEMENS.NS','SJVN.NS','SKFINDIA.NS','SOBHA.NS','SOLARINDS.NS','SONATSOFTW.NS','SOUTHBANK.NS','SPANDANA.NS','SPICEJET.NS','SRF.NS','STARCEMENT.NS','SBIN.NS','SAIL.NS','SWSOLAR.NS','STRTECH.NS','STAR.NS','SUDARSCHEM.NS','SUMICHEM.NS','SPARC.NS','SUNPHARMA.NS','SUNTV.NS','SUNDARMFIN.NS','SUNDRMFAST.NS','SUNTECK.NS','SUPRAJIT.NS','SUPREMEIND.NS','SUZLON.NS','SWANENERGY.NS','SYMPHONY.NS','SYNGENE.NS','TAKE.NS','TASTYBITE.NS','TATACOMM.NS','TATACONSUM.NS','TATAELXSI.NS','TATAINVEST.NS','TATAMOTORS.NS','TATAMTRDVR.NS','TATAPOWER.NS','TATASTEEL.NS','TATASTLBSL.NS','TCIEXP.NS','TCNSBRANDS.NS','TCS.NS','TEAMLEASE.NS','TECHM.NS','RAMCOCEM.NS','THERMAX.NS','THYROCARE.NS','TIMETECHNO.NS','TIMKEN.NS','TITAN.NS','TORNTPHARM.NS','TORNTPOWER.NS','TRENT.NS','TRIDENT.NS','TTKPRESTIG.NS','TIINDIA.NS','TVTODAY.NS','TV18BRDCST.NS','TVSMOTOR.NS','UCOBANK.NS','UFLEX.NS','UJJIVAN.NS','UJJIVANSFB.NS','ULTRACEMCO.NS','UNIONBANK.NS','UBL.NS','MCDOWELL-N.NS','UPL.NS','VAIBHAVGBL.NS','VAKRANGEE.NS','VTL.NS','VARROC.NS','VBL.NS','VEDL.NS','VENKEYS.NS','VESUVIUS.NS','VGUARD.NS','VINATIORGA.NS','VIPIND.NS','VMART.NS','VOLTAS.NS','VRLLOG.NS','VSTIND.NS','WABCOINDIA.NS','WELCORP.NS','WELSPUNIND.NS','WESTLIFE.NS','WHIRLPOOL.NS','WIPRO.NS','WOCKPHARMA.NS','ZEEL.NS','ZENSARTECH.NS','ZYDUSWELL.NS']
-# datetime is a pandas function to access data of that particular date
-# datetime(year , month , day)
+import os
+import pandas as pd
+nifty_500 = ["3MINDIA", "ABB", "ACC", "AIAENG", "APLAPOLLO", "AUBANK", "AARTIIND", "AAVAS", "ABBOTINDIA", "ADANIGAS",
+           "ADANIGREEN", "ADANIPORTS", "ADANIPOWER", "ADANITRANS", "ABCAPITAL", "ABFRL", "ADVENZYMES", "AEGISCHEM",
+           "AFFLE", "AJANTPHARM", "AKZOINDIA", "APLLTD", "ALKEM", "ALKYLAMINE", "ALLCARGO", "AMARAJABAT", "AMBER",
+           "AMBUJACEM", "APOLLOHOSP", "APOLLOTYRE", "ARVINDFASN", "ASAHIINDIA", "ASHOKLEY", "ASHOKA", "ASIANPAINT",
+           "ASTERDM", "ASTRAZEN", "ASTRAL", "ATUL", "AUROPHARMA", "AVANTIFEED", "DMART", "AXISBANK", "BASF", "BEML",
+           "BSE", "BAJAJ-AUTO", "BAJAJCON", "BAJAJELEC", "BAJFINANCE", "BAJAJFINSV", "BAJAJHLDNG", "BALKRISIND",
+           "BALMLAWRIE", "BALRAMCHIN", "BANDHANBNK", "BANKBARODA", "BANKINDIA", "MAHABANK", "BATAINDIA", "BAYERCROP",
+           "BERGEPAINT", "BDL", "BEL", "BHARATFORG", "BHEL", "BPCL", "BHARATRAS", "BHARTIARTL", "INFRATEL", "BIOCON",
+           "BIRLACORPN", "BSOFT", "BLISSGVS", "BLUEDART", "BLUESTARCO", "BBTC", "BOMDYEING", "BOSCHLTD", "BRIGADE",
+           "BRITANNIA", "CARERATING", "CCL", "CESC", "CRISIL", "CSBBANK", "CADILAHC", "CANFINHOME", "CANBK",
+           "CAPLIPOINT", "CGCL", "CARBORUNIV", "CASTROLIND", "CEATLTD", "CENTRALBK", "CDSL", "CENTURYPLY", "CENTURYTEX",
+           "CERA", "CHAMBLFERT", "CHENNPETRO", "CHOLAHLDNG", "CHOLAFIN", "CIPLA", "CUB", "COALINDIA", "COCHINSHIP",
+           "COFORGE", "COLPAL", "CONCOR", "COROMANDEL", "CREDITACC", "CROMPTON", "CUMMINSIND", "CYIENT", "DBCORP",
+           "DCBBANK", "DCMSHRIRAM", "DLF", "DABUR", "DALBHARAT", "DEEPAKNTR", "DELTACORP", "DHANUKA", "DBL", "DISHTV",
+           "DCAL", "DIVISLAB", "DIXON", "LALPATHLAB", "DRREDDY", "EIDPARRY", "EIHOTEL", "ESABINDIA", "EDELWEISS",
+           "EICHERMOT", "ELGIEQUIP", "EMAMILTD", "ENDURANCE", "ENGINERSIN", "EQUITAS", "ERIS", "ESCORTS", "ESSELPACK",
+           "EXIDEIND", "FDC", "FEDERALBNK", "FINEORG", "FINCABLES", "FINPIPE", "FSL", "FORTIS", "FCONSUMER", "FRETAIL",
+           "GAIL", "GEPIL", "GET&D", "GHCL", "GMMPFAUDLR", "GMRINFRA", "GALAXYSURF", "GRSE", "GARFIBRES", "GICRE",
+           "GILLETTE", "GLAXO", "GLENMARK", "GODFRYPHLP", "GODREJAGRO", "GODREJCP", "GODREJIND", "GODREJPROP",
+           "GRANULES", "GRAPHITE", "GRASIM", "GESHIP", "GREAVESCOT", "GRINDWELL", "GUJALKALI", "FLUOROCHEM",
+           "GUJGASLTD", "GMDCLTD", "GNFC", "GPPL", "GSFC", "GSPL", "GULFOILLUB", "HEG", "HCLTECH", "HDFCAMC",
+           "HDFCBANK", "HDFCLIFE", "HFCL", "HATHWAY", "HATSUN", "HAVELLS", "HEIDELBERG", "HERITGFOOD", "HEROMOTOCO",
+           "HEXAWARE", "HSCL", "HIMATSEIDE", "HINDALCO", "HAL", "HINDCOPPER", "HINDPETRO", "HINDUNILVR", "HINDZINC",
+           "HONAUT", "HUDCO", "HDFC", "ICICIBANK", "ICICIGI", "ICICIPRULI", "ISEC", "ICRA", "IDBI", "IDFCFIRSTB",
+           "IDFC", "IFBIND", "IFCI", "IIFL", "IIFLWAM", "IRB", "IRCON", "ITC", "ITI", "INDIACEM", "ITDC", "IBULHSGFIN",
+           "IBREALEST", "IBVENTURES", "INDIAMART", "INDIANB", "IEX", "INDHOTEL", "IOC", "IOB", "IRCTC", "INDOSTAR",
+           "INDOCO", "IGL", "INDUSINDBK", "INFIBEAM", "NAUKRI", "INFY", "INGERRAND", "INOXLEISUR", "INTELLECT",
+           "INDIGO", "IPCALAB", "JBCHEPHARM", "JKCEMENT", "JKLAKSHMI", "JKPAPER", "JKTYRE", "JMFINANCIL", "JSWENERGY",
+           "JSWSTEEL", "JAGRAN", "JAICORPLTD", "J&KBANK", "JAMNAAUTO", "JINDALSAW", "JSLHISAR", "JSL", "JINDALSTEL",
+           "JCHAC", "JUBLFOOD", "JUBILANT", "JUSTDIAL", "JYOTHYLAB", "KPRMILL", "KEI", "KNRCON", "KPITTECH", "KRBL",
+           "KSB", "KAJARIACER", "KALPATPOWR", "KANSAINER", "KTKBANK", "KARURVYSYA", "KSCL", "KEC", "KOLTEPATIL",
+           "KOTAKBANK", "L&TFH", "LTTS", "LICHSGFIN", "LAOPALA", "LAXMIMACH", "LTI", "LT", "LAURUSLABS", "LEMONTREE",
+           "LINDEINDIA", "LUPIN", "LUXIND", "MASFIN", "MMTC", "MOIL", "MRF", "MGL", "MAHSCOOTER", "MAHSEAMLES",
+           "M&MFIN", "M&M", "MAHINDCIE", "MHRIL", "MAHLOG", "MANAPPURAM", "MRPL", "MARICO", "MARUTI", "MFSL",
+           "METROPOLIS", "MINDTREE", "MINDACORP", "MINDAIND", "MIDHANI", "MOTHERSUMI", "MOTILALOFS", "MPHASIS", "MCX",
+           "MUTHOOTFIN", "NATCOPHARM", "NBCC", "NCC", "NESCO", "NHPC", "NLCINDIA", "NMDC", "NTPC", "NH", "NATIONALUM",
+           "NFL", "NBVENTURES", "NAVINFLUOR", "NESTLEIND", "NILKAMAL", "NAM-INDIA", "OBEROIRLTY", "ONGC", "OIL",
+           "OMAXE", "OFSS", "ORIENTCEM", "ORIENTELEC", "ORIENTREF", "PIIND", "PNBHOUSING", "PNCINFRA", "PTC", "PVR",
+           "PAGEIND", "PERSISTENT", "PETRONET", "PFIZER", "PHILIPCARB", "PHOENIXLTD", "PIDILITIND", "PEL", "POLYMED",
+           "POLYCAB", "PFC", "POWERGRID", "PRAJIND", "PRESTIGE", "PRSMJOHNSN", "PGHL", "PGHH", "PNB", "QUESS",
+           "RBLBANK", "RECLTD", "RITES", "RADICO", "RVNL", "RAIN", "RAJESHEXPO", "RALLIS", "RCF", "RATNAMANI",
+           "RAYMOND", "REDINGTON", "RELAXO", "RELIANCE", "REPCOHOME", "SBICARD", "SBILIFE", "SJVN", "SKFINDIA", "SRF",
+           "SADBHAV", "SANOFI", "SCHAEFFLER", "SCHNEIDER", "SIS", "SEQUENT", "SFL", "SCI", "SHOPERSTOP", "SHREECEM",
+           "RENUKA", "SHRIRAMCIT", "SRTRANSFIN", "SIEMENS", "SOBHA", "SOLARINDS", "SONATSOFTW", "SOUTHBANK", "SPANDANA",
+           "SPICEJET", "STARCEMENT", "SBIN", "SAIL", "SWSOLAR", "STRTECH", "STAR", "SUDARSCHEM", "SUMICHEM", "SPARC",
+           "SUNPHARMA", "SUNTV", "SUNDARMFIN", "SUNDRMFAST", "SUNTECK", "SUPRAJIT", "SUPREMEIND", "SUZLON",
+           "SWANENERGY", "SYMPHONY", "SYNGENE", "TCIEXP", "TCNSBRANDS", "TTKPRESTIG", "TVTODAY", "TV18BRDCST",
+           "TVSMOTOR", "TAKE", "TASTYBITE", "TATACOMM", "TCS", "TATACONSUM", "TATAELXSI", "TATAINVEST", "TATAMTRDVR",
+           "TATAMOTORS", "TATAPOWER", "TATASTLBSL", "TATASTEEL", "TEAMLEASE", "TECHM", "NIACL", "RAMCOCEM", "THERMAX",
+           "THYROCARE", "TIMETECHNO", "TIMKEN", "TITAN", "TORNTPHARM", "TORNTPOWER", "TRENT", "TRIDENT", "TIINDIA",
+           "UCOBANK", "UFLEX", "UPL", "UJJIVAN", "UJJIVANSFB", "ULTRACEMCO", "UNIONBANK", "UBL", "MCDOWELL-N", "VGUARD",
+           "VMART", "VIPIND", "VRLLOG", "VSTIND", "VAIBHAVGBL", "VAKRANGEE", "VTL", "VARROC", "VBL", "VENKEYS",
+           "VESUVIUS", "VINATIORGA", "IDEA", "VOLTAS", "WABCOINDIA", "WELCORP", "WELSPUNIND", "WESTLIFE", "WHIRLPOOL",
+           "WIPRO", "WOCKPHARMA", "ZEEL", "ZENSARTECH", "ZYDUSWELL", "ECLERX"]
 start = datetime(2018,1,24)
 end = datetime(2020,7,27)
 
 # web.DataReader helps to access data of a particular stock from the site you want from starting date to ending date
 # data = web.DataReader('Stock Name', 'Website', starting date, ending date)
 # to see how values are stored in data please print to verify
-print("Date update karna matt bhulna")
 counttt = 0
-for i in range(0,len(nifty_500)):
-    st = nifty_500[i]
-    wb = xl.load_workbook('technicals_ours.xlsx', data_only=True)
-    sheet1 = wb['sheet']
+workpath = os.path.dirname(os.path.abspath(__file__))
+wb = xl.load_workbook('technicals_ours.xlsx', data_only=True)
+sheet1 = wb['sheet']
 
+for ii in range(len(nifty_500)):
     try:
-        data = web.DataReader(st, 'yahoo', start, end)
-        # data.reset_index() will shift the Date from Header column to normal column you can print to check
-        data_reset = data.reset_index()
-        # This line is compulsory to make Date  column readable to python programme
-        data_reset['date_ax'] = data_reset['Date'].apply(lambda date: date2num(date))
-        # putting every column in an individual list
+        st = nifty_500[ii]
+        st = st.replace("&", "_")
+        data_reset = pd.read_excel(f'D:/college/webend/techniqo/data_new_ticker/{st}.xlsx')
         close = data_reset['Close'].to_list()
         high = data_reset['High'].to_list()
         low = data_reset['Low'].to_list()
@@ -39,46 +83,112 @@ for i in range(0,len(nifty_500)):
         date = data_reset['Date'].to_list()
         dt = data_reset['date_ax'].to_list()
         volume = data_reset['Volume'].to_list()
+
+
         def RSI(close, t):
             n = len(close)
             rsi = []
             Ups = 0.0
             Downs = 0.0
-            for j in range(t-1):
-                rsi.append(0)
-            #Ye sabse pehla avgU/avgD find karne ke liye simple average vala step
-            for i in range(1,t):
-                diff = close[i] - close[i-1]
-                if(diff > 0):
+            for j in range(t - 1):
+                rsi.append(-1)
+            # Ye sabse pehla avgU/avgD find karne ke liye simple average vala step
+            for i in range(1, t):
+                diff = close[i] - close[i - 1]
+                if (diff > 0):
                     Ups += diff
                 else:
                     Downs += (-diff)
 
-            preU = Ups/t
-            preD = Downs/t
-            #simple average mil gaya to hamara pehla rsi bi mil gaya
-            rs = preU/preD
-            rsi.append( (100 - (100/(1+rs))) )
-            #yaha se prev_avgUp vala loop
+            preU = Ups / t
+            preD = Downs / t
+            # simple average mil gaya to hamara pehla rsi bi mil gaya
+            rs = preU / preD
+            rsi.append((100 - (100 / (1 + rs))))
+            # yaha se prev_avgUp vala loop
             Ups = 0.0
             Downs = 0.0
-            for i in range(t,n):
-                diff = close[i] - close[i-1]
-                if(diff > 0):
+            for i in range(t, n):
+                diff = close[i] - close[i - 1]
+                if (diff > 0):
                     Ups = diff
                     Downs = 0.0
                 else:
                     Downs = (-diff)
                     Ups = 0.0
-                u = (1/t)*Ups + ((t-1)/t)*preU
-                d = (1/t)*Downs + ((t-1)/t)*preD
-                preU = u    #Update previous-Up and previous-Down
+                u = (1 / t) * Ups + ((t - 1) / t) * preU
+                d = (1 / t) * Downs + ((t - 1) / t) * preD
+                preU = u  # Update previous-Up and previous-Down
                 preD = d
-                rs = u/d
-                rsi.append( (100 - (100/(1+rs))) )   #RSI for a particular date
+                rs = u / d
+                rsi.append((100 - (100 / (1 + rs))))  # RSI for a particular date
             return rsi
-        #RSI Ends Here
 
+
+        # RSI Ends Here
+
+        # SMA starts here
+        def SMA(close, t):
+            mas = []
+            for i in range(t - 1):
+                mas.append(-1)
+            for i in range(len(close) - t + 1):
+                summ = 0
+                for j in range(i, t + i):
+                    summ = summ + close[j]
+                meann = summ / t
+                mas.append(meann)
+            return mas
+
+
+        # SMA Ends here
+
+        # Weighted Moving Average(WMA) Starts Here
+        # Reference for code is taken from tradingview
+        def WMA(close, t):
+            wma = []
+            for i in range(t - 1):
+                wma.append(-1)
+            for i in range(t - 1, len(close)):
+                norm = 0.0
+                summ = 0.0
+                for j in range(0, t):
+                    weight = (t - j) * t
+                    norm = norm + weight
+                    summ = summ + (close[i - j] * weight)
+                wma.append(summ / norm)
+            return wma
+
+
+        # WMA Ends Here
+
+        # Rolling Moving Average(RMA) Starts here
+        def RMA(close, t):
+            rma = []
+            sma = SMA(close, t)
+            for i in range(t):
+                rma.append(sma[i])
+            for i in range(t, len(close)):
+                rma.append((rma[i - 1] * (t - 1) + close[i]) / t)
+            return rma
+
+
+        # RMA Ends here
+
+        # Rate Of Change(ROC) Starts here
+        def ROC(close, t):
+            roc = []
+            for i in range(t - 1):
+                roc.append(-1)
+            for i in range(t - 1, len(close)):
+                sum = 100 * (close[i] - close[i - t]) / close[i - t]
+                roc.append(sum)
+            return roc
+
+
+        # ROC Ends here
+
+        # EMA Starts Here
         def EMA(close, t):
             sma = 0.0
             n = len(close)
@@ -95,29 +205,38 @@ for i in range(0,len(nifty_500)):
                 ema.append(e)
             return ema
 
+
         # EMA ends here
+
         # From Here Pivot Points
         final_high = []
         final_low = []
         final_close = []
         final_counts = []
 
-        def assigning(countt,high_maxx,low_minn,closee):
+
+        def assigning(countt, high_maxx, low_minn, closee):
             final_counts.append(countt)
             final_high.append(high_maxx)
             final_low.append(low_minn)
             final_close.append(closee)
 
-        def pivot_points():
+
+        def pivot_points(close, high, low, date):
             flag = 0
             count = 0
             high_max = 0
             low_min = 320000
+            final_high.clear()
+            final_low.clear()
+            final_close.clear()
+            final_counts.clear()
+
             for i in range(len(close)):
                 date_st = str(date[i])
-                if date_st[5] == "0" and date_st[6] == "1":
+                if date_st[3] == "0" and date_st[4] == "1":
                     if flag == 12:
-                        assigning(count,high_max,low_min,close[i-1])
+                        assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
                         count = 0
                         high_max = 0
@@ -125,13 +244,13 @@ for i in range(0,len(nifty_500)):
                     else:
                         if high[i] > high_max:
                             high_max = high[i]
-                        if low[i] < low_min :
+                        if low[i] < low_min:
                             low_min = low[i]
                         flag = 1
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "2":
+                elif date_st[3] == "0" and date_st[4] == "2":
                     if flag == 1:
-                        assigning(count,high_max,low_min,close[i-1])
+                        assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
                         count = 0
                         high_max = 0
@@ -143,7 +262,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 2
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "3":
+                elif date_st[3] == "0" and date_st[4] == "3":
                     if flag == 2:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -157,7 +276,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 3
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "4":
+                elif date_st[3] == "0" and date_st[4] == "4":
                     if flag == 3:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -171,7 +290,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 4
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "5":
+                elif date_st[3] == "0" and date_st[4] == "5":
                     if flag == 4:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -185,7 +304,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 5
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "6":
+                elif date_st[3] == "0" and date_st[4] == "6":
                     if flag == 5:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -199,7 +318,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 6
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "7":
+                elif date_st[3] == "0" and date_st[4] == "7":
                     if flag == 6:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -213,7 +332,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 7
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "8":
+                elif date_st[3] == "0" and date_st[4] == "8":
                     if flag == 7:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -227,7 +346,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 8
                         count += 1
-                elif date_st[5] == "0" and date_st[6] == "9":
+                elif date_st[3] == "0" and date_st[4] == "9":
                     if flag == 8:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -241,7 +360,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 9
                         count += 1
-                elif date_st[5] == "1" and date_st[6] == "0":
+                elif date_st[3] == "1" and date_st[4] == "0":
                     if flag == 9:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -255,7 +374,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 10
                         count += 1
-                elif date_st[5] == "1" and date_st[6] == "1":
+                elif date_st[3] == "1" and date_st[4] == "1":
                     if flag == 10:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -269,7 +388,7 @@ for i in range(0,len(nifty_500)):
                             low_min = low[i]
                         flag = 11
                         count += 1
-                elif date_st[5] == "1" and date_st[6] == "2":
+                elif date_st[3] == "1" and date_st[4] == "2":
                     if flag == 11:
                         assigning(count, high_max, low_min, close[i - 1])
                         flag = 0
@@ -300,14 +419,13 @@ for i in range(0,len(nifty_500)):
             support_3_pr = []
 
             for i in range(len(final_counts)):
-                    pivot_point_pr.append((final_high[i]+final_low[i]+final_close[i])/3)
-                    support_1_pr.append((2*pivot_point_pr[i])-final_high[i])
-                    resistance_1_pr.append((2*pivot_point_pr[i])-final_low[i])
-                    support_2_pr.append(pivot_point_pr[i] - final_high[i] + final_low[i])
-                    resistance_2_pr.append(pivot_point_pr[i] + final_high[i] - final_low[i])
-                    support_3_pr.append(support_1_pr[i] - final_high[i] + final_low[i])
-                    resistance_3_pr.append(resistance_1_pr[i] + final_high[i] - final_low[i])
-
+                pivot_point_pr.append((final_high[i] + final_low[i] + final_close[i]) / 3)
+                support_1_pr.append((2 * pivot_point_pr[i]) - final_high[i])
+                resistance_1_pr.append((2 * pivot_point_pr[i]) - final_low[i])
+                support_2_pr.append(pivot_point_pr[i] - final_high[i] + final_low[i])
+                resistance_2_pr.append(pivot_point_pr[i] + final_high[i] - final_low[i])
+                support_3_pr.append(support_1_pr[i] - final_high[i] + final_low[i])
+                resistance_3_pr.append(resistance_1_pr[i] + final_high[i] - final_low[i])
             for i in range(final_counts[0]):
                 pivot_point.append(0)
                 resistance_1.append(0)
@@ -325,11 +443,10 @@ for i in range(0,len(nifty_500)):
                     support_1.append(support_1_pr[i])
                     support_2.append(support_2_pr[i])
                     support_3.append(support_3_pr[i])
-            return pivot_point,support_1,support_2,support_3,resistance_1,resistance_2,resistance_3
+            return pivot_point, support_1, support_2, support_3, resistance_1, resistance_2, resistance_3
+        # Pivot Points Ends Here
 
-        #Pivot Points Ends Here
-
-        #MACD Starts From Here
+        # MACD Starts From Here
         def EMA_d(close, t):
             sma = 0.0
             n = len(close)
@@ -360,7 +477,7 @@ for i in range(0,len(nifty_500)):
             return ema
 
 
-        def MACD(x, y, z):
+        def MACD(close, x, y, z):
             val_pr = EMA_d(close, x)
             val2_pr = EMA_d(close, y)
             val = []
@@ -395,97 +512,89 @@ for i in range(0,len(nifty_500)):
 
             return macd_line, signal_line, macd_histogram
 
-        #MACD Ends Here
 
-        #Bollinger Band Starts Here
-        def bollinger_band(close,n,r):
+        # MACD Ends Here
+
+        # Bollinger Band Starts Here
+        def bollinger_band(close, n, r):
             up = []
             lo = []
             ma = []
-            for i in range(n-1):
+            for i in range(n - 1):
                 up.append(0)
                 lo.append(0)
                 ma.append(0)
-            for i in range(len(close)-n+1):
+            for i in range(len(close) - n + 1):
                 sum = 0
                 sqr = 0
-                for j in range(i, n+i):
+                for j in range(i, n + i):
                     sum = sum + close[j]
-                meann = sum/n
+                meann = sum / n
                 ma.append(sum / n)
-                for z in range(i, n+i):
-                    sq = close[z]-meann
-                    sqr = sqr + (sq*sq)
-                varr = sqr/n
+                for z in range(i, n + i):
+                    sq = close[z] - meann
+                    sqr = sqr + (sq * sq)
+                varr = sqr / n
                 std = math.sqrt(varr)
-                up.append(meann + (r*std))
-                lo.append(meann - (r*std))
-            return up,lo,ma
+                up.append(meann + (r * std))
+                lo.append(meann - (r * std))
+            return up, lo, ma
 
-        #Bollinger Band Ends here
 
-        #Fibonacci Retracement start here
+        # Bollinger Band Ends here
+
+        # Fibonacci Retracement start here
         def fib_retracement(p1, p2):
-            list =[0, 0.236, 0.382, 0.5, 0.618, 0.786, 1, 1.618, 2.618, 3.618, 4.236]
+            list = [0, 0.236, 0.382, 0.5, 0.618, 0.786, 1, 1.618, 2.618, 3.618, 4.236]
             dict = {}
             dist = p2 - p1
             for val in list:
-                dict[str(val) ] =  (p2 - dist*val)
+                dict[str(val)] = (p2 - dist * val)
             return dict
-        #Fibonacci Retracement ends here
 
-        #Money Flow Index starts here
-        def MFI(t):
-            mfi = []        #money flow index
-            typ = []        #typical price
-            raw_money = []  #raw money flow
-            mfr = []        #money flow ratio
+
+        # Fibonacci Retracement ends here
+
+        # Money Flow Index starts here
+        def MFI(high, low, close, volume, t):
+            mfi = []  # money flow index
+            typ = []  # typical price
+            raw_money = []  # raw money flow
+            mfr = []  # money flow ratio
             for i in range(t):
-                mfi.append(0)
-                mfr.append(0)
+                mfi.append(-1)
+                mfr.append(-1)
             ind = 1
-            typ.append( (high[0] + low[0] + close[0]) / 3)
-            raw_money.append(typ[0]*volume[0])  #first time assume it is positive
+            typ.append((high[0] + low[0] + close[0]) / 3)
+            raw_money.append(typ[0] * volume[0])  # first time assume it is positive
 
-            for i in range(1,len(close)):
-                typ.append( (high[i] + low[i] + close[i])/3 )
-                if(typ[ind] > typ[ind-1]):
-                    raw_money.append( typ[i]*volume[i]  )
+            for i in range(1, len(close)):
+                typ.append((high[i] + low[i] + close[i]) / 3)
+                if (typ[ind] > typ[ind - 1]):
+                    raw_money.append(typ[i] * volume[i])
                 else:
-                    raw_money.append( -typ[i]*volume[i]  )
+                    raw_money.append(-typ[i] * volume[i])
                 ind = ind + 1
             for i in range(t, len(close)):
                 positive_flows = 0.0
                 negative_flows = 0.0
                 for j in range(t):
-                    if(raw_money[i-j] > 0):
-                        positive_flows += raw_money[i-j]
+                    if (raw_money[i - j] > 0):
+                        positive_flows += raw_money[i - j]
                     else:
-                        negative_flows += -raw_money[i-j]
-                if(negative_flows != 0):        ratio = positive_flows/negative_flows
-                else:                           ratio = positive_flows
-                mfr.append( ratio )
-                mfi.append( (100- (100/(1+ratio)) ) )
+                        negative_flows += -raw_money[i - j]
+                if (negative_flows != 0):
+                    ratio = positive_flows / negative_flows
+                else:
+                    ratio = positive_flows
+                mfr.append(ratio)
+                mfi.append((100 - (100 / (1 + ratio))))
             return mfi
-        #Money Flow Index ends here
 
-        #SMA starts here
 
-        def SMA(close, t):
-            ma = []
-            for i in range(t - 1):
-                ma.append(0)
-            for i in range(len(close) - t + 1):
-                sum = 0
-                for j in range(i, t + i):
-                    sum = sum + close[j]
-                meann = sum / t
-                ma.append(meann)
-            return ma
+        # Money Flow Index ends here
 
-        #SMA Ends here
-
-        #stochastic rsi starts here
+        # Stochastic Rsi Starts ahi thi
 
         def Rsi_high(high, t):
 
@@ -521,7 +630,7 @@ for i in range(0,len(nifty_500)):
             return rsi_L
 
 
-        def stoch(source, high, low, t, rt):
+        def stoch(source, high, low, t, rt, close):
             rsi_high = []
             rsi_low = []
 
@@ -583,7 +692,7 @@ for i in range(0,len(nifty_500)):
             # D= moving average of K
 
             rsi = RSI(Close, rt)
-            Stochstic, count = stoch(rsi, rsi, rsi, t, rt)
+            Stochstic, count = stoch(rsi, rsi, rsi, t, rt, Close)
             k = sma(Stochstic, K, count)
             d = sma(k, D, count)
 
@@ -594,9 +703,11 @@ for i in range(0,len(nifty_500)):
 
 
         # Stochastic Rsi Ends Here
+
         # Ichimoku Cloud Starts ahi thi
 
         def IC_high(high, t):
+
             ic_high = []
             for i in range(0, t - 1):
                 ic_high.append(-1)
@@ -611,7 +722,8 @@ for i in range(0,len(nifty_500)):
             return ic_high
 
 
-        def IC_low(low, t):
+        def IC_low(low, high, t):
+
             ic_low = []
             for i in range(0, t - 1):
                 ic_low.append(-1)
@@ -626,7 +738,7 @@ for i in range(0,len(nifty_500)):
             return ic_low
 
 
-        def average(ic_high, ic_low, ):
+        def average(ic_high, ic_low, high):
             cnt = 0
             cnt1 = 0
             cnt2 = 0
@@ -662,24 +774,30 @@ for i in range(0,len(nifty_500)):
             return lag1
 
 
-        def Icloud(c_period, b_period, span_b_period, lag_span_period):
+        def Icloud(high, low, close, c_period, b_period, span_b_period, lag_span_period):
+
             # c_line is conversion line also known as Tenken-san
             # b_line is base line also known as kijun-san
             # other all are time peroids
 
             c_high = IC_high(high, c_period)
-            c_low = IC_low(low, c_period)
-            conversion_line = average(c_high, c_low)
+            c_low = IC_low(low, high, c_period)
+            conversion_line = average(c_high, c_low, high)
 
             b_high = IC_high(high, b_period)
-            b_low = IC_low(low, b_period)
-            base_line = average(b_high, b_low)
+            b_low = IC_low(low, high, b_period)
+            base_line = average(b_high, b_low, high)
+            span_a = []
+            span_b = []
+            for jj in range(26):
+                span_a.append(-1)
+                span_b.append(-1)
 
-            span_a = average(conversion_line, base_line)
+            span_a = average(conversion_line, base_line, high)
 
             span_b_high = IC_high(high, span_b_period)
-            span_b_low = IC_low(low, span_b_period)
-            span_b = average(span_b_high, span_b_low)
+            span_b_low = IC_low(low, high, span_b_period)
+            span_b = average(span_b_high, span_b_low, high)
 
             lag_span = lag(close, lag_span_period)
 
@@ -688,19 +806,64 @@ for i in range(0,len(nifty_500)):
 
 
         # Ichimoku Cloud Ends Here
-        # ROC starts here
-        def ROC(close, t):
-            roc = []
-            for i in range(t - 1):
-                roc.append(-1)
-            for i in range(t - 1, len(close)):
-                sum = 100 * (close[i] - close[i - t]) / close[i - t]
-                roc.append(sum)
-            return roc
-        # ROC Ends here
 
-        # Williams Starts Here
-        def WILLIAM_R(source, t):
+        # ATR Starts Ahi Thi
+
+        def tr(high, low, close):
+            X = []
+            Y = [-1]
+            Z = [-1]
+            TR = [-1]
+            for i in range(len(low)):
+                X.append(high[i] - low[i])
+
+            for i in range(1, len(high)):
+                Y.append(abs(high[i] - close[i - 1]))
+
+            for i in range(1, len(low)):
+                Z.append(abs(low[i] - close[i - 1]))
+
+            for i in range(1, len(low)):
+                TR.append(max(X[i], Y[i], Z[i]))
+
+            return TR
+
+
+        def ATR(source, t):
+            # Source Might be EITHER EMA,RMA,SMA OR WMA.
+            # At the moment WMA & RMA isn't added so it will return None
+            # T Is Time Period
+            # take source as a string
+
+            TR = tr()
+
+            source = source.upper()
+
+            if source == "EMA":
+                ema = EMA(TR, t)
+            elif source == "RMA":
+                rma = RMA(TR, t)
+            elif source == "WMA":
+                wma = WMA(TR, t)
+            else:
+                sma = SMA(TR, t)
+
+            # for returning
+            if source == "EMA":
+                return ema
+            elif source == "RMA":
+                return rma
+            elif source == "WMA":
+                return wma
+            else:
+                return sma
+
+
+        # ATR Ends Here
+
+        # William %R Starts Ahi Thi
+
+        def WILLIAM_R(source, t, high, low):
 
             W_R = []
 
@@ -720,10 +883,66 @@ for i in range(0,len(nifty_500)):
                 W_R.append(z)
 
             return W_R
-        # William %R Ends Here
-        # Williams ends Here
 
-        macd, sg, mh = MACD(12, 26, 9)
+
+        # William %R Ends Here
+
+        # Super Trend Starts Ahi Thi
+        # tx3 uses rma in atr & super trend uses atr so if you want to check use rma in atr in tx3
+        def ST(s_atr, t_atr, mul, high, low, close):
+            # s_atr Is Source for ATR & t_atr is Time Period For ATR
+            # mul is multiplier
+            up = []
+            down = []
+            f_down = []
+            f_up = []
+            st = []
+            cnt = 0
+            atr = ATR(s_atr, t_atr)
+            for i in range(0, t_atr - 1):
+                up.append(-1)
+                f_up.append(-1)
+                down.append(-1)
+                f_down.append(-1)
+                st.append(-1)
+                cnt += 1
+            for i in range(cnt, len(high)):
+                x = high[i]
+                y = low[i]
+                z = (x + y) / 2
+                w = atr[i] * mul
+                up.append(z + w)
+                down.append(z - w)
+            for i in range(cnt, len(close)):
+
+                if (i != len(close)):
+                    if ((up[i] < f_up[i - 1]) or (close[i - 1] > f_up[i - 1])):
+                        f_up.append(up[i])
+                    else:
+                        f_up.append(f_up[i - 1])
+
+                    if ((down[i] > f_down[i - 1]) or (close[i - 1] < f_down[i - 1])):
+                        f_down.append(down[i])
+                    else:
+                        f_down.append(f_down[i - 1])
+
+            for i in range(cnt, len(high)):
+
+                if ((st[i - 1] == f_up[i - 1]) and (close[i] < f_up[i])):
+                    st.append(f_up[i])
+                elif ((st[i - 1] == f_up[i - 1]) and (close[i] > f_up[i])):
+                    st.append(f_down[i])
+                elif ((st[i - 1] == f_down[i - 1]) and (close[i] > f_down[i])):
+                    st.append(f_down[i])
+                elif ((st[i - 1] == f_down[i - 1]) and (close[i] < f_down[i])):
+                    st.append(f_up[i])
+
+            return st
+
+
+        # Super Trend Ends Here():
+
+        macd, sg, mh = MACD(close, 12, 26, 9)
         rsi = RSI(close, 14)
         smaa20 = SMA(close, 20)
         smaa50 = SMA(close, 50)
@@ -733,17 +952,16 @@ for i in range(0,len(nifty_500)):
         emaa50 = EMA(close, 50)
         emaa100 = EMA(close, 100)
         emaa200 = EMA(close, 200)
-        pp, s1, s2, s3, r1, r2, r3 = pivot_points()
-        mf = MFI(14)
+        pp, s1, s2, s3, r1, r2, r3 = pivot_points(close, high, low, date)
+        mf = MFI(high, low, close, volume, 14)
         up, lo, ma = bollinger_band(close, 20, 2)
         valblue, valred = S_RSI(close, 14, 3, 3, 14)
-        cl, bl, sa, sb, ls = Icloud(9, 26, 52, 26)
-        wil = WILLIAM_R(close, 14)
+        cl, bl, sa, sb, ls = Icloud(high, low, close, 9, 26, 52, 26)
+        wil = WILLIAM_R(close, 14, high, low)
         roc = ROC(close, 9)
 
-
         for x in range(2, sheet1.max_row + 1):
-            if st == sheet1.cell(x, 3).value:
+            if st == sheet1.cell(x, 2).value:
                 sheet1.cell(x, column_index_from_string('E')).value = rsi[len(rsi)-1]
                 sheet1.cell(x, column_index_from_string('D')).value = rsi[len(rsi)-2]
                 sheet1.cell(x, column_index_from_string('Y')).value = wil[len(wil)-1]
@@ -802,5 +1020,4 @@ for i in range(0,len(nifty_500)):
                 counttt += 1
                 break
     except:
-        print(-1)
-        pass
+        print(nifty_500[ii])

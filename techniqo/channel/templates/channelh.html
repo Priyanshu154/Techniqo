@@ -1,5 +1,6 @@
 {% extends 'home.html'%}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% block title %}Channel Pattern{% endblock %}
 {% block style %}
 #side_box{
   width: 220px;
@@ -23,7 +24,7 @@
         document.getElementById("form2").submit();
     }
 </script>
-<h1 align="center">Channel Patterns</h1>
+
 <div class="container">
     <div class="row">
 
@@ -31,91 +32,210 @@
     <div id="side_box" >
     <form action = "/channel/" method ="get" id = "form1">
         <div class="custom-control custom-switch mt-3 mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch1"  name = "mark" value = "channel" onclick ="sub()"
-                {%if selected == "channel"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch1"  name = "mark" value = "channel" onclick ="sub()"
+         {%if selected == "channel"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch1"><b>Channel</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch2"  name = "mark" value = "channelu" onclick ="sub()"
-         {%if selected == "channelu"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch2"  name = "mark" value = "channelup" onclick ="sub()"
+         {%if selected == "channelup"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch2"><b>Channel up</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch4"  name = "mark" value = "channeld" onclick ="sub()"
-         {%if selected == "channeld"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch4"  name = "mark" value = "channeldown" onclick ="sub()"
+         {%if selected == "channeldown"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch4"><b>Channel down</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch5"  name = "mark" value = "doublet" onclick ="sub()"
-         {%if selected == "doublet"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch5"  name = "mark" value = "doubletop" onclick ="sub()"
+         {%if selected == "doubletop"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch5"><b>Double Top</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch6"  name = "mark" value = "doubled" onclick ="sub()"
-         {%if selected == "doubled"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch6"  name = "mark" value = "doublebottom" onclick ="sub()"
+         {%if selected == "doublebottom"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch6"><b>Double Bottom</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch7"  name = "mark" value = "multiplet" onclick ="sub()"
-         {%if selected == "multiplet"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch7"  name = "mark" value = "multipletop" onclick ="sub()"
+         {%if selected == "multipletop"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch7"><b>Multiple Top</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch8"  name = "mark" value = "multipleb" onclick ="sub()"
-         {%if selected == "multipleb"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch8"  name = "mark" value = "multiplebottom" onclick ="sub()"
+         {%if selected == "multiplebottom"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch8"><b>Multiple Bottom</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch9"  name = "mark" value = "head_n_s" onclick ="sub()"
-         {%if selected == "head_n_s"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch9"  name = "mark" value = "head_and_shoulder" onclick ="sub()"
+         {%if selected == "head_and_shoulder"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch9"><b>Head and Shoulder</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch10"  name = "mark" value = "wedge" onclick ="sub()"
+         <input type="radio" class="custom-control-input" id="customSwitch10"  name = "mark" value = "wedge" onclick ="sub()"
          {%if selected == "wedge"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch10"><b>Wedge</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch11"  name = "mark" value = "wedgeu" onclick ="sub()"
-         {%if selected == "wedgeu"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch11"  name = "mark" value = "wedgeup" onclick ="sub()"
+         {%if selected == "wedgeup"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch11"><b>Wedge up</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch12"  name = "mark" value = "wedged" onclick ="sub()"
-         {%if selected == "wedged"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch12"  name = "mark" value = "wedgedown" onclick ="sub()"
+         {%if selected == "wedgedown"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch12"><b>Wedge down</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch13"  name = "mark" value = "trendlines" onclick ="sub()"
-         {%if selected == "trendlines"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch13"  name = "mark" value = "trendlinesupport" onclick ="sub()"
+         {%if selected == "trendlinesupport"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch13"><b>Trendline support</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch14"  name = "mark" value = "trendliner" onclick ="sub()"
-         {%if selected == "trendliner"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch14"  name = "mark" value = "trendlineresistance" onclick ="sub()"
+         {%if selected == "trendlineresistance"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch14"><b>Trendline resistance</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch15"  name = "mark" value = "horizontal_sr" onclick ="sub()"
-         {%if selected == "horizontal_sr"%} checked {% endif %}>
-            <label class="custom-control-label" for="customSwitch15"><b>Horizontal Support/Resistance</b></label>
-        </div>
-        <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch16"  name = "mark" value = "ascendingt" onclick ="sub()"
-         {%if selected == "ascendingt"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch16"  name = "mark" value = "ascendingtriangle" onclick ="sub()"
+         {%if selected == "ascendingtriangle"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch16"><b>Ascending Triangle</b></label>
         </div>
         <div class="custom-control custom-switch mb-3">
-         <input type="radio"class="custom-control-input" id="customSwitch17"  name = "mark" value = "descendingt" onclick ="sub()"
-         {%if selected == "descendingt"%} checked {% endif %}>
+         <input type="radio" class="custom-control-input" id="customSwitch17"  name = "mark" value = "descendingtriangle" onclick ="sub()"
+         {%if selected == "descendingtriangle"%} checked {% endif %}>
             <label class="custom-control-label" for="customSwitch17"><b>Descending Triangle</b></label>
         </div>
     </form>
 </div>
 </div>
 <div class="col-lg-9">
-    <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
+    {% if selected == "channel" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/JCHAC_channel.png' %}" style="height: 400px;width: 600px;">
     </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/VRLLOG__CHANNEL.png' %}" style="height: 400px;width: 600px;">
+    </div>
+     <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/CHANNEL_COAL.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "channelup" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/AEGISCHEM_CHANNELUP.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/BAJAJELEC_CHANNELUP.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/HERITGFOOD_CHANNELUP.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/IDFCFIRSTB_CHANNELUP.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/CHOLAFIN_channelup.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "channeldown" %}
+    <div align="center" class="mt-4">
+        <h2>No Pattern Formed</h2>
+    </div>
+    {% endif %}
+    {% if selected == "doubletop" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/JAGRAN_DOUBLETOP.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/PIIND_DOUBLETOP.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/CUB_DOUBLETOP.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "doublebottom" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/CENTRALBANK_DOUBLEBOTTOM.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/UCOBANK_DOUBLEBOTTOM.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "multipletop" %}
+    <div align="center" class="mt-4">
+        <h2>No Pattern Formed</h2>
+    </div>
+    {% endif %}
+    {% if selected == "multiplebottom" %}
+    <div align="center" class="mt-4">
+        <h2>No Pattern Formed</h2>
+    </div>
+    {% endif %}
+    {% if selected == "head_and_shoulder" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APOLLOHOSPITAL_HEADNSHOULDER.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/GRINDWELL_HNS.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "wedge" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/SKFINDIA_WEDGE.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/ASHOKA_WEDGE.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "wedgeup" %}
+    <div align="center" class="mt-4">
+        <h2>No Pattern Formed</h2>
+    </div>
+    {% endif %}
+    {% if selected == "wedgedown" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/BIRLACORPN_WEDGEDOWN.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "ascendingtriangle" %}
+    <div align="center" class="mt-4">
+        <h2>No Pattern Formed</h2>
+    </div>
+    {% endif %}
+    {% if selected == "descendingtriangle" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/RITES_TRIANGLEDESC.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/IOB_TRIANGLEDESC.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "trendlinesupport" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APPRSUPP_COAL.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APPRSUPP_NESTLE.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APPRSUPP_PGHH.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
+    {% if selected == "trendlineresistance" %}
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APPRRESIS_MAHHOLI.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APPRRESIS_PIDI.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APPRRESIS_SONA.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    <div align="center" class="mt-4">
+        <img src="{% static 'Channelspic/APPRRESIS_GODREJAGRO.png' %}" style="height: 400px;width: 600px;">
+    </div>
+    {% endif %}
 </div>
     </div>
 </div>
