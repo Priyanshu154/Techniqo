@@ -34,28 +34,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in banks_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in banks_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -76,28 +76,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in it_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in it_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -118,28 +118,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in fmcg_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in fmcg_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -160,28 +160,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in pharma_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in pharma_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -202,28 +202,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in oil_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in oil_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -244,28 +244,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in auto_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in auto_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -286,28 +286,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in finance_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in finance_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -328,28 +328,28 @@ top: 0;
                   <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
                   <th scope="col" class="topp">EPS</th>
                   <th scope="col" class="topp">P/E</th>
+                  <th scope="col" class="topp">Sector PE</th>
                   <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
+                  <th scope="col" class="topp">Dividend %</th>
+                  <th scope="col" class="topp">Dividend Yeild (%)</th>
+                  <th scope="col" class="topp">Book Value</th>
 
 
                 </tr>
               </thead>
 
               <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in metals_zips  %}
+              {% for stock_name,mkt,eps,pe,spe,pb,div,divy,bv in metals_zips  %}
             <tr>
                   <th scope="row">{{stock_name}}</th>
                   <td align="center">{{ mkt }}</td>
                   <td>{{ eps }}</td>
                   <td>{{ pe }}</td>
+                  <td>{{ spe }}</td>
                   <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
+                  <td>{{ div }}</td>
+                  <td align="center">{{ divy }}</td>
+                  <td align="center">{{ bv }}</td>
             </tr>
               {% endfor %}
               </tbody>
@@ -359,131 +359,6 @@ top: 0;
         </div>
       </div>
 
-     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
-        <div class="card-header"><h4>Agricultural Sector</h4></div>
-        <div class="card-body text-secondary">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
-            <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col" class="topp">Stocks</th>
-                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
-                  <th scope="col" class="topp">EPS</th>
-                  <th scope="col" class="topp">P/E</th>
-                  <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
-
-
-                </tr>
-              </thead>
-
-              <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in agri_zips  %}
-            <tr>
-                  <th scope="row">{{stock_name}}</th>
-                  <td align="center">{{ mkt }}</td>
-                  <td>{{ eps }}</td>
-                  <td>{{ pe }}</td>
-                  <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
-            </tr>
-              {% endfor %}
-              </tbody>
-
-            </table>
-        </div>
-        </div>
-      </div>
-
-     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
-        <div class="card-header"><h4>Retail Sector</h4></div>
-        <div class="card-body text-secondary">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
-            <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col" class="topp">Stocks</th>
-                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
-                  <th scope="col" class="topp">EPS</th>
-                  <th scope="col" class="topp">P/E</th>
-                  <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
-
-
-                </tr>
-              </thead>
-
-              <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in retail_zips  %}
-            <tr>
-                  <th scope="row">{{stock_name}}</th>
-                  <td align="center">{{ mkt }}</td>
-                  <td>{{ eps }}</td>
-                  <td>{{ pe }}</td>
-                  <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
-            </tr>
-              {% endfor %}
-              </tbody>
-
-            </table>
-        </div>
-        </div>
-      </div>
-
-     <div class="card border-secondary mb-3 mt-4" style="max-width: auto;" align="center">
-        <div class="card-header"><h4>Insurance Sector</h4></div>
-        <div class="card-body text-secondary">
-        <div class="table-wrapper-scroll-y my-custom-scrollbar mt-4">
-            <table class="table">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col" class="topp">Stocks</th>
-                  <th scope="col" class="topp">Mkt Cap (in Cr.)</th>
-                  <th scope="col" class="topp">EPS</th>
-                  <th scope="col" class="topp">P/E</th>
-                  <th scope="col" class="topp">P/B</th>
-                  <th scope="col" class="topp">P/S</th>
-                  <th scope="col" class="topp">ROE%</th>
-                  <th scope="col" class="topp">1Y Return (%)</th>
-                  <th scope="col" class="topp">EV/EBITDA</th>
-
-
-                </tr>
-              </thead>
-
-              <tbody>
-              {% for stock_name,mkt,eps,pe,pb,ev,yr,ps,roe in insurance_zips  %}
-            <tr>
-                  <th scope="row">{{stock_name}}</th>
-                  <td align="center">{{ mkt }}</td>
-                  <td>{{ eps }}</td>
-                  <td>{{ pe }}</td>
-                  <td>{{ pb }}</td>
-                  <td>{{ ps }}</td>
-                  <td>{{ roe }}</td>
-                  <td align="center">{{ yr }}</td>
-                  <td align="center">{{ ev }}</td>
-            </tr>
-              {% endfor %}
-              </tbody>
-
-            </table>
-        </div>
-        </div>
-      </div>
 </div>
 
 {% endblock %}

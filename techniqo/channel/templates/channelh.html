@@ -1,6 +1,18 @@
 {% extends 'home.html'%}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-{% block title %}Channel Pattern{% endblock %}
+{% block title %}{{ titl }}{% endblock %}
+{% block keyw %}
+<meta name="description" content="Channel Patterns are one of the most useful technics for trading. Here we show {{ selected }} for NSE/BSE Stocks ,channel pattern stocks,channel pattern trading,channel pattern in technical analysis,
+channel pattern trading pdf, finviz alternative ,channel up trading pattern,channel trading strategy,channel in trading,
+channels in technical analysis,channel up, channel down, channel, wedge, wedge up,wedge down,
+ ascending triangle, descending triangle, trendline support, trendline resistance, double top,double bottom,
+ multiple top, multiple bottom, Head & Shoulder, Horizontal support and resistance , Flag patterns">
+<meta name="keywords" content="channel pattern stocks,channel pattern trading,channel pattern in technical analysis,
+channel pattern trading pdf, finviz alternative ,channel up trading pattern,channel trading strategy,channel in trading,
+channels in technical analysis,channel up, channel down, channel, wedge, wedge up,wedge down,
+ ascending triangle, descending triangle, trendline support, trendline resistance, double top,double bottom,
+ multiple top, multiple bottom, Head & Shoulder, Horizontal support and resistance , Flag patterns">
+{% endblock %}
 {% block style %}
 #side_box{
   width: 220px;
@@ -239,5 +251,12 @@
 </div>
     </div>
 </div>
-
+<div style="display: none;">
+{% block diva %}
+<h4 align="center"><u>Charts Used</u></h4>
+<div class="mt-2" align="center">
+<a href='https://in.tradingview.com/' class="text-white">Trading view</a>
+</div>
+{% endblock %}
+</div>
 {%endblock%}

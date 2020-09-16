@@ -1,6 +1,10 @@
 {% extends 'home.html' %}
 
-{% block title %} {{ stockn }} {{ nse_ticker }} {% endblock %}
+{% block title %}{{ nse_ticker }} Stock Price , {{ nse_ticker }} Share price , {{ stockn }} Stock Price , {{ stockn }} Share Price , {{ nse_ticker }} Buy or Sell {% endblock %}
+{% block keyw %}
+<meta name="description" content="{{nse_ticker}} Share Price, {{nse_ticker}} Stock Price, {{stockn}} Stock/Share prices, {{stockn}} Live BSE/NSE,Public Sentiment Quote of {{stockn}} with Historic price charts for NSE / BSE. Experts opinion; Broker view on {{stockn}} buy sell tips. Get {{stockn}} detailed news, announcements, financial report, company information, annual report, balance sheet, profit & loss account, results and more.">
+<meta name="keywords" content="{{nse_ticker}} Share Price, {{nse_ticker}} Stock Price, {{nse_ticker}}, {{stockn}},Stock,Price,{{stockn}} Quote,{{nse_ticker}} News,Misc. Commercial Services,{{nse_ticker}} share price,{{stockn}} share prices,chart,graph,volumes,52-week high low,bid price,bid quantity,offer price,offer quantity,intraday, NSE/BSE Forecast News and Live Quotes">
+{% endblock %}
 {% load static %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></script>
@@ -47,7 +51,7 @@ shareshold = function(){
     }
 </script>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row mt-3">
         <div class="col-lg-4">
             <div class="shadow p-3 mb-5 bg-white rounded">
@@ -473,7 +477,7 @@ shareshold = function(){
           "container_id": "technical-analysis",
           "width": 998,
           "height": 610,
-          "symbol": "{{ nse_ticker }}",
+          "symbol": "{{ trad }}",
           "interval": "D",
           "timezone": "exchange",
           "theme": "light",

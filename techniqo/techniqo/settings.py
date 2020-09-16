@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'scanner',
     'login',
     'channel',
+    'opinion',
 ]
 
 MIDDLEWARE = [

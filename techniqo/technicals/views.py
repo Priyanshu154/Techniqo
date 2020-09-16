@@ -2,6 +2,8 @@ from django.shortcuts import render
 import os
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
+
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -9,6 +11,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
 
 # Create your views here.
 def index(request):
@@ -25,7 +28,20 @@ def index(request):
 
 
 def assign_para(tr):
-    if tr == "rsi_below_30": return "Technical Analysis: Stocks with Relative Strength Index (RSI) below 30 are considered oversold. This implies that stock may rebound."
+    if tr == "rsi_below_30":
+        return "are considered oversold. This implies that stock may rebound. Techniqo website helps to scan out the stocks having RSI above/greater than or below/less than or crossingover/crossingunder 10 20 30 40 50 60 70 80 "
+    elif tr == "rsi_above_70":
+        return "are considered overbought. This implies that stock may rebound. Techniqo website helps to scan out the stocks having RSI above/greater than or below/less than or crossingover/crossingunder 10 20 30 40 50 60 70 80 "
+    elif tr == "rsi" or tr == "rsi_crossover_30" or tr == "rsi_crossunder_70":
+        return "are considered neutral. This implies that stock may have good strength. Techniqo website helps to scan out the stocks having RSI above/greater than or below/less than or crossingover/crossingunder 10 20 30 40 50 60 70 80 "
+    elif tr == "macd_above":
+        return "is considered bullish . This implies that stock may have good strength. macd line above/greater than/crossing over zero line and signal line shows bullish trend for stock."
+    elif tr == "macd_below":
+        return "is considered bearish . This implies that stock may have weak strength. macd line below/less than/crossing under zero line and signal line shows bearish trend for stock."
+    elif tr == "macd_crossover":
+        return "is considered bullish . This implies that stock may have good strength. macd line above/greater than/crossing over zero line and signal line shows bullish trend for stock."
+    elif tr == "macd_crossunder":
+        return "is considered bearish . This implies that stock may have weak strength. macd line below/less than/crossing under zero line and signal line shows bearish trend for stock."
 
 
 def assign_cell(cp):
@@ -53,8 +69,10 @@ def assign_cell(cp):
         return 'AN'
     return 'AZ'
 
-def swapp(x,y):
-    return y,x
+
+def swapp(x, y):
+    return y, x
+
 
 def triggers(request):
     cp = request.GET.get("nifty", "nifty_500")
@@ -74,7 +92,8 @@ def triggers(request):
 
     if tr == "rsi_below_30":
         for i in range(2, sheet.max_row + 1):
-            if 30 >= float(str(sheet.cell(i, column_index_from_string('E')).value)) > 0 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if 30 >= float(str(sheet.cell(i, column_index_from_string('E')).value)) > 0 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('E')).value)), 2))
@@ -91,7 +110,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Below 30", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'RSI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
 
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
@@ -104,10 +123,10 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "rsi_above_70":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('E')).value)) >= 70 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('E')).value)) >= 70 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('E')).value)), 2))
@@ -124,22 +143,22 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Above 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'RSI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
         for i in range(2, sheet.max_row + 1):
-            if (ip == sheet.cell(i, 3).value):
-                if (sheet.cell(i, 4).value == "yes"):
+            if ip == sheet.cell(i, 3).value:
+                if sheet.cell(i, 4).value == "yes":
                     print("matched")
                     dictt["email"] = sheet.cell(i, 1).value
 
         return render(request, 'result_technicals.html', dictt)
-
 
     elif tr == "rsi":
         for i in range(2, sheet.max_row + 1):
-            if 30 <= float(str(sheet.cell(i, column_index_from_string('E')).value)) <= 70 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if 30 <= float(str(sheet.cell(i, column_index_from_string('E')).value)) <= 70 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('E')).value)), 2))
@@ -155,8 +174,9 @@ def triggers(request):
         signal = "Please select index by default result shows Nifty 500 stocks"
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
-        dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Between 30 to 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Between 30 to 70", 'paras': para,
+                 'signals': signal,
+                 'nifty': cp, 'head': 'RSI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -167,11 +187,12 @@ def triggers(request):
                     dictt["email"] = sheet.cell(i, 1).value
 
         return render(request, 'result_technicals.html', dictt)
-
 
     elif tr == "rsi_crossover_30":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('D')).value)) <= 30 <= float(str(sheet.cell(i, column_index_from_string('E')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('D')).value)) <= 30 <= float(
+                    str(sheet.cell(i, column_index_from_string('E')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('E')).value)), 2))
@@ -187,8 +208,9 @@ def triggers(request):
         signal = "Please select index by default result shows Nifty 500 stocks"
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
-        dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Crossing over 30", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        dictt = {'zips': zipp, 'trigger': "Relative Strength Index (RSI) Crossing over 30", 'paras': para,
+                 'signals': signal,
+                 'nifty': cp, 'head': 'RSI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -200,10 +222,11 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "rsi_crossunder_70":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('D')).value)) >= 70 >= float(str(sheet.cell(i, column_index_from_string('E')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('D')).value)) >= 70 >= float(
+                    str(sheet.cell(i, column_index_from_string('E')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('E')).value)), 2))
@@ -220,7 +243,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Relative Strength Index Crossing Under 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'RSI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'RSI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -232,10 +255,10 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "macd_above":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AX')).value)) >= 0 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AX')).value)) >= 0 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AX')).value)), 2))
@@ -252,7 +275,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "MACD Line above 0 line", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MACD Line', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -264,10 +287,10 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "macd_below":
         for i in range(2, sheet.max_row + 1):
-            if -10000 <= float(str(sheet.cell(i, column_index_from_string('AX')).value)) <= 0 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if -10000 <= float(str(sheet.cell(i, column_index_from_string('AX')).value)) <= 0 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AX')).value)), 2))
@@ -284,7 +307,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "MACD Line below 0 line", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MACD Line', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -296,10 +319,12 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "macd_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AW')).value)) < float(str(sheet.cell(i, column_index_from_string('AY')).value)) < float(str(sheet.cell(i, column_index_from_string('AX')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AW')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AY')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AX')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AX')).value)), 2))
@@ -316,7 +341,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "MACD Line Crossing over Signal line", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MACD Line', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -328,10 +353,12 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "macd_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AW')).value)) > float(str(sheet.cell(i, column_index_from_string('AY')).value)) > float(str(sheet.cell(i, column_index_from_string('AX')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AW')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AY')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AX')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AX')).value)), 2))
@@ -347,8 +374,8 @@ def triggers(request):
         signal = "Please select index by default result shows Nifty 500 stocks"
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
-        dictt = {'zips': zipp, 'trigger': "MACD Line Crossing below Signal line", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MACD Line', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+        dictt = {'zips': zipp, 'trigger': "MACD Line Crossing under Signal line", 'paras': para, 'signals': signal,
+                 'nifty': cp, 'head': 'MACD Line', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -360,10 +387,11 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "above_lb":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('Z')).value)) <= float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('Z')).value)) <= float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('Z')).value)), 2))
@@ -380,7 +408,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price above Lower Band", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Lower Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Lower Band', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -392,10 +420,12 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "mb_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('AB')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AB')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AB')).value)), 2))
@@ -412,7 +442,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Middle Band", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Middle Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Middle Band', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -424,10 +454,12 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "mb_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('AB')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AB')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AB')).value)), 2))
@@ -444,7 +476,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Middle Band", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Middle Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Middle Band', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -459,7 +491,9 @@ def triggers(request):
 
     elif tr == "ub_below":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AA')).value)) >= float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AA')).value)) >= float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AA')).value)), 2))
@@ -476,7 +510,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Below Upper bond", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Upper Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Upper Band', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -491,7 +525,9 @@ def triggers(request):
 
     elif tr == "ub_above":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AA')).value)) <= float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AA')).value)) <= float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AA')).value)), 2))
@@ -508,7 +544,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Above Upper bond", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Upper Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Upper Band', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -523,7 +559,9 @@ def triggers(request):
 
     elif tr == "lb_below":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('Z')).value)) >= float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('Z')).value)) >= float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('Z')).value)), 2))
@@ -540,7 +578,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Below Lower bond", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Lower Band', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Lower Band', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -555,7 +593,10 @@ def triggers(request):
 
     elif tr == "pp_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('J')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('J')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('J')).value)), 2))
@@ -572,7 +613,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Pivot Point", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Pivot Point', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Pivot Point', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -587,7 +628,10 @@ def triggers(request):
 
     elif tr == "pp_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('J')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('J')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('J')).value)), 2))
@@ -604,7 +648,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing Under Pivot Point", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Pivot Point', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Pivot Point', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -619,7 +663,10 @@ def triggers(request):
 
     elif tr == "r1_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('K')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('K')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('K')).value)), 2))
@@ -636,7 +683,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Resistance 1", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Resistance 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Resistance 1', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -651,7 +698,10 @@ def triggers(request):
 
     elif tr == "r2_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('L')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('L')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('L')).value)), 2))
@@ -668,7 +718,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Resistance 2", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Resistance 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Resistance 2', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -683,7 +733,10 @@ def triggers(request):
 
     elif tr == "r3_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('M')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('M')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('M')).value)), 2))
@@ -700,7 +753,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Resistance 3", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Resistance 3', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Resistance 3', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -715,7 +768,10 @@ def triggers(request):
 
     elif tr == "r1_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('K')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('K')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('K')).value)), 2))
@@ -732,7 +788,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Resistance 1", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Resistance 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Resistance 1', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -747,7 +803,10 @@ def triggers(request):
 
     elif tr == "r2_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('L')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('L')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('L')).value)), 2))
@@ -764,7 +823,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing Under Resistance 2", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Resistance 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Resistance 2', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -779,7 +838,10 @@ def triggers(request):
 
     elif tr == "r3_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('M')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('M')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('M')).value)), 2))
@@ -796,7 +858,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Resistance 3", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Resistance 3', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Resistance 3', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -811,7 +873,10 @@ def triggers(request):
 
     elif tr == "s1_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('I')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('I')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('I')).value)), 2))
@@ -828,7 +893,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Support 1", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Support 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Support 1', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -843,7 +908,10 @@ def triggers(request):
 
     elif tr == "s2_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('H')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('H')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('H')).value)), 2))
@@ -860,7 +928,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Support 2", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Support 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Support 2', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -875,7 +943,10 @@ def triggers(request):
 
     elif tr == "s3_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('G')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('G')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('G')).value)), 2))
@@ -892,7 +963,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing over Support 3", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Support 3', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Support 3', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -907,7 +978,10 @@ def triggers(request):
 
     elif tr == "s1_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('I')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('I')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('I')).value)), 2))
@@ -924,7 +998,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing under Support 1", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Support 1', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Support 1', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -939,7 +1013,10 @@ def triggers(request):
 
     elif tr == "s2_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('H')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('H')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('H')).value)), 2))
@@ -956,7 +1033,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Price Crossing Under Support 2", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Support 2', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'Support 2', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -971,7 +1048,10 @@ def triggers(request):
 
     elif tr == "s3_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('G')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('G')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('G')).value)), 2))
@@ -1000,11 +1080,15 @@ def triggers(request):
 
         return render(request, 'result_technicals.html', dictt)
 
-
     elif tr == "50sma_200sma":
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(sheet.cell(i, column_index_from_string('U')).value) is not None and str(sheet.cell(i, column_index_from_string('S')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) < float(str(sheet.cell(i, column_index_from_string('U')).value)) < float(str(sheet.cell(i, column_index_from_string('S')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('U')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('S')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('U')).value)), 2))
@@ -1021,7 +1105,7 @@ def triggers(request):
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "50 day SMA crossing over 200 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr,'head2': 'SMA 50'}
+                     'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr, 'head2': 'SMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1036,7 +1120,10 @@ def triggers(request):
 
     elif tr == "20sma_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('R')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('R')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1068,7 +1155,10 @@ def triggers(request):
 
     elif tr == "50sma_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('S')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('S')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('S')).value)), 2))
@@ -1100,7 +1190,10 @@ def triggers(request):
 
     elif tr == "100sma_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('T')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('T')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('T')).value)), 2))
@@ -1132,7 +1225,10 @@ def triggers(request):
 
     elif tr == "200sma_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('U')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('U')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1164,7 +1260,10 @@ def triggers(request):
 
     elif tr == "20sma_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('R')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('R')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1196,7 +1295,10 @@ def triggers(request):
 
     elif tr == "50sma_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('S')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('S')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('S')).value)), 2))
@@ -1228,7 +1330,10 @@ def triggers(request):
 
     elif tr == "100sma_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('T')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('T')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('T')).value)), 2))
@@ -1260,7 +1365,10 @@ def triggers(request):
 
     elif tr == "200sma_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('U')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('U')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('U')).value)), 2))
@@ -1293,8 +1401,16 @@ def triggers(request):
     elif tr == "20_50sma_100sma":
         temp = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(sheet.cell(i, column_index_from_string('BG')).value) is not None and str(sheet.cell(i, column_index_from_string('S')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) < float(str(sheet.cell(i, column_index_from_string('T')).value)) < float(str(sheet.cell(i, column_index_from_string('S')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BG')).value)) < float(str(sheet.cell(i, column_index_from_string('T')).value)) < float(str(sheet.cell(i, column_index_from_string('R')).value)):
+            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BG')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('S')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('T')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BG')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('T')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('R')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1312,8 +1428,9 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA crossing over 100 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100'}
+            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA crossing over 100 day SMA ", 'paras': para,
+                     'signals': signal,
+                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'SMA 50', 'head3': 'SMA 100'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1330,8 +1447,19 @@ def triggers(request):
         temp = []
         temp2 = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(sheet.cell(i, column_index_from_string('BG')).value) is not None and str(sheet.cell(i, column_index_from_string('BI')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) < float(str(sheet.cell(i, column_index_from_string('U')).value)) < float(str(sheet.cell(i, column_index_from_string('S')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BG')).value)) < float(str(sheet.cell(i, column_index_from_string('U')).value)) < float(str(sheet.cell(i, column_index_from_string('R')).value)) and float(str(sheet.cell(i, column_index_from_string('BI')).value)) < float(str(sheet.cell(i, column_index_from_string('U')).value)) < float(str(sheet.cell(i, column_index_from_string('T')).value)):
+            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BG')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BI')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BG')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('R')).value)) and float(
+                        str(sheet.cell(i, column_index_from_string('BI')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('T')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1351,8 +1479,10 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA and 100 day SMA crossing over 200 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100','head4': 'SMA 200'}
+            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA and 100 day SMA crossing over 200 day SMA ",
+                     'paras': para, 'signals': signal,
+                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'SMA 50', 'head3': 'SMA 100',
+                     'head4': 'SMA 200'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1368,7 +1498,10 @@ def triggers(request):
     elif tr == "20sma_50sma":
         for i in range(2, sheet.max_row + 1):
             if str(sheet.cell(i, column_index_from_string('BG')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BG')).value)) < float(str(sheet.cell(i, column_index_from_string('S')).value)) < float(str(sheet.cell(i, column_index_from_string('R')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+                if float(str(sheet.cell(i, column_index_from_string('BG')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('R')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1385,7 +1518,7 @@ def triggers(request):
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day SMA crossing over 50 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50'}
+                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'SMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1401,8 +1534,16 @@ def triggers(request):
     elif tr == "20_50sma_100smau":
         temp = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(sheet.cell(i, column_index_from_string('BG')).value) is not None and str(sheet.cell(i, column_index_from_string('S')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) > float(str(sheet.cell(i, column_index_from_string('T')).value)) > float(str(sheet.cell(i, column_index_from_string('S')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BG')).value)) > float(str(sheet.cell(i, column_index_from_string('T')).value)) > float(str(sheet.cell(i, column_index_from_string('R')).value)):
+            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BG')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('S')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('T')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BG')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('T')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('R')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1420,8 +1561,9 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA crossing under 100 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100'}
+            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA crossing under 100 day SMA ", 'paras': para,
+                     'signals': signal,
+                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'SMA 50', 'head3': 'SMA 100'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1438,8 +1580,19 @@ def triggers(request):
         temp = []
         temp2 = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(sheet.cell(i, column_index_from_string('BG')).value) is not None and str(sheet.cell(i, column_index_from_string('BI')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) > float(str(sheet.cell(i, column_index_from_string('U')).value)) > float(str(sheet.cell(i, column_index_from_string('S')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BG')).value)) > float(str(sheet.cell(i, column_index_from_string('U')).value)) > float(str(sheet.cell(i, column_index_from_string('R')).value)) and float(str(sheet.cell(i, column_index_from_string('BI')).value)) > float(str(sheet.cell(i, column_index_from_string('U')).value)) > float(str(sheet.cell(i, column_index_from_string('T')).value)):
+            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BG')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BI')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BG')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('R')).value)) and float(
+                        str(sheet.cell(i, column_index_from_string('BI')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('T')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1459,8 +1612,10 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA and 100 day SMA crossing under 200 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50','head3': 'SMA 100','head4': 'SMA 200'}
+            dictt = {'zips': zipp, 'trigger': "50 day SMA and 20 day SMA and 100 day SMA crossing under 200 day SMA ",
+                     'paras': para, 'signals': signal,
+                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'SMA 50', 'head3': 'SMA 100',
+                     'head4': 'SMA 200'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1476,7 +1631,10 @@ def triggers(request):
     elif tr == "20sma_50smau":
         for i in range(2, sheet.max_row + 1):
             if str(sheet.cell(i, column_index_from_string('BG')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BG')).value)) > float(str(sheet.cell(i, column_index_from_string('S')).value)) > float(str(sheet.cell(i, column_index_from_string('R')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+                if float(str(sheet.cell(i, column_index_from_string('BG')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('R')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('R')).value)), 2))
@@ -1493,7 +1651,7 @@ def triggers(request):
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day SMA crossing under 50 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr,'head2': 'SMA 50'}
+                     'nifty': cp, 'head': 'SMA 20', 'number': num, 'techh': tr, 'head2': 'SMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1508,8 +1666,13 @@ def triggers(request):
 
     elif tr == "50sma_200smau":
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(sheet.cell(i, column_index_from_string('U')).value) is not None and str(sheet.cell(i, column_index_from_string('S')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) > float(str(sheet.cell(i, column_index_from_string('U')).value)) > float(str(sheet.cell(i, column_index_from_string('S')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if str(sheet.cell(i, column_index_from_string('BH')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('U')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('S')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BH')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('U')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('U')).value)), 2))
@@ -1525,8 +1688,9 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
-            dictt = {'zips': zipp, 'trigger': "50 day SMA crossing under 200 day SMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr,'head2': 'SMA 50'}
+            dictt = {'zips': zipp, 'trigger': "50 day SMA crossing under 200 day SMA ", 'paras': para,
+                     'signals': signal,
+                     'nifty': cp, 'head': 'SMA 200', 'number': num, 'techh': tr, 'head2': 'SMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1541,8 +1705,13 @@ def triggers(request):
 
     elif tr == "50EMA_200EMA":
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(sheet.cell(i, column_index_from_string('Q')).value) is not None and str(sheet.cell(i, column_index_from_string('O')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) < float(str(sheet.cell(i, column_index_from_string('Q')).value)) < float(str(sheet.cell(i, column_index_from_string('O')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('Q')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('O')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('O')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('Q')).value)), 2))
@@ -1559,7 +1728,7 @@ def triggers(request):
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "50 day EMA crossing over 200 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr,'head2': 'EMA 50'}
+                     'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr, 'head2': 'EMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1574,7 +1743,10 @@ def triggers(request):
 
     elif tr == "20EMA_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('N')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('N')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -1606,7 +1778,10 @@ def triggers(request):
 
     elif tr == "50EMA_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('S')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('S')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('S')).value)), 2))
@@ -1638,7 +1813,10 @@ def triggers(request):
 
     elif tr == "100EMA_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('P')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('P')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('P')).value)), 2))
@@ -1670,7 +1848,10 @@ def triggers(request):
 
     elif tr == "200EMA_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(str(sheet.cell(i, column_index_from_string('Q')).value)) < float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('Q')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('Q')).value)), 2))
@@ -1702,7 +1883,10 @@ def triggers(request):
 
     elif tr == "20EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('N')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('N')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -1734,7 +1918,10 @@ def triggers(request):
 
     elif tr == "50EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('O')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('O')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('O')).value)), 2))
@@ -1766,7 +1953,10 @@ def triggers(request):
 
     elif tr == "100EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('P')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('P')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('P')).value)), 2))
@@ -1798,7 +1988,10 @@ def triggers(request):
 
     elif tr == "200EMA_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(str(sheet.cell(i, column_index_from_string('Q')).value)) > float(str(sheet.cell(i, column_index_from_string('AC')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AD')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('Q')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AC')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('Q')).value)), 2))
@@ -1831,8 +2024,16 @@ def triggers(request):
     elif tr == "20_50EMA_100EMA":
         temp = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(sheet.cell(i, column_index_from_string('BC')).value) is not None and str(sheet.cell(i, column_index_from_string('O')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) < float(str(sheet.cell(i, column_index_from_string('P')).value)) < float(str(sheet.cell(i, column_index_from_string('O')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BC')).value)) < float(str(sheet.cell(i, column_index_from_string('P')).value)) < float(str(sheet.cell(i, column_index_from_string('N')).value)):
+            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BC')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('O')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('P')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('O')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BC')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('P')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('N')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -1850,8 +2051,9 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA crossing over 100 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100'}
+            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA crossing over 100 day EMA ", 'paras': para,
+                     'signals': signal,
+                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'EMA 50', 'head3': 'EMA 100'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1868,8 +2070,19 @@ def triggers(request):
         temp = []
         temp2 = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(sheet.cell(i, column_index_from_string('BC')).value) is not None and str(sheet.cell(i, column_index_from_string('BE')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) < float(str(sheet.cell(i, column_index_from_string('Q')).value)) < float(str(sheet.cell(i, column_index_from_string('O')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BC')).value)) < float(str(sheet.cell(i, column_index_from_string('Q')).value)) < float(str(sheet.cell(i, column_index_from_string('N')).value)) and float(str(sheet.cell(i, column_index_from_string('BE')).value)) < float(str(sheet.cell(i, column_index_from_string('Q')).value)) < float(str(sheet.cell(i, column_index_from_string('P')).value)):
+            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BC')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BE')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('O')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BC')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('N')).value)) and float(
+                        str(sheet.cell(i, column_index_from_string('BE')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('P')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -1889,8 +2102,10 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA and 100 day EMA crossing over 200 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100','head4': 'EMA 200'}
+            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA and 100 day EMA crossing over 200 day EMA ",
+                     'paras': para, 'signals': signal,
+                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'EMA 50', 'head3': 'EMA 100',
+                     'head4': 'EMA 200'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1906,7 +2121,10 @@ def triggers(request):
     elif tr == "20EMA_50EMA":
         for i in range(2, sheet.max_row + 1):
             if str(sheet.cell(i, column_index_from_string('BC')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BC')).value)) < float(str(sheet.cell(i, column_index_from_string('O')).value)) < float(str(sheet.cell(i, column_index_from_string('N')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+                if float(str(sheet.cell(i, column_index_from_string('BC')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('O')).value)) < float(
+                        str(sheet.cell(i, column_index_from_string('N')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -1923,7 +2141,7 @@ def triggers(request):
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day EMA crossing over 50 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50'}
+                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'EMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1939,8 +2157,16 @@ def triggers(request):
     elif tr == "20_50EMA_100EMAu":
         temp = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(sheet.cell(i, column_index_from_string('BC')).value) is not None and str(sheet.cell(i, column_index_from_string('O')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) > float(str(sheet.cell(i, column_index_from_string('P')).value)) > float(str(sheet.cell(i, column_index_from_string('S')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BC')).value)) > float(str(sheet.cell(i, column_index_from_string('P')).value)) > float(str(sheet.cell(i, column_index_from_string('N')).value)):
+            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BC')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('O')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('P')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('S')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BC')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('P')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('N')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -1958,8 +2184,9 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA crossing under 100 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100'}
+            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA crossing under 100 day EMA ", 'paras': para,
+                     'signals': signal,
+                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'EMA 50', 'head3': 'EMA 100'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -1976,8 +2203,19 @@ def triggers(request):
         temp = []
         temp2 = []
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(sheet.cell(i, column_index_from_string('BC')).value) is not None and str(sheet.cell(i, column_index_from_string('BE')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) > float(str(sheet.cell(i, column_index_from_string('Q')).value)) > float(str(sheet.cell(i, column_index_from_string('O')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BC')).value)) > float(str(sheet.cell(i, column_index_from_string('Q')).value)) > float(str(sheet.cell(i, column_index_from_string('N')).value)) and float(str(sheet.cell(i, column_index_from_string('BE')).value)) > float(str(sheet.cell(i, column_index_from_string('Q')).value)) > float(str(sheet.cell(i, column_index_from_string('P')).value)):
+            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BC')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('BE')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('O')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                        str(sheet.cell(i, column_index_from_string('BC')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('N')).value)) and float(
+                        str(sheet.cell(i, column_index_from_string('BE')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('P')).value)):
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -1997,8 +2235,10 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close, temp)
-            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA and 100 day EMA crossing under 200 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50','head3': 'EMA 100','head4': 'EMA 200'}
+            dictt = {'zips': zipp, 'trigger': "50 day EMA and 20 day EMA and 100 day EMA crossing under 200 day EMA ",
+                     'paras': para, 'signals': signal,
+                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'EMA 50', 'head3': 'EMA 100',
+                     'head4': 'EMA 200'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2014,7 +2254,10 @@ def triggers(request):
     elif tr == "20EMA_50EMAu":
         for i in range(2, sheet.max_row + 1):
             if str(sheet.cell(i, column_index_from_string('BC')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BC')).value)) > float(str(sheet.cell(i, column_index_from_string('O')).value)) > float(str(sheet.cell(i, column_index_from_string('N')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+                if float(str(sheet.cell(i, column_index_from_string('BC')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('O')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('N')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('N')).value)), 2))
@@ -2031,7 +2274,7 @@ def triggers(request):
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
             dictt = {'zips': zipp, 'trigger': "20 day EMA crossing under 50 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr,'head2': 'EMA 50'}
+                     'nifty': cp, 'head': 'EMA 20', 'number': num, 'techh': tr, 'head2': 'EMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2046,8 +2289,13 @@ def triggers(request):
 
     elif tr == "50EMA_200EMAu":
         for i in range(2, sheet.max_row + 1):
-            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(sheet.cell(i, column_index_from_string('Q')).value) is not None and str(sheet.cell(i, column_index_from_string('O')).value) is not None:
-                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) > float(str(sheet.cell(i, column_index_from_string('Q')).value)) > float(str(sheet.cell(i, column_index_from_string('O')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if str(sheet.cell(i, column_index_from_string('BD')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('Q')).value) is not None and str(
+                    sheet.cell(i, column_index_from_string('O')).value) is not None:
+                if float(str(sheet.cell(i, column_index_from_string('BD')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('Q')).value)) > float(
+                        str(sheet.cell(i, column_index_from_string('O')).value)) and str(
+                        sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                     stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                     ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                     value.append(round(float(str(sheet.cell(i, column_index_from_string('Q')).value)), 2))
@@ -2063,8 +2311,9 @@ def triggers(request):
             signal = "Please select index by default result shows Nifty 500 stocks"
             para = assign_para(tr)
             zipp = zip(stocks, ticker, value, close)
-            dictt = {'zips': zipp, 'trigger': "50 day EMA crossing under 200 day EMA ", 'paras': para, 'signals': signal,
-                     'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr,'head2': 'EMA 50'}
+            dictt = {'zips': zipp, 'trigger': "50 day EMA crossing under 200 day EMA ", 'paras': para,
+                     'signals': signal,
+                     'nifty': cp, 'head': 'EMA 200', 'number': num, 'techh': tr, 'head2': 'EMA 50'}
             wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2079,7 +2328,8 @@ def triggers(request):
 
     elif tr == "MFI_below_30":
         for i in range(2, sheet.max_row + 1):
-            if 30 >= float(str(sheet.cell(i, column_index_from_string('W')).value)) > 0 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if 30 >= float(str(sheet.cell(i, column_index_from_string('W')).value)) > 0 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('W')).value)), 2))
@@ -2096,7 +2346,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Below 30", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MFI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2111,7 +2361,8 @@ def triggers(request):
 
     elif tr == "MFI_above_70":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('W')).value)) >= 70 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('W')).value)) >= 70 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('W')).value)), 2))
@@ -2128,7 +2379,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Above 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MFI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2143,7 +2394,8 @@ def triggers(request):
 
     elif tr == "MFI":
         for i in range(2, sheet.max_row + 1):
-            if 30 <= float(str(sheet.cell(i, column_index_from_string('W')).value)) <= 70 and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if 30 <= float(str(sheet.cell(i, column_index_from_string('W')).value)) <= 70 and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('W')).value)), 2))
@@ -2160,7 +2412,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Between 30 to 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MFI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2175,7 +2427,9 @@ def triggers(request):
 
     elif tr == "MFI_crossover_30":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('V')).value)) <= 30 <= float(str(sheet.cell(i, column_index_from_string('W')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('V')).value)) <= 30 <= float(
+                    str(sheet.cell(i, column_index_from_string('W')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('W')).value)), 2))
@@ -2192,7 +2446,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index (MFI) Crossing over 30", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MFI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2207,7 +2461,9 @@ def triggers(request):
 
     elif tr == "MFI_crossunder_70":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('V')).value)) >= 70 >= float(str(sheet.cell(i, column_index_from_string('W')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('V')).value)) >= 70 >= float(
+                    str(sheet.cell(i, column_index_from_string('W')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('W')).value)), 2))
@@ -2224,7 +2480,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Money Flow Index Crossing Under 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'MFI  Value', 'number': num , 'techh' : tr , 'head2': 'Closing price' }
+                 'nifty': cp, 'head': 'MFI  Value', 'number': num, 'techh': tr, 'head2': 'Closing price'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2239,7 +2495,12 @@ def triggers(request):
 
     elif tr == "fl_sl_crossover":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) < float(str(sheet.cell(i, column_index_from_string('AV')).value)) < float(str(sheet.cell(i, column_index_from_string('AU')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BL')).value)) > 0 and float(str(sheet.cell(i, column_index_from_string('AU')).value)) < 30:
+            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AV')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AU')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                    str(sheet.cell(i, column_index_from_string('BL')).value)) > 0 and float(
+                    str(sheet.cell(i, column_index_from_string('AU')).value)) < 30:
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AU')).value)), 2))
@@ -2255,8 +2516,9 @@ def triggers(request):
         signal = "Please select index by default result shows Nifty 500 stocks"
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
-        dictt = {'zips': zipp, 'trigger': "Fast Line crossing over Slow Line below 30", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        dictt = {'zips': zipp, 'trigger': "Fast Line crossing over Slow Line below 30", 'paras': para,
+                 'signals': signal,
+                 'nifty': cp, 'head': 'Fast Line Value', 'number': num, 'techh': tr, 'head2': 'Slow Line Value'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2271,7 +2533,12 @@ def triggers(request):
 
     elif tr == "fl_sl_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) > float(str(sheet.cell(i, column_index_from_string('AV')).value)) > float(str(sheet.cell(i, column_index_from_string('AU')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BL')).value)) > float(str(sheet.cell(i, column_index_from_string('AU')).value)) > 70 :
+            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AV')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AU')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                    str(sheet.cell(i, column_index_from_string('BL')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AU')).value)) > 70:
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AU')).value)), 2))
@@ -2287,8 +2554,9 @@ def triggers(request):
         signal = "Please select index by default result shows Nifty 500 stocks"
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
-        dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para,
+                 'signals': signal,
+                 'nifty': cp, 'head': 'Fast Line Value', 'number': num, 'techh': tr, 'head2': 'Slow Line Value'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2303,7 +2571,11 @@ def triggers(request):
 
     elif tr == "fl_sl_crossovern":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) < float(str(sheet.cell(i, column_index_from_string('AV')).value)) < float(str(sheet.cell(i, column_index_from_string('AU')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BL')).value)) > 0:
+            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AV')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AU')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                    str(sheet.cell(i, column_index_from_string('BL')).value)) > 0:
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AU')).value)), 2))
@@ -2320,7 +2592,7 @@ def triggers(request):
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
         dictt = {'zips': zipp, 'trigger': "Fast Line crossing over Slow Line", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+                 'nifty': cp, 'head': 'Fast Line Value', 'number': num, 'techh': tr, 'head2': 'Slow Line Value'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2335,7 +2607,11 @@ def triggers(request):
 
     elif tr == "fl_sl_crossundern":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) > float(str(sheet.cell(i, column_index_from_string('AV')).value)) > float(str(sheet.cell(i, column_index_from_string('AU')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(str(sheet.cell(i, column_index_from_string('BL')).value)) > 0:
+            if float(str(sheet.cell(i, column_index_from_string('BL')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AV')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AU')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes" and float(
+                    str(sheet.cell(i, column_index_from_string('BL')).value)) > 0:
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AU')).value)), 2))
@@ -2351,8 +2627,9 @@ def triggers(request):
         signal = "Please select index by default result shows Nifty 500 stocks"
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
-        dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para,
+                 'signals': signal,
+                 'nifty': cp, 'head': 'Fast Line Value', 'number': num, 'techh': tr, 'head2': 'Slow Line Value'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2367,7 +2644,8 @@ def triggers(request):
 
     elif tr == "fl_below":
         for i in range(2, sheet.max_row + 1):
-            if 30 > float(str(sheet.cell(i, column_index_from_string('AU')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if 30 > float(str(sheet.cell(i, column_index_from_string('AU')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AU')).value)), 2))
@@ -2383,8 +2661,9 @@ def triggers(request):
         signal = "Please select index by default result shows Nifty 500 stocks"
         para = assign_para(tr)
         zipp = zip(stocks, ticker, value, close)
-        dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para, 'signals': signal,
-                 'nifty': cp, 'head': 'Fast Line Value', 'number': num , 'techh' : tr , 'head2': 'Slow Line Value' }
+        dictt = {'zips': zipp, 'trigger': "Fast Line crossing under Slow Line above 70", 'paras': para,
+                 'signals': signal,
+                 'nifty': cp, 'head': 'Fast Line Value', 'number': num, 'techh': tr, 'head2': 'Slow Line Value'}
         wb = xl.load_workbook('login/users.xlsx')
         ip = get_client_ip(request)
         sheet = wb["Sheet1"]
@@ -2434,7 +2713,10 @@ def triggers(request):
     elif tr == "conl_basel_crossover":
         temp = []
         for i in range(2, sheet.max_row + 1):
-            if 0 <= float(str(sheet.cell(i, column_index_from_string('BA')).value)) < float(str(sheet.cell(i, column_index_from_string('AQ')).value)) < float(str(sheet.cell(i, column_index_from_string('AP')).value))and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if 0 <= float(str(sheet.cell(i, column_index_from_string('BA')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AQ')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AP')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AP')).value)), 2))
@@ -2467,7 +2749,10 @@ def triggers(request):
 
     elif tr == "conl_basel_crossunder":
         for i in range(2, sheet.max_row + 1):
-            if 0 <= float(str(sheet.cell(i, column_index_from_string('BA')).value)) > float(str(sheet.cell(i, column_index_from_string('AQ')).value)) > float(str(sheet.cell(i, column_index_from_string('AP')).value))and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if 0 <= float(str(sheet.cell(i, column_index_from_string('BA')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AQ')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AP')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AP')).value)), 2))
@@ -2500,7 +2785,10 @@ def triggers(request):
 
     elif tr == "ic_bull":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AC')).value)) > float(str(sheet.cell(i, column_index_from_string('AR')).value)) > float(str(sheet.cell(i, column_index_from_string('AS')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AC')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AR')).value)) > float(
+                    str(sheet.cell(i, column_index_from_string('AS')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AR')).value)), 2))
@@ -2533,7 +2821,10 @@ def triggers(request):
 
     elif tr == "ic_bear":
         for i in range(2, sheet.max_row + 1):
-            if float(str(sheet.cell(i, column_index_from_string('AC')).value)) < float(str(sheet.cell(i, column_index_from_string('AR')).value)) < float(str(sheet.cell(i, column_index_from_string('AS')).value)) and str(sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
+            if float(str(sheet.cell(i, column_index_from_string('AC')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AR')).value)) < float(
+                    str(sheet.cell(i, column_index_from_string('AS')).value)) and str(
+                    sheet.cell(i, column_index_from_string(ni)).value) == "Yes":
                 stocks.append(sheet.cell(i, column_index_from_string('A')).value)
                 ticker.append(sheet.cell(i, column_index_from_string('B')).value)
                 value.append(round(float(str(sheet.cell(i, column_index_from_string('AR')).value)), 2))
@@ -2562,4 +2853,3 @@ def triggers(request):
                     dictt["email"] = sheet.cell(i, 1).value
 
         return render(request, 'result_technicals.html', dictt)
-

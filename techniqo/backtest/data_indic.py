@@ -135,7 +135,7 @@ def pivot_points(close,high,low,date):
 
     for i in range(len(close)):
         date_st = str(date[i])
-        if date_st[5] == "0" and date_st[6] == "1":
+        if date_st[3] == "0" and date_st[4] == "1":
             if flag == 12:
                 assigning(count,high_max,low_min,close[i-1])
                 flag = 0
@@ -149,7 +149,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 1
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "2":
+        elif date_st[3] == "0" and date_st[4] == "2":
             if flag == 1:
                 assigning(count,high_max,low_min,close[i-1])
                 flag = 0
@@ -163,7 +163,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 2
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "3":
+        elif date_st[3] == "0" and date_st[4] == "3":
             if flag == 2:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -177,7 +177,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 3
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "4":
+        elif date_st[3] == "0" and date_st[4] == "4":
             if flag == 3:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -191,7 +191,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 4
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "5":
+        elif date_st[3] == "0" and date_st[4] == "5":
             if flag == 4:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -205,7 +205,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 5
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "6":
+        elif date_st[3] == "0" and date_st[4] == "6":
             if flag == 5:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -219,7 +219,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 6
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "7":
+        elif date_st[3] == "0" and date_st[4] == "7":
             if flag == 6:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -233,7 +233,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 7
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "8":
+        elif date_st[3] == "0" and date_st[4] == "8":
             if flag == 7:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -247,7 +247,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 8
                 count += 1
-        elif date_st[5] == "0" and date_st[6] == "9":
+        elif date_st[3] == "0" and date_st[4] == "9":
             if flag == 8:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -261,7 +261,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 9
                 count += 1
-        elif date_st[5] == "1" and date_st[6] == "0":
+        elif date_st[3] == "1" and date_st[4] == "0":
             if flag == 9:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -275,7 +275,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 10
                 count += 1
-        elif date_st[5] == "1" and date_st[6] == "1":
+        elif date_st[3] == "1" and date_st[4] == "1":
             if flag == 10:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0
@@ -289,7 +289,7 @@ def pivot_points(close,high,low,date):
                     low_min = low[i]
                 flag = 11
                 count += 1
-        elif date_st[5] == "1" and date_st[6] == "2":
+        elif date_st[3] == "1" and date_st[4] == "2":
             if flag == 11:
                 assigning(count, high_max, low_min, close[i - 1])
                 flag = 0

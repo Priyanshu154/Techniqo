@@ -65,21 +65,21 @@ wb2 = xl.load_workbook(xx2, data_only=True)
 sheet2 = wb2["sheet"]
 for ticker in tickers:
     try:
-        ticker = ticker.replace("&", "_")
+
         xx = os.path.join(workpath, f'D:/college/webend/techniqo/data_new_ticker/{ticker}.xlsx')  # yaha tak
         wb = xl.load_workbook(xx, data_only=True)
         sheet = wb["Sheet1"]
 
         row_to_append = sheet.max_row+1
-        sheet.cell(sheet.max_row+1, 1).value = "14-09-2020"  # Date manually nakhvi padse date month year
+        sheet.cell(sheet.max_row+1, 1).value = "16-09-2020"  # Date manually nakhvi padse date month year
         for row in range(1, sheet2.max_row + 1):
-            if (sheet2.cell(row, 1).value == ticker and sheet2.cell(row, 2).value == "EQ") or (sheet2.cell(row, 1).value == "HATHWAY" and sheet2.cell(row, 2).value == "BE"):
+            if sheet2.cell(row, 1).value == ticker and sheet2.cell(row, 2).value == "EQ":
                 sheet.cell(row_to_append, 2).value = sheet2.cell(row, 3).value
                 sheet.cell(row_to_append, 3).value = sheet2.cell(row, 4).value
                 sheet.cell(row_to_append, 4).value = sheet2.cell(row, 5).value
                 sheet.cell(row_to_append, 5).value = sheet2.cell(row, 6).value
                 sheet.cell(row_to_append, 6).value = sheet2.cell(row, 9).value
-                sheet.cell(row_to_append, 7).value = matplotlib.dates.datestr2num("2020-09-14")  # ymd
+                sheet.cell(row_to_append, 7).value = matplotlib.dates.datestr2num("2020-09-16")  # ymd
 
         wb.save(f'D:/college/webend/techniqo/data_new_ticker/{ticker}.xlsx')
         wb2.save(f'D:/college/webend/techniqo/bhavcopynew.xlsx')

@@ -74,7 +74,6 @@ sheet1 = wb['sheet']
 for ii in range(len(nifty_500)):
     try:
         st = nifty_500[ii]
-        st = st.replace("&", "_")
         data_reset = pd.read_excel(f'D:/college/webend/techniqo/data_new_ticker/{st}.xlsx')
         close = data_reset['Close'].to_list()
         high = data_reset['High'].to_list()

@@ -19,7 +19,7 @@
 <div class="container">
     <div class="row">
      <div class="col-7">
-    <h1>Bactesting of Strategies</h1>
+    <h1>Backtesting of Strategies</h1>
 
     <div id="bm">
       <input type="hidden" name="backe" value="" class="backe">
@@ -294,19 +294,19 @@
       <select class='values ml-3 mt-2' name='values'>
           <option value=''>--Choose Entry Points--</option>
           <option value='slow'>Slow Line</option>
-          <option value='num'>0</option>
-          <option value='num'>10</option>
-          <option value='num'>20</option>
-          <option value='num'>30</option>
-          <option value='num'>40</option>
-          <option value='num'>50</option>
-          <option value='num'>60</option>
-          <option value='num'>70</option>
-          <option value='num'>80</option>
-          <option value='num'>90</option>
-          <option value='num'>100</option>
+          <option value='0'>0</option>
+          <option value='10'>10</option>
+          <option value='20'>20</option>
+          <option value='30'>30</option>
+          <option value='40'>40</option>
+          <option value='50'>50</option>
+          <option value='60'>60</option>
+          <option value='70'>70</option>
+          <option value='80'>80</option>
+          <option value='90'>90</option>
+          <option value='100'>100</option>
        </select>
-
+<button type="button" name="remove" class="remove btn btn-dark ml-3 mt-2">Remove</button>
 </div>
 </div>
 
@@ -373,7 +373,7 @@
 </form>
  </div>
 <div class="col-5">
-    <img src="{% static 'backimg.png' %}" style="height: 500px;width: 500px; margin-right:25px;">
+    <img src="{% static 'backimg.png' %}" style="height: 600px;width: 500px; margin-right:25px;">
 </div>
 
 
@@ -513,7 +513,7 @@
           var ee = $("#entry_rule").length
           pop_indi = 0;
           var num = $(".one").length
-          var num2 = $(".row").length
+          var num2 = $(".paramsaccor").length
           if(num > 1){
           $(".indicators:last").prop('disabled',true);}
           if(num2 > 9){
@@ -526,7 +526,7 @@
 
         $(document).on('click','.remove', function(){
           $(this).parent().prev().remove();
-           $(this).closest('.row').remove();
+           $(this).closest('.paramsaccor').remove();
            count = count - 1;
         });
 
@@ -536,7 +536,7 @@
             $(this).remove();
             pop_indi = 0;
             var num = $(".one").length
-            var num2 = $(".row").length
+            var num2 = $(".paramsaccor").length
             if(num > 1){
             $(".indicators:last").prop('disabled',true);}
             if(num2 > 9){
@@ -553,7 +553,7 @@
           console.log("hi");
           pop_indi = 0;
           var num = $(".one").length
-          var num2 = $(".row").length
+          var num2 = $(".paramsaccor").length
           if(num > 1){
           $(".indicators:last").prop('disabled',true);}
           if(num2 > 9){
@@ -617,7 +617,14 @@
 
 
 </script>
-
+<div style="display: none;">
+{% block diva %}
+<h4 align="center"><u>Vector Credits</u></h4>
+<div class="mt-2" align="center">
+<a href='https://pngtree.com/so/finance' class="text-white">finance png from pngtree.com</a>
+</div>
+{% endblock %}
+</div>
 {% endblock %}
 <!-- <a href='https://pngtree.com/so/app'>app png from pngtree.com</a> -->
 <!-- <a href='https://pngtree.com/so/finance'>finance png from pngtree.com</a> -->

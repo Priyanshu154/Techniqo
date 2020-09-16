@@ -89,6 +89,17 @@ def backdata(request):
     ic_arr = []
 
     for i in range(len(indicator_entry)):
+        rsi_arr = []
+        bb_arr = []
+        macd_arr = []
+        mfi_arr = []
+        roc_arr = []
+        srsi_arr = []
+        wil_arr = []
+        sma_arr = []
+        ema_arr = []
+        pp_arr = []
+        ic_arr = []
         if indicator_entry[i] == "rsi":
             val = data_indic.RSI(close, 14)  # aiyan t
             if parameter_entry[i] == "crossover":
@@ -235,7 +246,7 @@ def backdata(request):
                             macd_arr.append("Yes")
                         else:
                             macd_arr.append("No")
-                    elif value_exit[i] == "zero":
+                    elif value_entry[i] == "zero":
                         if macd_line[j - 1] <= 0 < macd_line[j]:
                             macd_arr.append("Yes")
                         else:
@@ -251,7 +262,7 @@ def backdata(request):
                             macd_arr.append("Yes")
                         else:
                             macd_arr.append("No")
-                    elif value_exit[i] == "zero":
+                    elif value_entry[i] == "zero":
                         if macd_line[j - 1] >= 0 > macd_line[j]:
                             macd_arr.append("Yes")
                         else:
@@ -268,7 +279,7 @@ def backdata(request):
                             macd_arr.append("Yes")
                         else:
                             macd_arr.append("No")
-                    elif value_exit[i] == "zero":
+                    elif value_entry[i] == "zero":
                         if 0 < macd_line[j]:
                             macd_arr.append("Yes")
                         else:
@@ -285,7 +296,7 @@ def backdata(request):
                             macd_arr.append("Yes")
                         else:
                             macd_arr.append("No")
-                    elif value_exit[i] == "zero":
+                    elif value_entry[i] == "zero":
                         if 0 > macd_line[j]:
                             macd_arr.append("Yes")
                         else:
@@ -785,10 +796,10 @@ def backdata(request):
                 if value_entry[i] == "pp":
                     for j in range(1, len(pp)):
                         if pp[j] < val[j]:
-                            sma_arr.append("Yes")
+                            pp_arr.append("Yes")
                         else:
-                            sma_arr.append("No")
-                    data_reset[col] = sma_arr
+                            pp_arr.append("No")
+                    data_reset[col] = pp_arr
                     col += 'a'
                 elif value_entry[i] == "s1":
                     for j in range(1, len(pp)):
@@ -843,10 +854,10 @@ def backdata(request):
                 if value_entry[i] == "pp":
                     for j in range(1, len(pp)):
                         if pp[j] > val[j]:
-                            sma_arr.append("Yes")
+                            pp_arr.append("Yes")
                         else:
-                            sma_arr.append("No")
-                    data_reset[col] = sma_arr
+                            pp_arr.append("No")
+                    data_reset[col] = pp_arr
                     col += 'a'
                 elif value_entry[i] == "s1":
                     for j in range(1, len(pp)):
@@ -969,6 +980,17 @@ def backdata(request):
     ice_arr = []
     # Exit data code
     for i in range(len(indicator_exit)):
+        rsie_arr = []
+        bbe_arr = []
+        macde_arr = []
+        mfie_arr = []
+        roce_arr = []
+        srsie_arr = []
+        wile_arr = []
+        smae_arr = []
+        emae_arr = []
+        ppe_arr = []
+        ice_arr = []
         if indicator_exit[i] == "rsi":
             val = data_indic.RSI(close, 14)
             if parameter_exit[i] == "crossover":
@@ -1669,10 +1691,10 @@ def backdata(request):
                 if value_exit[i] == "pp":
                     for j in range(1, len(pp)):
                         if pp[j] < val[j]:
-                            sma_arr.append("Yes")
+                            ppe_arr.append("Yes")
                         else:
-                            sma_arr.append("No")
-                    data_reset[col] = sma_arr
+                            ppe_arr.append("No")
+                    data_reset[col] = ppe_arr
                     col += 'a'
                 elif value_exit[i] == "s1":
                     for j in range(1, len(pp)):
@@ -1727,10 +1749,10 @@ def backdata(request):
                 if value_exit[i] == "pp":
                     for j in range(1, len(pp)):
                         if pp[j] > val[j]:
-                            sma_arr.append("Yes")
+                            ppe_arr.append("Yes")
                         else:
-                            sma_arr.append("No")
-                    data_reset[col] = sma_arr
+                            ppe_arr.append("No")
+                    data_reset[col] = ppe_arr
                     col += 'a'
                 elif value_exit[i] == "s1":
                     for j in range(1, len(pp)):
@@ -1998,7 +2020,7 @@ def backdata(request):
         if (ip == sheet.cell(i, 3).value):
             if (sheet.cell(i, 4).value == "yes"):
                 dictb["email"] = sheet.cell(i, 1).value
-    print(data_reset)
+
     return render(request, 'backtest_detail.html', dictb)
 
 

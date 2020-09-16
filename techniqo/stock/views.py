@@ -7,6 +7,8 @@ import pandas_datareader.data as web
 from datetime import datetime
 from matplotlib.dates import date2num
 from . import data_indis
+import pandas as pd
+import traceback
 
 def shareholding(request):
     all_detail = request.GET.get('tickerdata')
@@ -46,14 +48,24 @@ def shareholding(request):
         boddy3 = []
         boddy4 = []
         boddy5 = []
-        for i in range(0,5):
+        for i in range(0, 5):
             headd.append(soup.find_all("thead", {"count": "10"})[0].find_all("th")[i].get_text().strip())
-        for i in range(0,9):
-            boddy.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[0].get_text().strip())
-            boddy2.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[1].get_text().strip())
-            boddy3.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[2].get_text().strip())
-            boddy4.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[3].get_text().strip())
-            boddy5.append(soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all("td")[4].get_text().strip())
+        for i in range(0, 9):
+            boddy.append(
+                soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                    "td")[0].get_text().strip())
+            boddy2.append(
+                soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                    "td")[1].get_text().strip())
+            boddy3.append(
+                soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                    "td")[2].get_text().strip())
+            boddy4.append(
+                soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                    "td")[3].get_text().strip())
+            boddy5.append(
+                soup.find_all("table", {"class": "sharePriceTotalCal"})[0].find("tbody").find_all("tr")[i].find_all(
+                    "td")[4].get_text().strip())
         zipshare = zip(boddy, boddy2, boddy3, boddy4, boddy5)
 
         dictts = {'stockn': sname, 'typp': "Shareholdings", 'headd': headd, 'zipb': zipshare, 'nse_ticker': nse_ticker,
@@ -72,14 +84,22 @@ def shareholding(request):
         for i in range(3):
             for j in range(4):
                 if ct < 12:
-                    stdn.append(soup.find_all("div", {"id": "standalone_valuation"})[0].find_all("ul", {"class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[0].get_text().strip())
-                    stdv.append(soup.find_all("div", {"id": "standalone_valuation"})[0].find_all("ul", {"class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[1].get_text().strip())
-                    conn.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {"class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[0].get_text().strip())
-                    conv.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {"class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[1].get_text().strip())
+                    stdn.append(soup.find_all("div", {"id": "standalone_valuation"})[0].find_all("ul", {
+                        "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[
+                                    0].get_text().strip())
+                    stdv.append(soup.find_all("div", {"id": "standalone_valuation"})[0].find_all("ul", {
+                        "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[
+                                    1].get_text().strip())
+                    conn.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {
+                        "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[
+                                    0].get_text().strip())
+                    conv.append(soup.find_all("div", {"id": "consolidated_valuation"})[0].find_all("ul", {
+                        "class": "clearfix val_listinner"})[i].find_all("li", {"class": "clearfix"})[j].find_all("div")[
+                                    1].get_text().strip())
                     ct += 1
-        zipstdalone = zip(stdn,stdv)
-        zipconsol = zip(conn,conv)
-        dictts = {'zipa': zipstdalone, 'zipb': zipconsol,'nse_ticker': nse_ticker,
+        zipstdalone = zip(stdn, stdv)
+        zipconsol = zip(conn, conv)
+        dictts = {'zipa': zipstdalone, 'zipb': zipconsol, 'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Valuation Ratios", 'flag': 2}
         return render(request, 'shareholding.html', dictts)
 
@@ -91,39 +111,44 @@ def shareholding(request):
         ibody = []
         try:
             for i in range(1, 6):
-                    ihead.append(soup.find_all("div", {"id": "IncomeStatement"})[0].find("thead").find_all("th")[i].get_text().strip())
+                ihead.append(soup.find_all("div", {"id": "IncomeStatement"})[0].find("thead").find_all("th")[
+                                 i].get_text().strip())
             for i in range(9):
                 icbody = []
                 for j in range(6):
-                    icbody.append(soup.find_all("div", {"id": "IncomeStatement"})[0].find("tbody").find_all("tr")[i].find_all("td")[j].get_text().strip())
+                    icbody.append(
+                        soup.find_all("div", {"id": "IncomeStatement"})[0].find("tbody").find_all("tr")[i].find_all(
+                            "td")[j].get_text().strip())
                 ibody.append(icbody)
         except:
             try:
                 for i in range(1, 6):
-                    ihead.append(soup.find_all("div", {"id": "SIncomeStatement"})[0].find("thead").find_all("th")[i].get_text().strip())
+                    ihead.append(soup.find_all("div", {"id": "SIncomeStatement"})[0].find("thead").find_all("th")[
+                                     i].get_text().strip())
                 for i in range(9):
                     icbody = []
                     for j in range(6):
                         icbody.append(
-                            soup.find_all("div", {"id": "SIncomeStatement"})[0].find("tbody").find_all("tr")[i].find_all("td")[j].get_text().strip())
+                            soup.find_all("div", {"id": "SIncomeStatement"})[0].find("tbody").find_all("tr")[
+                                i].find_all("td")[j].get_text().strip())
                     ibody.append(icbody)
             except:
                 dictts = {'nse_ticker': nse_ticker,
-                  "bse_ticker": bse_ticker, "stockn": sname,}
-                return render(request, 'nodata.html',dictts)
+                          "bse_ticker": bse_ticker, "stockn": sname, }
+                return render(request, 'nodata.html', dictts)
 
-        dictts = {'ihead': ihead,'ibody': ibody, 'nse_ticker': nse_ticker,
+        dictts = {'ihead': ihead, 'ibody': ibody, 'nse_ticker': nse_ticker,
                   "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Income Statement", 'flag': 3}
         return render(request, 'shareholding.html', dictts)
 
     elif check == "chart":
         if nse_ticker != "":
-            dictts = { 'nse_ticker': nse_ticker,
+            dictts = {'nse_ticker': nse_ticker,
                       "bse_ticker": bse_ticker, "stockn": sname, 'typp': "Chart", 'flag': 5}
             return render(request, 'shareholding.html', dictts)
         else:
             dictts = {'nse_ticker': nse_ticker,
-                      "bse_ticker": bse_ticker, "stockn": sname }
+                      "bse_ticker": bse_ticker, "stockn": sname}
             return render(request, 'nodata.html', dictts)
 
     elif check == "balance":
@@ -141,21 +166,26 @@ def shareholding(request):
             bbody4 = []
             bbody5 = []
 
-            for i in range(1,6):
+            for i in range(1, 6):
                 bhead.append(soup.find_all("table")[3].find_all("th")[i].get_text().strip())
 
             for i in range(16):
                 bbody.append(soup.find_all("table")[3].find("tbody").find_all("tr")[i].find("th").get_text().strip())
                 j = 0
-                bbody1.append(soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[0].get_text().strip())
-                bbody2.append(soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[1].get_text().strip())
-                bbody3.append(soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[2].get_text().strip())
-                bbody4.append(soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[3].get_text().strip())
-                bbody5.append(soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[4].get_text().strip())
+                bbody1.append(
+                    soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[0].get_text().strip())
+                bbody2.append(
+                    soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[1].get_text().strip())
+                bbody3.append(
+                    soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[2].get_text().strip())
+                bbody4.append(
+                    soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[3].get_text().strip())
+                bbody5.append(
+                    soup.find_all("table")[3].find("tbody").find_all("tr")[i].find_all("td")[4].get_text().strip())
 
-
-            zipbb = zip(bbody,bbody1,bbody2,bbody3,bbody4,bbody5)
-            dictts = {'nse_ticker': nse_ticker, 'zipba':zipbb , 'bheadb': bhead,'typp': "Balance Sheet (in Cr.)", 'flag': 4,
+            zipbb = zip(bbody, bbody1, bbody2, bbody3, bbody4, bbody5)
+            dictts = {'nse_ticker': nse_ticker, 'zipba': zipbb, 'bheadb': bhead, 'typp': "Balance Sheet (in Cr.)",
+                      'flag': 4,
                       "bse_ticker": bse_ticker, "stockn": sname}
             return render(request, 'shareholding.html', dictts)
 
@@ -218,14 +248,9 @@ def index(request):
         onlyst = ""
         values = []
         try:
-            start = datetime(2018, 1, 24)
-            end = datetime(2020, 10, 4)
 
-            data = web.DataReader(tick + '.NS', 'yahoo', start, end)
-            # data.reset_index() will shift the Date from Header column to normal column you can print to check
-            data_reset = data.reset_index()
-            # This line is compulsory to make Date  column readable to python programme
-            data_reset['date_ax'] = data_reset['Date'].apply(lambda date: date2num(date))
+            data_reset = pd.read_excel(f'D:/college/webend/techniqo/data_new_ticker/{tick}.xlsx')
+            print(tick)
             # putting every column in an individual list
             close = data_reset['Close'].to_list()
             high = data_reset['High'].to_list()
@@ -236,14 +261,20 @@ def index(request):
             volume = data_reset['Volume'].to_list()
 
             rsi_val = round(data_indis.RSI(close, 14)[len(data_indis.RSI(close, 14)) - 1], 2)
+
             macd_val = round(data_indis.MACD(close, 12, 26, 9)[0][len(data_indis.MACD(close, 12, 26, 9)[0]) - 1], 2)
+
             sig_val = round(data_indis.MACD(close, 12, 26, 9)[1][len(data_indis.MACD(close, 12, 26, 9)[1]) - 1], 2)
+
             sma_9 = round(data_indis.SMA(close, 9)[len(data_indis.SMA(close, 9)) - 1], 2)
             sma_20 = round(data_indis.SMA(close, 20)[len(data_indis.SMA(close, 20)) - 1], 2)
             sma_50 = round(data_indis.SMA(close, 50)[len(data_indis.SMA(close, 50)) - 1], 2)
             sma_200 = round(data_indis.SMA(close, 200)[len(data_indis.SMA(close, 200)) - 1], 2)
+
             l = len(data_indis.pivot_points(close, high, low, date)[0])
+
             pp = round(data_indis.pivot_points(close, high, low, date)[0][l - 1], 2)
+
             xx = len(data_indis.S_RSI(close, 14, 3, 3, 14)[0])
             stc_k = round(data_indis.S_RSI(close, 14, 3, 3, 14)[0][xx - 1], 2)
             stc_d = round(data_indis.S_RSI(close, 14, 3, 3, 14)[1][len(data_indis.S_RSI(close, 14, 3, 3, 14)[1]) - 1],
@@ -423,8 +454,9 @@ def index(request):
                 senti.append("Bearish")
                 senti_color.append("danger")
             flag = 1
-
+            print("hello")
         except:
+            traceback.print_exc()
             r2 = requests.get(url2)
             htmlcontent2 = r2.content
             soup2 = BeautifulSoup(htmlcontent2, 'html.parser')
@@ -677,7 +709,7 @@ def index(request):
         countoarr = []
         try:
             intrin = float(soup.find_all("div", {"class": "low_high3"})[4].get_text())
-            if price <= intrin*70/100:
+            if price <= intrin * 70 / 100:
                 overview.append("Stock price is below Intrinsic Value")
                 color_over.append("success")
                 senti_over.append("Bullish")
@@ -690,8 +722,10 @@ def index(request):
             pass
 
         try:
-            pe = float(soup.find_all("ul", {"class": "val_listinner"})[0].find_all("li")[1].find_all("div")[1].get_text())
-            spe = float(soup.find_all("ul", {"class": "val_listinner"})[1].find_all("li")[1].find_all("div")[1].get_text())
+            pe = float(
+                soup.find_all("ul", {"class": "val_listinner"})[0].find_all("li")[1].find_all("div")[1].get_text())
+            spe = float(
+                soup.find_all("ul", {"class": "val_listinner"})[1].find_all("li")[1].find_all("div")[1].get_text())
             if pe < spe:
                 overview.append("Stock PE is less than Sector PE")
                 color_over.append("success")
@@ -705,8 +739,10 @@ def index(request):
             pass
 
         try:
-            fiio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[3].find_all("td")[2].get_text().strip())
-            fiic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[3].find_all("td")[1].get_text().strip())
+            fiio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[3].find_all("td")[
+                             2].get_text().strip())
+            fiic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[3].find_all("td")[
+                             1].get_text().strip())
             if fiic > fiio:
                 overview.append("FII Shareholding has Increased")
                 color_over.append("success")
@@ -724,8 +760,10 @@ def index(request):
             pass
 
         try:
-            diio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[4].find_all("td")[2].get_text().strip())
-            diic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[4].find_all("td")[1].get_text().strip())
+            diio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[4].find_all("td")[
+                             2].get_text().strip())
+            diic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[4].find_all("td")[
+                             1].get_text().strip())
             if diic > diio:
                 overview.append("DII Shareholding has Increased")
                 color_over.append("success")
@@ -743,8 +781,10 @@ def index(request):
             pass
 
         try:
-            piio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[1].find_all("td")[2].get_text().strip())
-            piic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[1].find_all("td")[1].get_text().strip())
+            piio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[1].find_all("td")[
+                             2].get_text().strip())
+            piic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[1].find_all("td")[
+                             1].get_text().strip())
             if piic > piio:
                 overview.append("Promoters Shareholding has Increased")
                 color_over.append("success")
@@ -762,8 +802,10 @@ def index(request):
             pass
 
         try:
-            ppiio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[2].find_all("td")[2].get_text().strip())
-            ppiic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[2].find_all("td")[1].get_text().strip())
+            ppiio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[2].find_all("td")[
+                              2].get_text().strip())
+            ppiic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[2].find_all("td")[
+                              1].get_text().strip())
             if ppiic > ppiio:
                 overview.append("Promoter's Pledging Shareholding has Increased")
                 color_over.append("danger")
@@ -785,8 +827,10 @@ def index(request):
             pass
 
         try:
-            miio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[7].find_all("td")[2].get_text().strip())
-            miic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[7].find_all("td")[1].get_text().strip())
+            miio = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[7].find_all("td")[
+                             2].get_text().strip())
+            miic = float(soup.find_all("div", {"class": "finance_lft"})[1].find_all("tr")[7].find_all("td")[
+                             1].get_text().strip())
             if miic > miio:
                 overview.append("Mutual Funds Shareholding have Increased")
                 color_over.append("success")
@@ -804,7 +848,8 @@ def index(request):
             pass
 
         try:
-            stock_return = float(soup.find_all("tbody",{"id": "BSE_history_tbody"})[0].find_all("tr")[3].find("div").get_text())
+            stock_return = float(
+                soup.find_all("tbody", {"id": "BSE_history_tbody"})[0].find_all("tr")[3].find("div").get_text())
             if stock_return > 7:
                 overview.append("1 Year Return is more than FD")
                 color_over.append("success")
@@ -818,7 +863,8 @@ def index(request):
             pass
 
         try:
-            stock_return = float(soup.find_all("tbody",{"id": "BSE_history_tbody"})[0].find_all("tr")[3].find("div").get_text())
+            stock_return = float(
+                soup.find_all("tbody", {"id": "BSE_history_tbody"})[0].find_all("tr")[3].find("div").get_text())
             # Manually Change karneka
             nifty_return = 2.2
             if stock_return > nifty_return:
@@ -835,9 +881,15 @@ def index(request):
 
         try:
             s = ""
-            q1 = float(s.join(soup.find_all("div", {"id": "IncomeStatement"})[0].find_all("tr")[8].find_all("td")[1].get_text().split(",")))
-            q2 = float(s.join(soup.find_all("div", {"id": "IncomeStatement"})[0].find_all("tr")[8].find_all("td")[2].get_text().split(",")))
-            q5 = float(s.join(soup.find_all("div", {"id": "IncomeStatement"})[0].find_all("tr")[8].find_all("td")[5].get_text().split(",")))
+            q1 = float(s.join(
+                soup.find_all("div", {"id": "IncomeStatement"})[0].find_all("tr")[8].find_all("td")[1].get_text().split(
+                    ",")))
+            q2 = float(s.join(
+                soup.find_all("div", {"id": "IncomeStatement"})[0].find_all("tr")[8].find_all("td")[2].get_text().split(
+                    ",")))
+            q5 = float(s.join(
+                soup.find_all("div", {"id": "IncomeStatement"})[0].find_all("tr")[8].find_all("td")[5].get_text().split(
+                    ",")))
             if q1 > q2:
                 overview.append("QoQ Net Profit is Increased")
                 color_over.append("success")
@@ -881,11 +933,11 @@ def index(request):
             low_52 = float(soup.find_all("div", {"class": "low_high1"})[4].get_text())
             hl.append(high_52)
             hl.append(low_52)
-            if price > high_52*93/100:
+            if price > high_52 * 93 / 100:
                 overview.append("Stock Price near 52 Week High")
                 color_over.append("success")
                 senti_over.append("Bullish")
-            elif low_52*107/100 > price >= low_52:
+            elif low_52 * 107 / 100 > price >= low_52:
                 overview.append("Stock Price near 52 Week Low")
                 color_over.append("danger")
                 senti_over.append("Bearish")
@@ -906,9 +958,9 @@ def index(request):
                     senti_over.append("Bearish")
                 counto = counto + 1
             except:
-                 pass
+                pass
         if counto != 0:
-            scor = 100/counto
+            scor = 100 / counto
         else:
             scor = 0
         total_score = 0
@@ -916,24 +968,24 @@ def index(request):
             if i == "Bullish":
                 total_score += scor
             elif i == "Neutral":
-                total_score += scor/2
+                total_score += scor / 2
         overview3 = overview[:9]
         color_over3 = color_over[:9]
         senti_over3 = senti_over[:9]
         overview4 = overview[9:]
         color_over4 = color_over[9:]
         senti_over4 = senti_over[9:]
-        zipo3 = zip(overview3,color_over3,senti_over3)
-        zipo4 = zip(overview4,color_over4,senti_over4)
+        zipo3 = zip(overview3, color_over3, senti_over3)
+        zipo4 = zip(overview4, color_over4, senti_over4)
 
-        #Sentiment Section
-        analysis_score = (tech_count + round(total_score,0))/2
+        # Sentiment Section
+        analysis_score = (tech_count + round(total_score, 0)) / 2
         public_senti = 0
 
         if experts != 0.0 and experts != 100.0:
             public_senti = experts
         elif high_52 and low_52:
-            public_senti = ((100 - ((high_52-price)/high_52)*100) + ((price-low_52)/low_52)*100)/2
+            public_senti = ((100 - ((high_52 - price) / high_52) * 100) + ((price - low_52) / low_52) * 100) / 2
         else:
             public_senti = 5
 
@@ -1004,12 +1056,13 @@ def index(request):
             zipconsol = zip(conn, conv)
         except:
             pass
-
+        tradingview = nse_ticker.replace("&","_")
         dictt = {'stockn': stock_name, 'nse_ticker': nse_ticker, "bse_ticker": bse_ticker, 'price': price,
-                 'change': change,
+                 'change': change, 'trad': tradingview,
                  'colors': color, 'tech_count': tech_count, 'senti': senti, 'scolors': senti_color, 'flag': flag,
                  'values': values, 'onlyma': onlyma, 'onlyst': onlyst, 'bet': bet, 'zipo3': zipo3, 'zipo4': zipo4,
-                 'over_count': round(total_score, 0), 'totall': tech_count + round(total_score, 0), 'anas': analysis_score,
+                 'over_count': round(total_score, 0), 'totall': tech_count + round(total_score, 0),
+                 'anas': analysis_score,
                  'ps': round(public_senti, 0), 'note': note, 'hl': hl, 'zipshare': zipshare, 'zipstd': zipstdalone,
                  'zipconsol': zipconsol}
         return render(request, 'stockdata.html', dictt)
