@@ -6,6 +6,11 @@
 </script>
 {% endif %}
 <div class = "container">
+
+
+<div class="shadow p-3 mb-5 mt-4 bg-light rounded">
+                <div class="card bg-light">
+                    <div class="card-body b-light">
 <form class="form-signin" action = "forgot" method = "post">{% csrf_token %}
     <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
   <label for="inputEmail" class="sr-only">Email address</label>
@@ -18,5 +23,8 @@
   <input type = "text" name = "ans" required>
   <button class="btn btn-lg btn-primary" type="submit">Reset</button>
 </form>
+</div>
+                </div>
+</div>
 </div>
 {% endblock %}

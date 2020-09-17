@@ -66,7 +66,7 @@ ROOT_URLCONF = 'techniqo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'oops')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -6,6 +6,11 @@
 </script>
 {% endif %}
 <div class = "container">
+
+
+<div class="shadow p-3 mb-5 mt-4 bg-light rounded">
+                <div class="card bg-light">
+                    <div class="card-body b-light">
 <form class="form-signin" action = "reset" method = "post" id = "subm">{% csrf_token %}
  New Password<br>
   <input type="password" name = "password" id = "password1" class="form-control" placeholder="Password" required>
@@ -14,6 +19,9 @@
     <input type = "hidden" name = "email" value = "{{email}}">
     <button type="button" onclick = "confirm()" class="btn btn-primary">Submit</button>
 </form>
+</div>
+                </div>
+</div>
 </div>
 <script>
     var confirm = function(){
@@ -24,7 +32,6 @@
         }
         else{
           console.log("hi")
-
             document.getElementById("subm").submit();
         }
     }

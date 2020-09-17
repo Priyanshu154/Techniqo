@@ -2,6 +2,7 @@ from django.shortcuts import render
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
 import os
+import datetime
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -57,56 +58,75 @@ def assign_para(cp):
     elif(cp == 'Three Black Crows'): return "Three black crows are a visual bearish pattern, meaning that there are no particular calculations to worry about when identifying this indicator. The three black crows pattern occurs when bears overtake the bulls during three consecutive trading sessions. The pattern shows on the pricing charts as three bearish long-bodied candlesticks with short or no shadows or wicks."
     elif(cp == 'Doji'): return "The long-legged doji is a neutral candlestick that consists of long upper and lower shadows and has approximately the same opening and closing price. The candlestick signals indecision about the future direction of the underlying security."
 def index(request):
-    wb = xl.load_workbook('login/users.xlsx')
-    ip = get_client_ip(request)
-    sheet = wb["Sheet1"]
-    dict = {}
-    for i in range(2, sheet.max_row + 1):
-        if (ip == sheet.cell(i, 3).value):
-            if (sheet.cell(i, 4).value == "yes"):
-                print("matched")
-                dict["email"] = sheet.cell(i, 1).value
-    return render(request,'candlepattern/candlepatternh.html', dict)
-def candle(request):
-    ni = request.GET.get("nifty", "nifty_500")
-    cp = request.GET.get("candle", "Hammer")
-    print(cp)
-    col_name = assign_cell(cp)
-    type_kevi = lele(cp)
-    nifty = ni + ".xlsx"
-    #jab bhi directly ecxel sheet read karneki hogi next two points are compulsary
-    workpath = os.path.dirname(os.path.abspath(__file__))
-    xx = os.path.join(workpath, nifty) #yaha tak
-    wb = xl.load_workbook(xx, data_only=True)
-    sheet = wb['Sheet1']
-    cell = sheet['a1']
-    stocks = []
-    opens = []
-    high = []
-    low = []
-    close = []
-    num = 0
-    for i in range(2, sheet.max_row + 1):
+    try:
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        dict = {}
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dict["email"] = sheet.cell(i, 1).value
+        return render(request,'candlepattern/candlepatternh.html', dict)
+    except Exception as e:
+        wb = xl.load_workbook("errors.xlsx")
+        sheet1 = wb["Sheet1"]
+        sheet1.cell(sheet1.max_row+1, 1).value = str(e)
+        sheet1.cell(sheet1.max_row,  2).value = request.path_info
+        sheet1.cell(sheet1.max_row , 3).value = datetime.datetime.now()
+        wb.save("errors.xlsx")
+        return render(request, "oops.html")
 
-        cell = sheet.cell(i, column_index_from_string(col_name))
-        c = cell.value
-        if c == "YES":
-            num = 1
-            stocks.append(sheet.cell(i, 1).value)
-            opens.append(sheet.cell(i, 2).value)
-            high.append(sheet.cell(i, 3).value)
-            low.append(sheet.cell(i, 4).value)
-            close.append(sheet.cell(i, 5).value)
-    signal = "Please select index by default result shows Nifty 500 stocks"
-    para = assign_para(cp)
-    zipp = zip(stocks, opens, high, low, close)
-    dictt = {'zips': zipp, 'candle': cp, 'number': num, 'paras': para, 'signals': signal, 'nifty': ni, 'typekevi': type_kevi}
-    wb = xl.load_workbook('login/users.xlsx')
-    ip = get_client_ip(request)
-    sheet = wb["Sheet1"]
-    for i in range(2, sheet.max_row + 1):
-        if (ip == sheet.cell(i, 3).value):
-            if (sheet.cell(i, 4).value == "yes"):
-                print("matched")
-                dictt["email"] = sheet.cell(i, 1).value
-    return render(request, 'result.html', dictt)
+def candle(request):
+    try:
+        ni = request.GET.get("nifty", "nifty_500")
+        cp = request.GET.get("candle", "Hammer")
+        print(cp)
+        col_name = assign_cell(cp)
+        type_kevi = lele(cp)
+        nifty = ni + ".xlsx"
+        #jab bhi directly ecxel sheet read karneki hogi next two points are compulsary
+        workpath = os.path.dirname(os.path.abspath(__file__))
+        xx = os.path.join(workpath, nifty) #yaha tak
+        wb = xl.load_workbook(xx, data_only=True)
+        sheet = wb['Sheet1']
+        cell = sheet['a1']
+        stocks = []
+        opens = []
+        high = []
+        low = []
+        close = []
+        num = 0
+        for i in range(2, sheet.max_row + 1):
+
+            cell = sheet.cell(i, column_index_from_string(col_name))
+            c = cell.value
+            if c == "YES":
+                num = 1
+                stocks.append(sheet.cell(i, 1).value)
+                opens.append(sheet.cell(i, 2).value)
+                high.append(sheet.cell(i, 3).value)
+                low.append(sheet.cell(i, 4).value)
+                close.append(sheet.cell(i, 5).value)
+        signal = "Please select index by default result shows Nifty 500 stocks"
+        para = assign_para(cp)
+        zipp = zip(stocks, opens, high, low, close)
+        dictt = {'zips': zipp, 'candle': cp, 'number': num, 'paras': para, 'signals': signal, 'nifty': ni, 'typekevi': type_kevi}
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+        return render(request, 'result.html', dictt)
+    except Exception as e:
+        wb = xl.load_workbook("errors.xlsx")
+        sheet1 = wb["Sheet1"]
+        sheet1.cell(sheet1.max_row+1, 1).value = str(e)
+        sheet1.cell(sheet1.max_row,  2).value = request.path_info
+        sheet1.cell(sheet1.max_row , 3).value = datetime.datetime.now()
+        wb.save("errors.xlsx")
+        return render(request, "oops.html")

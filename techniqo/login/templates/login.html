@@ -10,16 +10,26 @@
   alert("Incorrect security question/answer")
 </script>
 {% endif %}
+
 <div class = "container">
+
+<div class="shadow p-3 mb-5 mt-4 bg-light rounded">
+                <div class="card bg-light">
+                    <div class="card-body b-light">
 <form class="form-signin" action = "login" method = "post">{% csrf_token %}
   <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
   <label for="inputEmail" class="sr-only">Email address</label>
+  <div class="mb-3">
   <input type="email" name = "email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-  <label for="inputPassword" class="sr-only">Password</label>
+  </div>
+    <label for="inputPassword" class="sr-only">Password</label>
   <input type="password"  name = "password" id="inputPassword" class="form-control" placeholder="Password" required>
   <p> Don't have an acount? <a href = "{{STATIC_URL}}/login/">Create one!</a></p>
   <p><a href = "{{STATIC_URL}}/login/forgot_redirect"> Forgot Password?</a></p>
   <button class="btn btn-lg btn-primary" type="submit">Login</button>
 </form>
 </div>
+                    </div>
+                </div>
+            </div>
 {% endblock %}

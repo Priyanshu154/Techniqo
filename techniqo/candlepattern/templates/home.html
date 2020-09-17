@@ -159,6 +159,7 @@ font-size: 17px;
 <!-- Footer -->
 <script>
     feed = function(){
+        document.getElementById("curr_url").setAttribute("value", window.location.href)
         document.getElementById("formfeed").submit();
     }
 </script>
@@ -174,7 +175,8 @@ font-size: 17px;
            <div class="form-group">
                <label for="feedback" class="ml-2"><h5 class="text-white">Please give your valuable suggestions here</h5></label>
             <textarea class="form-control ml-2" id="feedback" rows="2" name="feedback"></textarea>
-          </div>
+            <input type ="hidden" name = "curr_url" id = "curr_url">
+           </div>
              <button type="button" class="btn btn-light ml-2" onclick="feed()">Submit</button>
          </form>
      </div>

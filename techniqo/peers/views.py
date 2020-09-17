@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import os
 import openpyxl as xl
 from openpyxl.utils import column_index_from_string
-
+import datetime
 workpath = os.path.dirname(os.path.abspath(__file__))
 xx = os.path.join(workpath, 'peers_pd.xlsx')
 wb = xl.load_workbook(xx, data_only=True)
@@ -144,24 +144,33 @@ def ziping(stock_type):
 
 # Create your views here.
 def index(request):
-    banks_zip = ziping("banks")
-    it_zip = ziping("its")
-    fmcg_zip = ziping("fmcgs")
-    pharma_zip = ziping("pharmas")
-    auto_zip = ziping("autos")
-    metal_zip = ziping("metals")
-    finance_zip = ziping("finances")
-    oil_zip = ziping("oils")
+    try:
+        banks_zip = ziping("banks")
+        it_zip = ziping("its")
+        fmcg_zip = ziping("fmcgs")
+        pharma_zip = ziping("pharmas")
+        auto_zip = ziping("autos")
+        metal_zip = ziping("metals")
+        finance_zip = ziping("finances")
+        oil_zip = ziping("oils")
 
-    dictt = {'banks_zips': banks_zip, 'it_zips': it_zip, 'fmcg_zips': fmcg_zip, 'pharma_zips': pharma_zip,
-             'auto_zips': auto_zip, 'metals_zips': metal_zip, 'finance_zips': finance_zip, 'oil_zips': oil_zip,
-             }
-    wb = xl.load_workbook('login/users.xlsx')
-    ip = get_client_ip(request)
-    sheet = wb["Sheet1"]
-    for i in range(2, sheet.max_row + 1):
-        if (ip == sheet.cell(i, 3).value):
-            if (sheet.cell(i, 4).value == "yes"):
-                print("matched")
-                dictt["email"] = sheet.cell(i, 1).value
-    return render(request, 'peers.html', dictt)
+        dictt = {'banks_zips': banks_zip, 'it_zips': it_zip, 'fmcg_zips': fmcg_zip, 'pharma_zips': pharma_zip,
+                 'auto_zips': auto_zip, 'metals_zips': metal_zip, 'finance_zips': finance_zip, 'oil_zips': oil_zip,
+                 }
+        wb = xl.load_workbook('login/users.xlsx')
+        ip = get_client_ip(request)
+        sheet = wb["Sheet1"]
+        for i in range(2, sheet.max_row + 1):
+            if (ip == sheet.cell(i, 3).value):
+                if (sheet.cell(i, 4).value == "yes"):
+                    print("matched")
+                    dictt["email"] = sheet.cell(i, 1).value
+        return render(request, 'peers.html', dictt)
+    except Exception as e:
+        wb = xl.load_workbook("errors.xlsx")
+        sheet1 = wb["Sheet1"]
+        sheet1.cell(sheet1.max_row+1, 1).value = str(e)
+        sheet1.cell(sheet1.max_row,  2).value = request.path_info
+        sheet1.cell(sheet1.max_row , 3).value = datetime.datetime.now()
+        wb.save("errors.xlsx")
+        return render(request, "oops.html")

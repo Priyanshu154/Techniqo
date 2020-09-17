@@ -1,6 +1,10 @@
 {% extends 'home.html' %}
 
-{% block title %} Technical Indicators and Strategies {% endblock %}
+{% block title %} Technical Indicators and Strategies for Intraday , Swing Trading{% endblock %}
+{% block keyw %}
+<meta name="description" content="Technical analysis: {{ trigger }} is mostly used strategy by traders. Technical Indicators and Strategies for Intraday , Swing Trading . Techniqoo helps to pick stocks by scanning through best strategies like Crossover , Crossunders , Above  , Below points of rsi , macd, sma , ema , william %r , roc ,pivot points ,ichimoku cloud, mfi, stochastic rsi mostly used with parameters like signal line , slow line , 0 10 20 30 40 50 60 70 80 90">
+<meta name="keyword" content="Technical Indicators and Strategies for Intraday , Swing Trading . Techniqoo helps to pick stocks by scanning through best strategies like Crossover , Crossunders , Above  , Below points of rsi , macd, sma , ema , william %r , roc ,pivot points ,ichimoku cloud, mfi, stochastic rsi">
+{% endblock %}
 {% block style %}
 body{
 background-color: #f2ffff;
@@ -12,11 +16,10 @@ background-color: #f2ffff;
   width: 200px;
   background-color: #f2ffff;
   position: fixed;
-    top: 25%;
-bottom: 35%;
-/* height: 100%;    */
-/*  overflow: auto;*/
+  height: 100%;
+  overflow: auto;
 }
+
 /* Sidebar links */
 .sidebar a {
   display: block;
@@ -41,6 +44,7 @@ bottom: 35%;
 div.content {
   margin-left: 200px;
   padding: 1px 16px;
+  height: 1000px;
 }
 
 /* On screens that are less than 700px wide, make the sidebar into a topbar */
@@ -72,12 +76,13 @@ html {
     sub = function(){
         document.getElementById("form1").submit();
     }
+
 </script>
-<div class = "fix">
-<div class="alert alert-primary" role="alert" align="center">
+
+    <div class="alert alert-primary" role="alert" align="center">
     Sign in to get real time <b>Alerts</b> for <b>FREE!</b>
 </div>
-<div class="sidebar mb-3">
+<div class="sidebar">
 <div class="indis mb-4">
   <a class="list-group-item list-group-item-action" href="#rsi">RSI</a>
   <a class="list-group-item list-group-item-action" href="#macd">MACD</a>
@@ -89,7 +94,6 @@ html {
   <a class="list-group-item list-group-item-action" href="#srsi">Stochastic RSI</a>
   <a class="list-group-item list-group-item-action" href="#ic">Ichimoku Cloud</a>
 </div>
-
 </div>
    <div class="content">
 
@@ -1261,6 +1265,6 @@ html {
         </form>
 </div>
 </div>
-</div>
+
 
 {% endblock %}
