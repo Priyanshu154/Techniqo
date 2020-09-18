@@ -74,7 +74,7 @@ html {
     }
 </script>
 <div class = "fix">
-<div class="alert alert-primary" role="alert" align="center">
+<div class="alert alert-primary" role="alert" align="center" id="rsi">
     Sign in to get real time <b>Alerts</b> for <b>FREE!</b>
 </div>
 <div class="sidebar mb-3">
@@ -102,7 +102,7 @@ html {
 
 
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="rsi">RSI</h3>
+    <h3>RSI</h3>
 </div>
 
 <div class="container-fluid content-row">
@@ -171,7 +171,7 @@ html {
       <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">RSI Crossing Under 70</h5>
-             <p class="card-text">RSI Crossing Under 70 shows confirm Bearish reversal!!</p>
+             <p class="card-text"  id="macd">RSI Crossing Under 70 shows confirm Bearish reversal!!</p>
              <div class="btn-group btn-group-toggle" data-toggle="buttons">
              <label class="btn btn-primary">
                 <input type = "radio" name = "tech" value = "rsi_crossunder_70" onclick ="sub()" >Click Here
@@ -186,7 +186,7 @@ html {
 
 <!-- MACD -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="macd">MACD</h3>
+    <h3>MACD</h3>
 </div>
 
     <div class="container-fluid content-row">
@@ -238,7 +238,7 @@ html {
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">MACD Line Crossing below Signal Line</h5>
-                <p class="card-text">MACD Line Crossing below Signal Line indicates potential bearish momentum</p>
+                <p class="card-text"  id="bb">MACD Line Crossing below Signal Line indicates potential bearish momentum</p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-primary">
                     <input type = "radio" name = "tech" value = "macd_crossunder" onclick ="sub()">Click Here
@@ -252,7 +252,7 @@ html {
 
     <!-- Bollinger Band -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="bb">Bollinger Band</h3>
+    <h3>Bollinger Band</h3>
 </div>
 
     <div class="container-fluid content-row">
@@ -331,7 +331,7 @@ html {
       <div class="card" style="width: 18rem;">
         <div class="card-body">
              <h5 class="card-title">Price below Lower Band</h5>
-            <p class="card-text">Price below Lower Band implies stock is oversold in current situation</p>
+            <p class="card-text" id="pp">Price below Lower Band implies stock is oversold in current situation</p>
              <div class="btn-group btn-group-toggle" data-toggle="buttons">
              <label class="btn btn-primary">
                  <input type = "radio" name = "tech" value = "lb_below" onclick ="sub()">Click Here
@@ -345,7 +345,7 @@ html {
 
     <!-- Pivot point -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="pp">Pivot Points</h3>
+    <h3>Pivot Points</h3>
 </div>
 
     <div class="container-fluid content-row">
@@ -536,7 +536,7 @@ html {
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Price Crossing below Support 3</h5>
-                <p class="card-text">Price Crossing below Support 3 potential short term Bearish Movement</p>
+                <p class="card-text" id="sma">Price Crossing below Support 3 potential short term Bearish Movement</p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-primary">
                     <input type = "radio" name = "tech" value = "s3_crossunder" onclick ="sub()">Click Here
@@ -550,7 +550,7 @@ html {
 
 <!-- SMA -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="sma">Simple Moving Average (SMA)</h3>
+    <h3>Simple Moving Average (SMA)</h3>
 </div>
 
     <div class="container-fluid content-row">
@@ -769,7 +769,7 @@ html {
       <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">50 Day SMA Crossing Under 200 Day SMA</h5>
-            <p class="card-text">50 Day SMA Crossing Under 200 Day SMA implies golden bearish momentum!!</p>
+            <p class="card-text" id="ema">50 Day SMA Crossing Under 200 Day SMA implies golden bearish momentum!!</p>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-primary">
                 <input type = "radio" name = "tech" value = "50sma_200smau" onclick ="sub()">Click Here
@@ -784,7 +784,7 @@ html {
 
 <!-- EMA -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="ema">Exponential Moving Average (EMA)</h3>
+    <h3>Exponential Moving Average (EMA)</h3>
 </div>
 
     <div class="container-fluid content-row">
@@ -1003,7 +1003,7 @@ html {
       <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">50 Day EMA Crossing Under 200 Day EMA</h5>
-            <p class="card-text">50 Day EMA Crossing Under 200 Day EMA implies golden bearish momentum!!</p>
+            <p class="card-text" id='mfi'>50 Day EMA Crossing Under 200 Day EMA implies golden bearish momentum!!</p>
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-primary">
                 <input type = "radio" name = "tech" value = "50EMA_200EMAu" onclick ="sub()">Click Here
@@ -1018,7 +1018,7 @@ html {
 
 <!-- MFI -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id='mfi'>Money Flow Index (MFI)</h3>
+    <h3>Money Flow Index (MFI)</h3>
 </div>
 
 <div class="container-fluid content-row">
@@ -1087,7 +1087,7 @@ html {
       <div class="card" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">MFI Crossing Under 70</h5>
-             <p class="card-text">MFI Crossing Under 70 shows confirm Bearish reversal!!</p>
+             <p class="card-text" id="srsi">MFI Crossing Under 70 shows confirm Bearish reversal!!</p>
              <div class="btn-group btn-group-toggle" data-toggle="buttons">
              <label class="btn btn-primary">
                 <input type = "radio" name = "tech" value = "MFI_crossunder_70" onclick ="sub()" >Click Here
@@ -1101,7 +1101,7 @@ html {
 
 <!-- stch rsi -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="srsi">Stochastic RSI</h3>
+    <h3>Stochastic RSI</h3>
 </div>
 
 <div class="container-fluid content-row">
@@ -1180,7 +1180,7 @@ html {
         <div class="card" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Fast Line above 70</h5>
-                <p class="card-text">Fast Line above 70 indicates Bearish Reversal depending on crossunder. </p><br>
+                <p class="card-text" id="ic">Fast Line above 70 indicates Bearish Reversal depending on crossunder. </p><br>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-primary">
                     <input type = "radio" name = "tech" value = "fl_above" onclick ="sub()" >Click Here
@@ -1195,7 +1195,7 @@ html {
 
 <!-- Ichimoku Cloud -->
 <div class="mt-3 ml-3 mb-3" >
-    <h3 id="ic">Ichimoku Cloud</h3>
+    <h3>Ichimoku Cloud</h3>
 </div>
 
 <div class="container-fluid content-row">
