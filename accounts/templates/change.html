@@ -1,0 +1,40 @@
+{%extends 'home.html' %}
+{% block title %} Login {% endblock %}
+{%block body%}
+<body>
+<div class = "container">
+    <div class="shadow p-3 mb-5 mt-4 bg-light rounded">
+        <div class="card bg-light">
+            <div class="card-body b-light">
+                <form method="POST" action = "/accounts/change/" class = "form-signin" id ="change_form">
+                    {% csrf_token %}
+                    <label for = "password1">New Password</label>
+                    <input type="password"  name = "password1" id = "password1" class="form-control" placeholder="Password" required>
+                    <label for = "password2">Confirm Password</label>
+                    <input type="password"  name = "password2" id = "password2" class="form-control mb-2" placeholder="Confirm Password" required>
+                    <input type="button" class = "btn btn-primary" onclick = "sub_change()" value="Change Password" id = "change_submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    sub_change = function(){
+        var pass1 = document.getElementById("password1").value
+        var pass2 = document.getElementById("password2").value
+        if( pass1 != pass2 ){
+            alert("Please type the same passwords in both textbox")
+        }
+        else{
+            $("#change_form").submit()
+        }
+    }
+</script>
+<style>
+    @media only screen and (max-width: 240px){
+        #change_submit{
+            width: 100%;
+        }
+    }
+</style>
+{%endblock%}

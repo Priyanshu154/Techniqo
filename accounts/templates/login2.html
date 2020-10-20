@@ -1,0 +1,33 @@
+{%extends 'home.html' %}
+{% block title %} Login {% endblock %}
+{%block body%}
+<div class = "container">
+    <div class="shadow p-3 mb-5 mt-4 bg-light rounded">
+        <div class="card bg-light">
+            <div class="card-body b-light">
+                <form method="POST" action = "" class = "form-signin" id ="login_form">
+                    {% csrf_token %}
+
+                    <h1 class="h3 mb-3 font-weight-normal">Please Log in</h1>
+                    {{form}}
+                    <p> Don't have an account? <a href = "{{STATIC_URL}}/accounts/signup">Create one!</a></p>
+                    <p><a href = "{{STATIC_URL}}/accounts/forgot"> Forgot Password?</a></p>
+                    <input type="submit" value="Submit form">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     $("label[for=id_username]").html("Email: ")
+     $("#id_username").attr("type", "email")
+     $("#id_username").attr("class", "form-control mb-1")
+     $("#id_username").attr("placeholder", "Email address")
+
+    $("#id_password").attr("class", "form-control mb-2")
+    $("#id_password").attr("placeholder", "Password")
+
+    $("#login_form input[type= submit]").attr("class", "btn btn-lg btn-primary")
+    $("#login_form input[type= submit]").attr("value", "Log in")
+</script>
+{%endblock%}

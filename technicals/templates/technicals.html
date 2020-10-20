@@ -1,0 +1,1280 @@
+{% extends 'home.html' %}
+
+{% block title %} Technical Indicators and Strategies {% endblock %}
+{%block keyw%}
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta name = "keywords" content = "technical screener for stocks, custom screener of nse,stock screener, stock screener investing, stock screener day trading,stock screener nse, stock screener by price, stock screener free, stock screener by rsi, stock screener free india">
+<meta name = "description" content = "Technical screener of stocks - filter stocks based on technical analysis. Find the stocks to buy on techniqoo. Scan stocks based on rsi, macd, and other indicators">
+{%endblock%}
+{% block style %}
+body{
+background-color: #f2ffff;
+
+}
+
+.card {
+  width: 100%;
+  max-width: 18rem;
+  height: auto;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f2ffff;
+  position: fixed;
+    top: 25%;
+bottom: 35%;
+/* height: 100%;    */
+/*  overflow: auto;*/
+}
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 8px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+{% endblock %}
+{% block body %}
+{% load static %}
+<script>
+    sub = function(){
+        document.getElementById("form1").submit();
+    }
+</script>
+<div class = "fix">
+<div class="alert alert-primary" role="alert" align="center" id="rsi">
+    Sign in to get real time <b>Alerts</b> for <b>FREE!</b>
+</div>
+<div class="sidebar mb-3">
+<div class="indis mb-4">
+  <a class="list-group-item list-group-item-action" href="#rsi">RSI</a>
+  <a class="list-group-item list-group-item-action" href="#macd">MACD</a>
+  <a class="list-group-item list-group-item-action" href="#bb">Bollinger Band</a>
+  <a class="list-group-item list-group-item-action" href="#pp">Pivot Points</a>
+  <a class="list-group-item list-group-item-action" href="#sma">SMA</a>
+  <a class="list-group-item list-group-item-action" href="#ema">EMA</a>
+  <a class="list-group-item list-group-item-action" href="#mfi">MFI</a>
+  <a class="list-group-item list-group-item-action" href="#srsi">Stochastic RSI</a>
+  <a class="list-group-item list-group-item-action" href="#ic">Ichimoku Cloud</a>
+</div>
+
+</div>
+   <div class="content">
+
+<div id = "data" data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+
+<div class="mt-3" align="center">
+    <h2>Technical Strategies</h2>
+</div>
+    <form action = "/technicals/triggers" method ="get" id = "form1">
+
+
+<div class="mt-3 ml-3 mb-3" >
+    <h3>RSI</h3>
+</div>
+
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">RSI Below 30</h5>
+                <p class="card-text">RSI below 30 indicates that stock is oversold and can have a reversal soon!!</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "rsi_below_30" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">RSI Above 70</h5>
+             <p class="card-text">RSI above 70 indicates that stock is overbought and can have a reversal soon!!</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "rsi_above_70" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">RSI Between 30 and 70</h5>
+            <p class="card-text">RSI between 30 and 70 indicates strength and momentum of stock.</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "rsi" onclick ="sub()" >Click Here
+                </label>
+            </div>
+        </div>
+      </div>
+  </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">RSI Crossover 30</h5>
+             <p class="card-text">RSI Crossing over 30 shows confirm Bullish reversal!!</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "rsi_crossover_30" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">RSI Crossing Under 70</h5>
+             <p class="card-text"  id="macd">RSI Crossing Under 70 shows confirm Bearish reversal!!</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "rsi_crossunder_70" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+
+<!-- MACD -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>MACD</h3>
+</div>
+
+    <div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">MACD Line above 0 Line</h5>
+             <p class="card-text">MACD Line above Zero Line indicates Great Strength.</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "macd_above" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">MACD Line below 0 Line</h5>
+             <p class="card-text">MACD Line below Zero Line indicates Weak Strength.</p><br><br>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "macd_below" onclick ="sub()">CLick Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">MACD Line Crossing over Signal Line</h5>
+             <p class="card-text">MACD Line Crossing over Signal Line indicates potential bullish momentum</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "macd_crossover" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">MACD Line Crossing below Signal Line</h5>
+                <p class="card-text"  id="bb">MACD Line Crossing below Signal Line indicates potential bearish momentum</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "macd_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+    <!-- Bollinger Band -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>Bollinger Band</h3>
+</div>
+
+    <div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price above Lower Band</h5>
+             <p class="card-text">Price above Lower Band implies potential reversals</p><br><br>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "above_lb" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Middle Band Crossover</h5>
+             <p class="card-text">Middle Band Crossover Shows Bullish momentum with good strength</p><br>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-primary">
+                  <input type = "radio" name = "tech" value = "mb_crossover" onclick ="sub()">Click Here
+              </label>
+              </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under Middle Band</h5>
+             <p class="card-text">Price Crossing Under Middle Band shows bearish momentum with good strength</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                 <input type = "radio" name = "tech" value = "mb_crossunder" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price below Upper Band</h5>
+             <p class="card-text">Price below Upper Band implies potential reversals</p><br>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+               <input type = "radio" name = "tech" value = "ub_below" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price above Upper Band</h5>
+            <p class="card-text">Price above Upper Band implies stock is overbought in current situation</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "ub_above" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+             <h5 class="card-title">Price below Lower Band</h5>
+            <p class="card-text" id="pp">Price below Lower Band implies stock is oversold in current situation</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                 <input type = "radio" name = "tech" value = "lb_below" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+</div>
+    </div>
+
+    <!-- Pivot point -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>Pivot Points</h3>
+</div>
+
+    <div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Pivot Point Crossover</h5>
+            <p class="card-text">Pivot Point Crossover indicates potentials short term bullish movement</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "pp_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing under Pivot Point</h5>
+                <p class="card-text">Price Crossing under Pivot Point potential short term Bearish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "pp_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing above Resistance 1</h5>
+                <p class="card-text">Price Crossing above Resistance 1 potential short term Bullish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "r1_crossover" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing above Resistance 2</h5>
+                <p class="card-text">Price Crossing above Resistance 2 potential short term Bullish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "r2_crossover" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing above Resistance 3</h5>
+                <p class="card-text">Price Crossing above Resistance 3 potential short term Bullish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "r3_crossover" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing below Resistance 1</h5>
+                <p class="card-text">Price Crossing below Resistance 1 potential short term Bearish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "r1_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing below Resistance 2</h5>
+                <p class="card-text">Price Crossing below Resistance 2 potential short term Bearish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "r2_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing below Resistance 3</h5>
+                <p class="card-text">Price Crossing below Resistance 3 potential short term Bearish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "r3_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing above Support 1</h5>
+                <p class="card-text">Price Crossing above Support 1 potential short term Bullish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "s1_crossover" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing above Support 2</h5>
+                <p class="card-text">Price Crossing above Support 2 potential short term Bullish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "s2_crossover" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing above Support 3</h5>
+                <p class="card-text">Price Crossing above Support 3 potential short term Bullish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "s3_crossover" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing below Support 1</h5>
+                <p class="card-text">Price Crossing below Support 1 potential short term Bearish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "s1_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing below Support 2</h5>
+                <p class="card-text">Price Crossing below Support 2 potential short term Bearish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "s2_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price Crossing below Support 3</h5>
+                <p class="card-text" id="sma">Price Crossing below Support 3 potential short term Bearish Movement</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "s3_crossunder" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- SMA -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>Simple Moving Average (SMA)</h3>
+</div>
+
+    <div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Golden Crossover</h5>
+            <p class="card-text">50 Day SMA crossing over 200 Day SMA implies higher possibilities of bullish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50sma_200sma" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day SMA Crossover</h5>
+            <p class="card-text">20 Day SMA crossover implies short term bullish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20sma_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">50 SMA Crossover</h5>
+            <p class="card-text">50 Day SMA crossover implies medium term bullish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50sma_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">100 SMA Crossover</h5>
+            <p class="card-text">100 Day SMA crossover implies medium term bullish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "100sma_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">200 SMA Crossover</h5>
+            <p class="card-text">200 Day SMA crossover implies long term bullish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "200sma_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 20 Day SMA</h5>
+            <p class="card-text">Price Crossing under 20 Day SMA implies short term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20sma_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 50 Day SMA</h5>
+            <p class="card-text">Price Crossing under 50 Day SMA implies medium term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50sma_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 100 Day SMA</h5>
+            <p class="card-text">Price Crossing under 100 Day SMA implies medium term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "100sma_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 200 Day SMA</h5>
+            <p class="card-text">Price Crossing under 200 Day SMA implies long term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "200sma_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day and 50 Day SMA Crossing Over 100 Day SMA</h5>
+            <p class="card-text">20 Day and 50 Day SMA Crossing Over 100 Day SMA implies medium term bullish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50sma_100sma" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20, 50, 100 Day SMA Crossing Over 200 Day SMA</h5>
+            <p class="card-text">20, 50, 100 Day SMA Crossing Over 200 Day SMA implies major bullish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50_100sma_200sma" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day SMA Crossing Over 50 Day SMA</h5>
+            <p class="card-text">20 Day SMA Crossing Over 50 Day SMA implies short term bullish momentum!!</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20sma_50sma" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day and 50 Day SMA Crossing under 100 Day SMA</h5>
+            <p class="card-text">20 Day and 50 Day SMA Crossing under 100 Day SMA implies medium term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50sma_100smau" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20, 50, 100 Day SMA Crossing Under 200 Day SMA</h5>
+            <p class="card-text">20, 50, 100 Day SMA Crossing Under 200 Day SMA implies major bearish momentum!!</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50_100sma_200smau" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day SMA Crossing Under 50 Day SMA</h5>
+            <p class="card-text">20 Day SMA Crossing Under 50 Day SMA implies short term bearish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20sma_50smau" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">50 Day SMA Crossing Under 200 Day SMA</h5>
+            <p class="card-text" id="ema">50 Day SMA Crossing Under 200 Day SMA implies golden bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50sma_200smau" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+
+<!-- EMA -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>Exponential Moving Average (EMA)</h3>
+</div>
+
+    <div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Golden Crossover</h5>
+            <p class="card-text">50 Day EMA crossing over 200 Day EMA implies higher possibilities of bullish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50EMA_200EMA" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day EMA Crossover</h5>
+            <p class="card-text">20 Day EMA crossover implies short term bullish momentum!!</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20EMA_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">50 EMA Crossover</h5>
+            <p class="card-text">50 Day EMA crossover implies medium term bullish momentum!!</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50EMA_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">100 EMA Crossover</h5>
+            <p class="card-text">100 Day EMA crossover implies medium term bullish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "100EMA_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">200 EMA Crossover</h5>
+            <p class="card-text">200 Day EMA crossover implies long term bullish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "200EMA_crossover" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 20 Day EMA</h5>
+            <p class="card-text">Price Crossing under 20 Day EMA implies short term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20EMA_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 50 Day EMA</h5>
+            <p class="card-text">Price Crossing under 50 Day EMA implies medium term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50EMA_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 100 Day EMA</h5>
+            <p class="card-text">Price Crossing under 100 Day EMA implies medium term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "100EMA_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">Price Crossing under 200 Day EMA</h5>
+            <p class="card-text">Price Crossing under 200 Day EMA implies long term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "200EMA_crossunder" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day and 50 Day EMA Crossing Over 100 Day EMA</h5>
+            <p class="card-text">20 Day and 50 Day EMA Crossing Over 100 Day EMA implies medium term bullish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50EMA_100EMA" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20, 50, 100 Day EMA Crossing Over 200 Day EMA</h5>
+            <p class="card-text">20, 50, 100 Day EMA Crossing Over 200 Day EMA implies major bullish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50_100EMA_200EMA" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day EMA Crossing Over 50 Day EMA</h5>
+            <p class="card-text">20 Day EMA Crossing Over 50 Day EMA implies short term bullish momentum!!</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20EMA_50EMA" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day and 50 Day EMA Crossing under 100 Day EMA</h5>
+            <p class="card-text">20 Day and 50 Day EMA Crossing under 100 Day EMA implies medium term bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50EMA_100EMAu" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20, 50, 100 Day EMA Crossing Under 200 Day EMA</h5>
+            <p class="card-text">20, 50, 100 Day EMA Crossing Under 200 Day EMA implies major bearish momentum!!</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20_50_100EMA_200EMAu" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">20 Day EMA Crossing Under 50 Day EMA</h5>
+            <p class="card-text">20 Day EMA Crossing Under 50 Day EMA implies short term bearish momentum!!</p><br><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "20EMA_500EMAu" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">50 Day EMA Crossing Under 200 Day EMA</h5>
+            <p class="card-text" id='mfi'>50 Day EMA Crossing Under 200 Day EMA implies golden bearish momentum!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "50EMA_200EMAu" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+
+<!-- MFI -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>Money Flow Index (MFI)</h3>
+</div>
+
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">MFI Below 30</h5>
+                <p class="card-text">MFI below 30 indicates that stock is oversold and can have a reversal soon!!</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "MFI_below_30" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">MFI Above 70</h5>
+             <p class="card-text">MFI above 70 indicates that stock is overbought and can have a reversal soon!!</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "MFI_above_70" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">MFI Between 30 and 70</h5>
+            <p class="card-text">MFI between 30 and 70 indicates strength and momentum of stock.</p><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "MFI" onclick ="sub()" >Click Here
+                </label>
+            </div>
+        </div>
+      </div>
+  </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">MFI Crossover 30</h5>
+             <p class="card-text">MFI Crossing over 30 shows confirm Bullish reversal!!</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "MFI_crossover_30" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+      <div class="card" style="">
+        <div class="card-body">
+            <h5 class="card-title">MFI Crossing Under 70</h5>
+             <p class="card-text" id="srsi">MFI Crossing Under 70 shows confirm Bearish reversal!!</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-primary">
+                <input type = "radio" name = "tech" value = "MFI_crossunder_70" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+
+<!-- stch rsi -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>Stochastic RSI</h3>
+</div>
+
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Fast Line crossing over Slow Line below 30</h5>
+                <p class="card-text">Fast Line crossing over Slow Line below 30 indicates Bullish Reversal!!</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "fl_sl_crossover" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Fast Line crossing under Slow Line above 70</h5>
+                <p class="card-text">Fast Line crossing under Slow Line above 70 indicates Bearish Reversal!!</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "fl_sl_crossunder" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Fast Line crossing over Slow Line</h5>
+                <p class="card-text">Fast Line crossing over Slow Line indicates Bullish Reversal depending on strength.</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "fl_sl_crossovern" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Fast Line crossing under Slow Line</h5>
+                <p class="card-text">Fast Line crossing under Slow Line indicates Bearish Reversal depending on strength. </p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "fl_sl_crossundern" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Fast Line Below 30</h5>
+                <p class="card-text">Fast Line below 30 indicates Bullish Reversal depending on crossover. </p><br>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "fl_below" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Fast Line above 70</h5>
+                <p class="card-text" id="ic">Fast Line above 70 indicates Bearish Reversal depending on crossunder. </p><br>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "fl_above" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!-- Ichimoku Cloud -->
+<div class="mt-3 ml-3 mb-3" >
+    <h3>Ichimoku Cloud</h3>
+</div>
+
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Conversion Line Crossing over Base line</h5>
+                <p class="card-text">It Shows strong Bullish trend above cloud and weak Bullish trend below cloud</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "conl_basel_crossover" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Conversion Line Crossing under Base line</h5>
+                <p class="card-text">It Shows strong Bearish trend below cloud and weak Bearish trend above cloud</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "conl_basel_crossunder" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price above Green Cloud</h5>
+                <p class="card-text">It shows good strength of stock for Bullish momentum.</p><br><br>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "ic_bull" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 col-sm-12 mt-3">
+        <div class="card" style="">
+            <div class="card-body">
+                <h5 class="card-title">Price below Red Cloud</h5>
+                <p class="card-text">It shows good strength of stock for Bearish momentum.</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type = "radio" name = "tech" value = "ic_bear" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+        </form>
+</div>
+</div>
+</div>
+
+{% endblock %}

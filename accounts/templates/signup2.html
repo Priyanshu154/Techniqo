@@ -1,0 +1,45 @@
+{% extends 'home.html' %}
+{%block title%} Sign up {% endblock%}
+{%block body%}
+<div class = "container">
+    <div class="shadow p-3 mb-5 mt-4 bg-light rounded">
+        <div class="card bg-light">
+            <div class="card-body b-light">
+                <p> Already have an account?
+                    <a href = "{{STATIC_URL}}/accounts/login">Login</a>
+                </p>
+                <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+                <form id = "signup_form" method="POST" action = "">
+                    {% csrf_token %}
+                    {{form}}
+                    <input type="submit" value="Submit form">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var form = document.getElementById("signup_form")
+
+    $("label[for=id_username]").html("Email: ")
+
+    $("#id_username").attr("type", "email")
+    $("#id_username").attr("class", "form-control")
+    $("#id_username").attr("placeholder", "Email address")
+
+    $("#id_password1").attr("class", "form-control mb-2")
+    $("#id_password1").attr("placeholder", "Password")
+    $("#id_password2").attr("class", "form-control")
+    $("#id_password2").attr("placeholder", "Confirm Password")
+
+    $("span[class = helptext]").eq(0).remove()
+    $("#id_password2").detach().insertAfter("#id_password1")
+
+    $("span[class = helptext]").eq(1).remove()
+    $("label[for = id_password2]").detach().insertAfter("#id_password1")
+
+    $("#signup_form input[type= submit]").attr("class", "btn btn-lg btn-primary")
+    $("#signup_form input[type= submit]").attr("value", "Sign up")
+
+</script>
+{%endblock%}

@@ -1,0 +1,80 @@
+{% extends 'home.html' %}
+
+{% block title %} {{ candle }} Candlestick Pattern | {{ typekevi }} Candlestick Pattern/scanner {% endblock %}
+{% block keyw %}
+<meta name="description" content="{{ candle }} Candlestick Pattern shows {{ typekevi }} trend ,{{ candle }} Candlestick Pattern in uptreand/downtreand helps to do technical analysis, {{ typekevi }} Candlestick Pattern/scanner is provided free by Techniqo ,all bullish and bearish candlestick pattern , stocks , scanner , indicators , pdf , chart , chartink alternative, Abandoned Baby,Dark Cloud Cover,Doji,Downside Tasuki Gap,Dragonfly Doji,Engulfing Pattern,Evening Doji Star,Evening Star,Falling Three Methods,Gravestone Doji,Hammer,Hanging Man,Harami,Harami Cross,Inverted Hammer,Long Body / Long Day,Long-Legged Doji,Long Shadows,Marubozu,Morning Doji Star,Morning Star,Piercing Line,Rising Three Methods,Shooting Star,Short Body / Short Day,Spinning Top,Stars,Stick Sandwich,Three Black Crows,Three White Soldiers,Upside Gap Two Crows,Upside Tasuki Gap
+intraday trading, swing trading , NSE , BSE">
+<meta name="keywords" content="{{ candle }} Candlestick Pattern in downtrend ,{{ candle }} Candlestick Pattern in uptreand, {{ typekevi }} Candlestick Pattern/scanner  ,bullish and bearish candlestick pattern , stocks , scanner , indicators , pdf , chart , chartink alternative, Abandoned Baby,Dark Cloud Cover,Doji,Downside Tasuki Gap,Dragonfly Doji,Engulfing Pattern,Evening Doji Star,Evening Star,Falling Three Methods,Gravestone Doji,Hammer,Hanging Man,Harami,Harami Cross,Inverted Hammer,Long Body / Long Day,Long-Legged Doji,Long Shadows,Marubozu,Morning Doji Star,Morning Star,Piercing Line,Rising Three Methods,Shooting Star,Short Body / Short Day,Spinning Top,Stars,Stick Sandwich,Three Black Crows,Three White Soldiers,Upside Gap Two Crows,Upside Tasuki Gap
+intraday trading, swing trading , NSE , BSE">
+{% endblock %}
+{% block style %}
+.dropdown-menu
+{
+   height: 175px;
+   overflow: auto;
+}
+
+{% endblock %}
+{% block body %}
+<script>
+    sub = function(){
+        document.getElementById("form1").submit();
+    }
+</script>
+<div class="alert alert-primary" role="alert" align="center">
+  Candlestick patterns gets updated everyday at <b>6 PM</b>
+</div>
+
+<div class="container mt-4">
+<h2>CandleStick type :- {{ candle }} </h2>
+<p>{{ paras }}</p>
+<form action = "/candlepattern/candle" method = "get" id = "form1">
+    <input type = "hidden" name = "candle" value = "{{ candle }}">
+    <select id="nifty" name="nifty" onchange = "sub()">
+        <option value="nifty_500" {% if nifty == 'nifty_500' %} selected {% endif %}>NSE (Nifty 500)</option>
+        <option value="nifty_50" {% if nifty == 'nifty_50' %} selected  {% endif %}> NSE (Nifty 50)</option>
+        <option value="nifty_100" {% if nifty == 'nifty_100' %} selected  {% endif %}> NSE (Nifty 100)</option>
+        <option value="nifty_200" {% if nifty == 'nifty_200' %} selected  {% endif %}> NSE (Nifty 200)</option>
+        <option value="nifty_next_50" {% if nifty == 'nifty_next_50' %} selected  {% endif %}> NSE (Nifty next 50)</option>
+        <option value="midcap_50" {% if nifty == 'midcap_50' %} selected  {% endif %}> NSE (Nifty Midcap 50)</option>
+        <option value="midcap_100" {% if nifty == 'midcap_100' %} selected  {% endif %}> NSE (Nifty Midcap 100)</option>
+        <option value="midcap_150" {% if nifty == 'midcap_150' %} selected  {% endif %}> NSE (Nifty Midcap 150)</option>
+        <option value="smallcap_50" {% if nifty == 'smallcap_50' %} selected  {% endif %}> NSE (Nifty Smallcap 50)</option>
+        <option value="smallcap_250" {% if nifty == 'smallcap_250' %} selected  {% endif %}> NSE (Nifty Smallcap 250)</option>
+
+    </select>
+</form>
+ <div align="center">  <h5>{{signals}}</h5>  </div>
+<div class="card">
+  <div class="card-body">
+   <div class="shadow mb-5 bg-white rounded table-responsive">
+    <table class="table mt-4">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Stocks</th>
+          <th scope="col">Open</th>
+          <th scope="col">High</th>
+          <th scope="col">Low</th>
+          <th scope="col">Close</th>
+        </tr>
+      </thead>
+      {% if number == 0 %}
+         <h4>No stock found!!</h4>
+      {% else %}
+      <tbody>
+      {% for stock_name, open, high, low, close in zips  %}
+    <tr>
+          <th scope="row">{{stock_name}}</th>
+          <td>{{ open }}</td>
+          <td>{{ high }}</td>
+          <td>{{ low }}</td>
+          <td>{{ close }}</td>
+    </tr>
+      {% endfor %}
+      </tbody>
+      {% endif %}
+    </table></div>
+  </div>
+</div>
+</div>
+{% endblock %}

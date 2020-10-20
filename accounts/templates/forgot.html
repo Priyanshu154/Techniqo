@@ -1,0 +1,31 @@
+{% extends 'home.html' %}
+{% block body %}
+<div class = "container">
+    <div class="shadow p-3 mb-5 mt-4 bg-light rounded">
+        <div class="card bg-light">
+            <div class="card-body b-light">
+                <form method="POST" action = "/accounts/forgot/" class = "form-signin" id ="login_form">
+                    {% csrf_token %}
+                    <h1 id = "enter_mail" class="h3 mb-3 font-weight-normal">Enter email address: </h1>
+                    <input type = "email" class= "form-control mb-4" name = "email" placeholder="Email">
+                    <input type="submit" class = "btn btn btn-primary" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function() {
+        if( "{{error}}" ){
+            alert("user does not exist")
+        }
+    });
+</script>
+<style>
+    @media only screen and (max-width: 230px){
+        #enter_mail{
+            font-size: 20px;
+        }
+    }
+</style>
+{% endblock %}

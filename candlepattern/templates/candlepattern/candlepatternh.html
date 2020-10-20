@@ -1,0 +1,334 @@
+
+{% extends 'home.html' %}
+
+{% block title %} CandleStick Patterns Scanner/Indicators for stock market NSE,BSE {% endblock %}
+{% block keyw %}
+<meta name="description" content="Candlestick pattern are important for traders to do technical analysis of stocks . In our Website we give you free scanner to know about existing bullish and bearish candlestick patterns , indicators , pdf , chart , Abandoned Baby,Dark Cloud Cover,Doji,Downside Tasuki Gap,Dragonfly Doji,Engulfing Pattern,Evening Doji Star,Evening Star,Falling Three Methods,Gravestone Doji,Hammer,Hanging Man,Harami,Harami Cross,Inverted Hammer,Long Body / Long Day,Long-Legged Doji,Long Shadows,Marubozu,Morning Doji Star,Morning Star,Piercing Line,Rising Three Methods,Shooting Star,Short Body / Short Day,Spinning Top,Stars,Stick Sandwich,Three Black Crows,Three White Soldiers,Upside Gap Two Crows,Upside Tasuki Gap
+intraday trading, swing trading , NSE , BSE">
+<meta name="keywords" content="bullish and bearish candlestick pattern , stocks , scanner , indicators , pdf , chart , Abandoned Baby,Dark Cloud Cover,Doji,Downside Tasuki Gap,Dragonfly Doji,Engulfing Pattern,Evening Doji Star,Evening Star,Falling Three Methods,Gravestone Doji,Hammer,Hanging Man,Harami,Harami Cross,Inverted Hammer,Long Body / Long Day,Long-Legged Doji,Long Shadows,Marubozu,Morning Doji Star,Morning Star,Piercing Line,Rising Three Methods,Shooting Star,Short Body / Short Day,Spinning Top,Stars,Stick Sandwich,Three Black Crows,Three White Soldiers,Upside Gap Two Crows,Upside Tasuki Gap
+intraday trading, swing trading , NSE , BSE">
+{% endblock %}
+{% block style %}
+
+card {
+  width: 100%;
+  max-width: 18rem;
+  height: auto;
+}
+
+{% endblock %}
+{% block body %}
+{% load static %}
+<script>
+    sub = function(){
+        document.getElementById("form1").submit();
+    }
+</script>
+<div class="alert alert-primary" role="alert" align="center">
+    Sign in to get real time <b>Alerts</b> for <b>FREE!</b>
+</div>
+<div class="mt-3" align="center">
+    <h2>CandleStick Pattern Screener</h2>
+</div>
+<form action = "/candlepattern/candle" method ="get" id = "form1">
+
+<!-- Bullish -->
+<div class="mt-3 text-success mb-3" >
+    <h3>Bullish CandleStick Patterns</h3>
+</div>
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <!-- Hammer -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+        <div class="card" style="">
+            <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Hammer.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Hammer</h5>
+                <p class="card-text">Hammer is one day price pattern which shows buyers are heavy on sellers on that day</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-dark">
+                    <input type = "radio" name = "candle" value = "Hammer" onclick ="sub()" >Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dragonfly Doji -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Dragonfly_Doji.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Dragonfly Doji</h5>
+             <p class="card-text">Dragonfly Doji is one day price pattern which shows buyers are heavy on sellers on that day</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Dragonfly Doji" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- White Marubozu -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/White_Marubozu.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">White Marubozu</h5>
+            <p class="card-text">White Marubozu is one day price pattern which shows pure Bullish Trend!!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-dark">
+                    <input type = "radio" name = "candle" value = "White Marubozu" onclick ="sub()" >Click Here
+                </label>
+            </div>
+        </div>
+      </div>
+  </div>
+
+    <!-- Bullish Engulfing -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bullish_Engulfing.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bullish Engulfing</h5>
+             <p class="card-text">It is two days price pattern which shows Bullish Trend by enclosing previous candle</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Bullish Engulfing" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bullish Harami -->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bullish_Harami.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bullish Harami</h5>
+             <p class="card-text">It is two days price pattern which shows Bullish Trend by closing above midpoint of previous candle</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Bullish Harami" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rising Sun -->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Rising_Sun.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Rising Sun</h5>
+             <p class="card-text">It is two days price pattern which shows Bullish Trend by closing above midpoint of previous candle</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Rising Sun" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Morning Star-->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Morning_Star.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Morning Star</h5>
+             <p class="card-text">It is three days price pattern which shows Bullish Trend by reversing the downtrend</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Morning Star" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three White Soldiers -->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Three_White_Soliders.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Three White Soliders</h5>
+             <p class="card-text">Three White Soliders are three days price pattern which shows pure Bullish Trend !!</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Three White Soldiers" onclick ="sub()" >Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+
+<!-- Bearish -->
+<div class="mt-5 text-danger mb-3" >
+    <h3>Bearish CandleStick Patterns</h3>
+</div>
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <!-- Inverted Hammer -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+        <div class="card" style="">
+            <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Inverted_Hammer.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Inverted Hammer</h5>
+                <p class="card-text">It is one day price pattern which shows sellers are heavy on buyers on that day</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-dark">
+                    <input type = "radio" name = "candle" value = "Inverted Hammer" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gravestone Doji -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Gravestone_Doji.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Gravestone Doji</h5>
+             <p class="card-text">Gravestone Doji is one day price pattern which shows sellers are heavy on buyers on that day</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Gravestone Doji" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Black Marubozu -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Black_Marubozu.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Black Marubozu</h5>
+             <p class="card-text">Black Marubozu is one day price pattern which shows pure Bearish Trend!!</p>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-dark">
+                  <input type = "radio" name = "candle" value = "Black Marubozu" onclick ="sub()">Click Here
+              </label>
+              </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bearish Engulfing -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bearish_Engulfing.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bearish Engulfing</h5>
+             <p class="card-text">It is two days price pattern which shows Bearish Trend by enclosing previous candle</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                 <input type = "radio" name = "candle" value = "Bearish Engulfing" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bearish Harami -->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Bearish_Harami.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Bearish Harami</h5>
+             <p class="card-text">It is two days price pattern which shows Bearish Trend by closing below midpoint of previous candle</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+               <input type = "radio" name = "candle" value = "Bearish Harami" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dark Cloud -->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Dark_Cloud.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Dark Cloud</h5>
+            <p class="card-text">It is two days price pattern which shows Bearish Trend by closing below midpoint of previous candle</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Dark Cloud" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Evening Star -->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Evening_Star.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+             <h5 class="card-title">Evening Star</h5>
+             <p class="card-text">It is three days price pattern which shows Bearish Trend by reversing the uptrend</p>
+             <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-dark">
+                 <input type = "radio" name = "candle" value = "Evening Star" onclick ="sub()">Click Here
+             </label>
+             </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three Black Crows -->
+    <div class="col-xl-3 col-md-4 col-sm-6 mt-3">
+      <div class="card" style="">
+        <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Three_Black_Crows.jpg' %}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Three Black Crows</h5>
+            <p class="card-text">Three Black Crows are three days price pattern which shows pure Bearish Trend !!</p>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-dark">
+                <input type = "radio" name = "candle" value = "Three Black Crows" onclick ="sub()">Click Here
+            </label>
+            </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+
+<!-- Neutral -->
+<div class="mt-5 text-secondary mb-3" >
+<h3>Neutral CandleStick Patterns</h3>
+</div>
+<div class="container-fluid content-row">
+<div class="row  my-flex-card">
+    <!-- Doji -->
+    <div class="col-xl-3 col-md-4 col-sm-6">
+        <div class="card" style="">
+            <img class="card-img-top img-responsive" src="{% static 'candlepattern/images/Doji.jpg' %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Doji</h5>
+                <p class="card-text">It is one day price pattern which shows Confusion or a trend reversal !!</p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-dark">
+                    <input type = "radio" name = "candle" value = "Doji" onclick ="sub()">Click Here
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</form>
+{% endblock %}

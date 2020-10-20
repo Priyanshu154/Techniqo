@@ -1,0 +1,185 @@
+{% extends 'home.html' %}
+{% block title %} Latest News | NSE News | Financial News | Stock News {% endblock %}
+
+{% block keyw %}
+<meta name="keywords" content="nse/bse stock news today,nse stock split news,upl nse stock news,bse ltd stock news,nse stock market live news,bse nse stock market news,nse stock news,nse india news today,nse india news,nse market news,nse listed companies today stock news,nse down,nse down today,nse stock exchange news,bse stock exchange news,nse stock market news today,nse stock in news today,nse stock in news,nseindia news,nse stock news live,bse stock market latest news,latest nse stock news,nse stock market news,bse stock market news today,news on nse stock,sector vise news">
+<meta name="description" content="Latest stock news-find the latest share market news at techniqo-Sector wise news,NSE/BSE stock news, share market news,nse stock market live news,nse india news">
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+{% endblock %}
+
+{% block style %}
+#myTab{
+  background-color: #f5ffff; /*mere dimaag me koi sahi color nahi aa raha tum acha sa dhundhke rakh dio
+}
+
+{% endblock %}
+{% block body %}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link {% if topic == 'industry' %} active {% endif %}" href="{{STATIC_URL}}/news/industry"> Industry <span class="sr-only">(current)</span></a>
+    </li>
+
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'auto' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Auto</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="{{STATIC_URL}}/news/auto/auto_news">Auto-news</a>
+        <a class="dropdown-item" href="{{STATIC_URL}}/news/auto/cars">Cars & UVs</a>
+        <a class="dropdown-item" href="{{STATIC_URL}}/news/auto/two_n_three_wheel">Two wheelers and Three wheelers</a>
+        <a class="dropdown-item" href="{{STATIC_URL}}/news/auto/lcv_n_hcv">LCV & HCV</a>
+        <a class="dropdown-item" href="{{STATIC_URL}}/news/auto/auto_components">Auto Components</a>
+        <a class="dropdown-item" href="{{STATIC_URL}}/news/auto/tyres">Tyres</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'banking' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Banking</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/banking/banking">Banking</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/banking/finance">Finance</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/banking/insure">Insure</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'cons' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Cons. Products</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/durables">Durables</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/electronics">ELectronics</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/fmcg">FMCG</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/food">Food</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/garments_textiles">Garments/Textiles</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/liquor">Liquor</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/paints">Paints</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/tobacco">Tobacco</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/cons/fashion_cosmetics_jewellery">Fashion/Cosmetics/Jewellery</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'energy' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Energy</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/energy/power">Power</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/energy/oil_n_gas">Oil and Gas</a>
+       </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'indgood' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Industrial Goods/Services</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/cons">Construction</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/eng">Engineering</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/cement">Cement</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/chem_fertilisers">Chem/Fertilisers</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/metals_n_mining">Metals and Mining</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/pack">Packaging</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/pwgpm">Paper/Wood/Glass/Plastic/Marbles</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/petrochem">Petrochem</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/indgood/steel">Steel</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'health' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Healthcare/Biotech</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/health/healthcare">Healthcare</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/health/bio">Biotech</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/health/pharm">Pharmaceuticals</a>
+      </div>
+    </li>
+
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'services' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">Services</a>
+      <div class="dropdown-menu">
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/services/advertising">Advertising</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/services/consultancy_audit">Consultancy/Audit</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/services/education">Education</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/services/hotels_restaurants">Hotels/Restaurant</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/services/property_cons">Property/Construction</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/services/retail">Retail</a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/services/travel">Travel</a>
+      </div>
+    </li>
+
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle {% if topic == 'more' %} active {% endif %}" data-toggle="dropdown" href="#" role="button"
+       aria-haspopup="true" aria-expanded="false">More</a>
+      <div class="dropdown-menu">
+          <h6 class="dropdown-header" style = "color:black;"><Strong>Media and Entertainment</Strong></h6>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/entertainment"><div style = "margin-left:10%;">Entertainment</div></a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/media"><div style = "margin-left:10%;">Media</div></a>
+
+          <h6 class="dropdown-header" style = "color:black;"><Strong>Transportation</Strong></h6>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/railways"> <div style = "margin-left:10%;">Railways</div></a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/airlines_aviation"><div style = "margin-left:10%;">Airlines/Aviation</div></a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/shipping_transport"><div style = "margin-left:10%;">Shipping/Transport</div></a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/roadways"><div style = "margin-left:10%;">Roadways</div></a>
+
+          <h6 class="dropdown-header" style = "color:black;"><Strong>Telecom</Strong></h6>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/tel_news"><div style = "margin-left:10%;">Telecom News</div></a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/tel_policy"><div style = "margin-left:10%;">Telecom Policy</div></a>
+
+          <h6 class="dropdown-header" style = "color:black;"><Strong>CSR</Strong></h6>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/csr_initiatives"> <div style = "margin-left:10%;">Initiatives</div></a>
+          <a class="dropdown-item" href="{{STATIC_URL}}/news/more/csr_policy"><div style = "margin-left:10%;">Policy</div></a>
+
+
+          <h6 class="dropdown-header" style = "color:black;"><a style="color:black;" href="{{STATIC_URL}}/news/more/tech"><Strong>Technology</Strong></a></h6>
+          <h6 class="dropdown-header" style = "color:black;"><a style="color:black;" href="{{STATIC_URL}}/news/more/misc"><Strong>Miscellaneous</Strong></a></h6>
+          <h6 class="dropdown-header" style = "color:black;"><a style="color:black;" href="{{STATIC_URL}}/news/more/env"><Strong>Environment</Strong></a></h6>
+
+
+      </div>
+    </li>
+</ul>
+<div class = "container">
+{% if type == 1 %}
+<ul class="list-unstyled">
+  {% for news,href,time in news %}
+  <a class="btn btn-outline-dark btn-lg btn-block text-left" href="{{href}}" role="button" target = "blank">
+
+  <li class="media mb-3">
+    <div class="media-body">
+      <h3 class="mt-0 mb-1">{{news}}</h3>
+    </div>
+  </li>
+  </a>
+  {% endfor %}
+</ul>
+{% else %}
+<ul class="list-unstyled">
+  {% for news,href,time,para,img in news %}
+  <a class="btn btn-outline-dark btn-lg btn-block text-left" href="{{href}}" role="button" target = "blank">
+
+  <li class="media mb-3">
+    <img src="{{img}}" class="mr-3" alt="...">
+    <div class="media-body">
+      <h3 class="mt-0 mb-1">{{news}}</h3>
+      <small>
+        {{time}}<br>
+        {{para}}
+      </small>
+    </div>
+  </li>
+  </a>
+  {% endfor %}
+</ul>
+{% endif %}
+</div>
+<style>
+@media only screen and (max-width: 500px) {
+    img{
+        display: none;
+    }
+}
+</style>
+<div style="display: none;">
+{% block diva %}
+    <h4 align="center"><u><p class = "text-white">News source</p></u></h4>
+<div class="mt-2" align="center">
+<a href='https://economictimes.indiatimes.com/' target = "_blank" class="text-white">Economic times</a>
+</div>
+{% endblock %}
+</div>
+{% endblock %}

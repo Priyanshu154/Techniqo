@@ -1,0 +1,73 @@
+{% extends 'home.html' %}
+{% block title %} Free Backtesting | Backtesting of nse | Backtesting Strategies {% endblock %}
+
+{% block keyw %}
+
+<meta name = "keywords" content = "free backtesting of nse stocks,free backtesting,nifty backtesting, backtesting nifty online, compare strategies, nifty backtesting free backtesting of india,indian backtesting website for free, backtesting indian stocks,backtesting for trading,backtesting for free,strategies and backtesting,backtesting strategies for indian stocks,backtesting strategy for trading,  streak alternative,strategy tester">
+<meta name = "description" content = "Free backtesting of nse stocks, make your own strategies and backtest it without having the need to write code.Compare different strategies online.Free online backtesting tool for Indian stocks, nse stocks,backtesting indian stocks,backtest stock,backtesting in trading,backtesting nse,stockcharts backtesting,stock backtest calculator,backtesting stocks data,stock backtesting data,backtesting stocks,backtesting software for stocks">
+{%endblock%}
+{% block style %}
+{% load static %}
+
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="shadow mb-5 bg-white rounded mt-5">
+        <div class="card">
+            <div class="card-body">
+                {% if resultt > 0 %}
+                <h1 class="text-success" align="center">Total Profit: {{resultt}}%</h1>
+                {% elif resultt < 0 %}
+                <h1 class="text-danger" align="center">Total Loss: {{resultt}}%</h1>
+                {% else %}
+                <h1 class="text-dark" align="center">Total Profit: {{resultt}}%</h1>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    <div class="shadow mb-5 bg-white rounded mt-5">
+        <div class="card">
+            <div class="card-body table-responsive">
+                {% if whatto == 1 or flagr == 1 %}
+                <h2 align="center">No Match for this Strategy</h2>
+                {% else %}
+                <table class="table table-hover">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Point</th>
+                      <th scope="col">Close</th>
+                      <th scope="col">Profit/loss</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for percentage,entry_price,exit_price,entry_date,exit_date,rage in zipdata %}
+                       <tr>
+                          <th scope="row">{{entry_date}}</th>
+                          <td>Entry</td>
+                          <td>{{entry_price}}</td>
+                          <td></td>
+                       </tr>
+                       <tr>
+                          <th scope="row">{{exit_date}}</th>
+                          <td>Exit</td>
+                          <td>{{exit_price}}</td>
+                          {% if percentage < 0 %}
+                           <td class="text-danger"><b>{{percentage}}%</b></td>
+                          {% else %}
+                           <td class="text-success"><b>{{percentage}}%</b></td>
+                          {% endif %}
+                       </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
