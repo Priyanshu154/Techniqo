@@ -7,6 +7,7 @@ from . import data_indic
 
 
 # Create your views here.
+# backup of backtesting algorithm
 def backdata(request):
     dataa = request.POST.get('backe', 'default')
     inter = dataa.split(",||")
